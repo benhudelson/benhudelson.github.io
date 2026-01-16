@@ -1,47 +1,142 @@
 [
   {
+    "id": "effective-executive",
+    "title": "The Effective Executive",
+    "author": "Peter Drucker",
+    "cover": "https://covers.openlibrary.org/b/isbn/0060833459-L.jpg",
+    "quote": "A well-managed factory is boring. Nothing exciting happens in it because the crises have been anticipated and have been converted into routine.",
+    "featured": true
+  },
+  {
+    "id": "the-goal",
+    "title": "The Goal",
+    "author": "Eliyahu Goldratt",
+    "cover": "https://covers.openlibrary.org/b/isbn/0884271951-L.jpg",
+    "quote": "Productivity is meaningless unless you know what your goal is.",
+    "featured": true
+  },
+  {
+    "id": "crucial-conversations",
+    "title": "Crucial Conversations",
+    "author": "Kerry Patterson et al.",
+    "cover": "https://covers.openlibrary.org/b/isbn/0071771328-L.jpg",
+    "quote": "I have become more aware of (1) how true emotions can feel during crucial moments, and (2) how false they really are.",
+    "featured": true
+  },
+  {
+    "id": "toyota-way",
+    "title": "The Toyota Way",
+    "author": "Jeffrey Liker",
+    "cover": "https://covers.openlibrary.org/b/isbn/0071392319-L.jpg",
+    "quote": "Go and see for yourself to thoroughly understand the situation (genchi genbutsu).",
+    "featured": true
+  },
+  {
+    "id": "fifth-discipline",
+    "title": "The Fifth Discipline",
+    "author": "Peter Senge",
+    "cover": "https://covers.openlibrary.org/b/isbn/0385517254-L.jpg",
+    "quote": "Today's problems come from yesterday's 'solutions'.",
+    "featured": true
+  },
+  {
     "id": "thinking-fast-slow",
     "title": "Thinking, Fast and Slow",
     "author": "Daniel Kahneman",
-    "cover": "/images/books/thinking-fast-slow.jpg",
-    "quote": "Nothing in life is as important as you think it is, while you are thinking about it.",
-    "why": "Understanding cognitive biases transforms how I approach decisions and lead teams.",
+    "cover": "https://covers.openlibrary.org/b/isbn/0374533555-L.jpg",
+    "quote": "The illusion that we understand the past fosters overconfidence in our ability to predict the future.",
     "featured": true
   },
   {
-    "id": "team-topologies",
-    "title": "Team Topologies",
-    "author": "Matthew Skelton & Manuel Pais",
-    "cover": "/images/books/team-topologies.jpg",
-    "quote": "Fast flow requires restricting communication.",
-    "why": "The blueprint for organizing teams for fast, sustainable delivery.",
-    "featured": true
-  },
-  {
-    "id": "accelerate",
-    "title": "Accelerate",
-    "author": "Nicole Forsgren et al.",
-    "cover": "/images/books/accelerate.jpg",
-    "quote": "High performers understand that they don't have to trade speed for stability.",
-    "why": "Data-driven proof that DevOps practices drive business outcomes.",
+    "id": "obstacle-is-the-way",
+    "title": "The Obstacle is the Way",
+    "author": "Ryan Holiday",
+    "cover": "https://covers.openlibrary.org/b/isbn/1591846358-L.jpg",
+    "quote": "Failure shows us the way - by showing us what isn't the way.",
     "featured": true
   },
   {
     "id": "phoenix-project",
     "title": "The Phoenix Project",
     "author": "Gene Kim",
-    "cover": "/images/books/phoenix-project.jpg"
+    "cover": "https://covers.openlibrary.org/b/isbn/0988262592-L.jpg"
   },
   {
-    "id": "clean-code",
-    "title": "Clean Code",
-    "author": "Robert C. Martin",
-    "cover": "/images/books/clean-code.jpg"
+    "id": "team-topologies",
+    "title": "Team Topologies",
+    "author": "Matthew Skelton & Manuel Pais",
+    "cover": "https://covers.openlibrary.org/b/isbn/1942788819-L.jpg"
+  },
+  {
+    "id": "making-work-visible",
+    "title": "Making Work Visible",
+    "author": "Dominica DeGrandis",
+    "cover": "https://covers.openlibrary.org/b/isbn/1942788150-L.jpg"
+  },
+  {
+    "id": "running-lean",
+    "title": "Running Lean",
+    "author": "Ash Maurya",
+    "cover": "https://covers.openlibrary.org/b/isbn/1449305172-L.jpg"
+  },
+  {
+    "id": "lean-startup",
+    "title": "The Lean Startup",
+    "author": "Eric Ries",
+    "cover": "https://covers.openlibrary.org/b/isbn/0307887898-L.jpg"
+  },
+  {
+    "id": "agile-conversations",
+    "title": "Agile Conversations",
+    "author": "Douglas Squirrel & Jeffrey Fredrick",
+    "cover": "https://covers.openlibrary.org/b/isbn/1942788975-L.jpg"
+  },
+  {
+    "id": "five-dysfunctions",
+    "title": "Five Dysfunctions of a Team",
+    "author": "Patrick Lencioni",
+    "cover": "https://covers.openlibrary.org/b/isbn/0787960756-L.jpg"
+  },
+  {
+    "id": "leaders-eat-last",
+    "title": "Leaders Eat Last",
+    "author": "Simon Sinek",
+    "cover": "https://covers.openlibrary.org/b/isbn/1591845327-L.jpg"
+  },
+  {
+    "id": "our-iceberg-is-melting",
+    "title": "Our Iceberg is Melting",
+    "author": "John Kotter",
+    "cover": "https://covers.openlibrary.org/b/isbn/0399563911-L.jpg"
+  },
+  {
+    "id": "crucial-accountability",
+    "title": "Crucial Accountability",
+    "author": "Kerry Patterson et al.",
+    "cover": "https://covers.openlibrary.org/b/isbn/0071829318-L.jpg"
+  },
+  {
+    "id": "think-again",
+    "title": "Think Again",
+    "author": "Adam Grant",
+    "cover": "https://covers.openlibrary.org/b/isbn/1984878107-L.jpg"
   },
   {
     "id": "atomic-habits",
     "title": "Atomic Habits",
     "author": "James Clear",
-    "cover": "/images/books/atomic-habits.jpg"
+    "cover": "https://covers.openlibrary.org/b/isbn/0735211299-L.jpg"
+  },
+  {
+    "id": "four-thousand-weeks",
+    "title": "Four Thousand Weeks",
+    "author": "Oliver Burkeman",
+    "cover": "https://covers.openlibrary.org/b/isbn/0374159122-L.jpg"
+  },
+  {
+    "id": "clean-code",
+    "title": "Clean Code",
+    "author": "Robert C. Martin",
+    "cover": "https://covers.openlibrary.org/b/isbn/0132350882-L.jpg"
   }
 ]

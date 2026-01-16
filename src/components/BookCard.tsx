@@ -6,6 +6,7 @@ export interface BookData {
   title: string
   author: string
   cover: string
+  coverOverride?: string  // Local image path to override the default cover
   quote?: string
   why?: string
   featured?: boolean
@@ -18,6 +19,7 @@ interface BookCardProps {
 
 export function BookCard({ book, featured = false }: BookCardProps) {
   const [isHovered, setIsHovered] = useState(false)
+  const coverSrc = book.coverOverride || book.cover
 
   if (featured) {
     return (
@@ -42,7 +44,7 @@ export function BookCard({ book, featured = false }: BookCardProps) {
           {/* Book cover */}
           <div className="aspect-[2/3] relative">
             <img
-              src={book.cover}
+              src={coverSrc}
               alt={book.title}
               className="w-full h-full object-cover"
             />
@@ -93,7 +95,7 @@ export function BookCard({ book, featured = false }: BookCardProps) {
     >
       <div className="aspect-[2/3] rounded-lg overflow-hidden bg-navy shadow-lg">
         <img
-          src={book.cover}
+          src={coverSrc}
           alt={book.title}
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
         />

@@ -4,34 +4,34 @@
     "type": "marathon",
     "title": "Enterprise Leadership",
     "company": "TRIMEDX",
-    "description": "Scaling from Data Science to Enterprise Management. Building resilient teams and architectures that deliver lasting value across the organization."
+    "description": "A sustained climb from Data Science to Enterprise Management. Building resilient teams and scalable architectures over years, not quarters."
   },
   {
     "date": "2014 - 2017",
     "type": "sprint",
     "title": "Full-Stack Development & Scrum Master",
     "company": "Fusion Alliance / BoxCrush",
-    "description": "High-velocity coding and Agile coaching. Delivering rapid iterations while establishing sustainable development practices."
-  },
-  {
-    "date": "2010 - 2014",
-    "type": "marathon",
-    "title": "Systems Analysis",
-    "company": "Allied Solutions",
-    "description": "Building the foundation. Deep analysis and problem-solving that established the technical fundamentals for future growth."
+    "description": "High-velocity delivery across multiple clients and tech stacks. Rapid iterations, tight deadlines, and continuous learning at startup pace."
   },
   {
     "date": "2012 - 2014",
     "type": "sprint",
     "title": "MBA",
     "company": "Butler University",
-    "description": "Business acumen meets technical expertise. Strategic thinking and leadership skills to complement engineering foundations."
+    "description": "An intensive two-year push while working full-time. Compressed learning in strategy, finance, and leadership."
+  },
+  {
+    "date": "2010 - 2014",
+    "type": "marathon",
+    "title": "Systems Analysis",
+    "company": "Allied Solutions",
+    "description": "Four years of deep-dive analysis and methodical problem-solving. Patience and precision that built a lasting technical foundation."
   },
   {
     "date": "2006 - 2010",
     "type": "marathon",
     "title": "BS Mathematics",
     "company": "Purdue University",
-    "description": "The analytical foundation. Rigorous problem-solving and quantitative thinking that underpins everything since."
+    "description": "The long game: four years of rigorous quantitative training. Foundational thinking that still pays dividends today."
   }
 ]
