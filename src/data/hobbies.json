@@ -1,19 +1,30 @@
 [
   {
-    "id": "running",
-    "title": "Running",
-    "trait": "Discipline & Clarity",
-    "span": "tall"
+    "id": "family",
+    "title": "Family",
+    "image": "/images/family/family.jpeg",
+    "description": "I've been married to my wife [Emma Hudelson](https://emmahudelson.com) since 2013. We have two amazing daughters. My family is my purpose.",
+    "layout": "portrait-left"
   },
   {
     "id": "yoga",
     "title": "Yoga",
-    "trait": "Flexibility & Balance"
+    "image": "/images/yoga/yoga.jpeg",
+    "description": "I struggled with back issues most of my life, culminating in a spinal fusion in 2013. A few years later, I discovered Ashtanga yoga, which has become central to my physical and mental well-being. My back thanks me daily.",
+    "layout": "landscape-top"
   },
   {
-    "id": "family",
-    "title": "Family",
-    "trait": "Grounding",
-    "span": "wide"
+    "id": "boardgames",
+    "title": "Board Games",
+    "image": "/images/boardgames/boardgames.jpeg",
+    "description": "Two-time Settlers of Catan National semi-finalist and 2011 Catan Masters co-champion. Other favorites: Terraforming Mars, Race for the Galaxy, and Power Grid.",
+    "layout": "landscape-bottom"
+  },
+  {
+    "id": "running",
+    "title": "Running",
+    "image": "/images/running/running.jpeg",
+    "description": "I've been a competitive runner since age 12. My coach is [Matt Ebersole of Personal Best Training](https://matt-ebersole.squarespace.com). Catch me running the Boston Marathon in 2027 or vying for the top spot at local races in Eastern Kentucky.",
+    "layout": "portrait-right"
   }
 ]
