@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+@theme {
+  /* Custom Colors */
+  --color-navy: #1e293b;
+  --color-charcoal: #0f172a;
+  --color-electric: #3b82f6;
+  --color-neon: #22d3ee;
+
+  /* Font Families */
+  --font-sans: "Inter", sans-serif;
+  --font-heading: "Oswald", sans-serif;
+}
+
+/* Base dark mode styles */
+html {
+  background-color: var(--color-charcoal);
+  color: white;
+}

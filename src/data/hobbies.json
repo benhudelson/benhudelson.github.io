@@ -1,0 +1,19 @@
+[
+  {
+    "id": "running",
+    "title": "Running",
+    "trait": "Discipline & Clarity",
+    "span": "tall"
+  },
+  {
+    "id": "yoga",
+    "title": "Yoga",
+    "trait": "Flexibility & Balance"
+  },
+  {
+    "id": "family",
+    "title": "Family",
+    "trait": "Grounding",
+    "span": "wide"
+  }
+]
