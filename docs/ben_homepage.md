@@ -113,22 +113,25 @@ A premium, high-performance personal site blending technical leadership with aut
 3.  Smooth page transitions between sections
 4.  Loading states and skeleton screens (if needed)
 
-### Phase 7: Deployment
-1.  Configure `vite.config.ts` for GitHub Pages:
-    ```ts
-    export default defineConfig({
-      base: '/ben_homepage/',  // or '/' if using custom domain
-      plugins: [react()],
-    })
+### Phase 7: Deployment (Configuration Complete)
+1.  **Run Deployment Command**:
+    ```bash
+    npm run deploy
     ```
-2.  Add deploy script to `package.json`:
-    ```json
-    "scripts": {
-      "deploy": "npm run build && gh-pages -d dist"
-    }
-    ```
-3.  Install: `npm install -D gh-pages`
-4.  Configure GitHub repository settings for Pages (gh-pages branch).
+    *This runs the build and pushes the `dist` folder to a `gh-pages` branch on your GitHub repository.*
+
+    > [!IMPORTANT]
+    > **Free Hosting Requirement**: For a free GitHub account, your repository **must be Public** to use GitHub Pages. If your repository is Private, GitHub requires a Pro account. Check **Settings > General > Danger Zone** to change visibility to Public if needed.
+
+2.  **Configure GitHub Repo**:
+    -   Go to your repository on GitHub.
+    -   Click **Settings** > **Pages** (sidebar).
+    -   Under **Build and deployment** > **Source**, select **Deploy from a branch**.
+    -   Under **Branch**, select `gh-pages` and `/ (root)`.
+    -   Click **Save**.
+
+3.  **View Site**:
+    -   GitHub will display the URL (usually `https://benhudelson.github.io/ben_homepage/`).
 
 ## 5. File Structure
 ```

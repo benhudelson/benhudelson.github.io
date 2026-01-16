@@ -15,7 +15,7 @@ export function Bookshelf({ books }: BookshelfProps) {
         The Bookshelf
       </h2>
       <p className="text-white/60 mb-12 max-w-2xl">
-        Books that shaped my thinking on leadership, strategy, and life.
+        Books that shaped my thinking on leadership, operations, and software.
       </p>
 
       {/* Featured books - 3D cards */}

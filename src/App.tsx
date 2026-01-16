@@ -14,8 +14,8 @@ function App() {
       <Navbar />
       <Hero />
       <Timeline items={experienceData as TimelineItemData[]} />
-      <BentoGrid items={hobbiesData as HobbyItem[]} />
       <Bookshelf books={booksData as BookData[]} />
+      <BentoGrid items={hobbiesData as HobbyItem[]} />
       <Footer />
     </div>
   )
