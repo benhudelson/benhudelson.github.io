@@ -1,5 +1,5 @@
 {
-  "name": "ben_homepage",
+  "name": "benhudelson.github.io",
   "private": true,
   "version": "1.0.0",
   "type": "module",
@@ -12,15 +12,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/benhudelson/ben_homepage.git"
+    "url": "git+https://github.com/benhudelson/benhudelson.github.io.git"
   },
   "keywords": [],
   "author": "Ben Hudelson",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/benhudelson/ben_homepage/issues"
+    "url": "https://github.com/benhudelson/benhudelson.github.io/issues"
   },
-  "homepage": "https://github.com/benhudelson/ben_homepage#readme",
+  "homepage": "https://benhudelson.github.io",
   "dependencies": {
     "framer-motion": "^12.26.2",
     "react": "^19.2.3",
