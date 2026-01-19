@@ -26,7 +26,7 @@ export function Hero() {
           transition={{ duration: 0.6, delay: 0.4 }}
           className="text-lg text-electric max-w-2xl mx-auto"
         >
-          I run Agile teams with speed, Operations teams for scale, and I build resilient organizations for the long haul.
+          I run Operations teams for scale,Agile teams with speed, and I build resilient organizations for the long haul.
         </motion.p>
         <motion.div
           initial={{ opacity: 0 }}
