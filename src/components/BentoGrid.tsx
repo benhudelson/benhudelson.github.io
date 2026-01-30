@@ -1,6 +1,7 @@
 import { useState, ReactNode } from 'react'
 import { motion } from 'framer-motion'
 import { Section } from './layout'
+import { MovieGrid, MovieItem } from './MovieGrid'
 
 export interface HobbyItem {
   id: string
@@ -12,6 +13,7 @@ export interface HobbyItem {
 
 interface BentoGridProps {
   items: HobbyItem[]
+  movies?: MovieItem[]
 }
 
 // Helper to resolve asset paths with base URL
@@ -108,7 +110,7 @@ function PassionCard({ item }: { item: HobbyItem }) {
   )
 }
 
-export function BentoGrid({ items }: BentoGridProps) {
+export function BentoGrid({ items, movies = [] }: BentoGridProps) {
   // Find items by layout type
   const portraitLeft = items.find(i => i.layout === 'portrait-left')
   const landscapeTop = items.find(i => i.layout === 'landscape-top')
@@ -186,6 +188,11 @@ export function BentoGrid({ items }: BentoGridProps) {
           </div>
         )}
       </div>
+
+      {/* Favorite Movies */}
+      <MovieGrid movies={movies} />
     </Section>
   )
 }
+
+export type { MovieItem }

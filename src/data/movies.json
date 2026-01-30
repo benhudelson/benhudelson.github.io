@@ -1,0 +1,16 @@
+[
+    {
+        "id": "the_departed",
+        "title": "The Departed",
+        "poster": "/images/movies/the_departed.jpg",
+        "quote": "",
+        "blurb": ""
+    },
+    {
+        "id": "first_law",
+        "title": "First Law Trilogy",
+        "poster": "/images/movies/first_law.jpg",
+        "quote": "",
+        "blurb": ""
+    }
+]
