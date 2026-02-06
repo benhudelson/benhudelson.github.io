@@ -54,5 +54,19 @@
         "poster": "/images/movies/the_darjeeling_limited.jpg",
         "quote": "",
         "blurb": ""
+    },
+    {
+        "id": "high_plains_drifter",
+        "title": "High Plains Drifter",
+        "poster": "/images/movies/high_plains_drifter.jpg",
+        "quote": "",
+        "blurb": ""
+    },
+    {
+        "id": "2001_a_space_odyssey",
+        "title": "2001: A Space Odyssey",
+        "poster": "/images/movies/2001_a_space_odyssey.jpg",
+        "quote": "",
+        "blurb": ""
     }
 ]
