@@ -21,8 +21,8 @@ export function Bookshelf({ books }: BookshelfProps) {
       {/* Featured books - 3D cards */}
       {featuredBooks.length > 0 && (
         <div className="mb-16">
-          <h3 className="text-lg font-medium text-neon mb-6">Influential Reads</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <h3 className="text-lg font-medium text-neon mb-6">Foundational Reads</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {featuredBooks.map(book => (
               <BookCard key={book.id} book={book} featured />
             ))}

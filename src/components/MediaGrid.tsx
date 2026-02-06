@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 export interface MediaItem {
     id: string
     title: string
+    artist?: string // Optional artist field for music
     poster: string
     quote: string
     blurb: string
@@ -107,15 +108,22 @@ function MediaCard({ item, type }: { item: MediaItem; type: MediaType }) {
                 />
             </motion.div>
 
-            {/* Default overlay with title */}
+            {/* Default overlay with title and artist */}
             <motion.div
                 className="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/20 to-transparent flex flex-col justify-end p-4"
                 animate={{ opacity: isHovered ? 0 : 1 }}
                 transition={{ duration: 0.3 }}
             >
-                <h4 className="text-lg font-heading font-bold text-white">
-                    {item.title}
-                </h4>
+                <div>
+                    <h4 className="text-lg font-heading font-bold text-white leading-tight">
+                        {item.title}
+                    </h4>
+                    {item.artist && (
+                        <p className="text-white/70 text-sm mt-1 font-medium">
+                            {item.artist}
+                        </p>
+                    )}
+                </div>
             </motion.div>
 
             {/* Hover overlay with quote and blurb */}
@@ -125,9 +133,14 @@ function MediaCard({ item, type }: { item: MediaItem; type: MediaType }) {
                 animate={{ opacity: isHovered ? 1 : 0 }}
                 transition={{ duration: 0.3 }}
             >
-                <h4 className="text-lg font-heading font-bold text-neon mb-3">
+                <h4 className="text-lg font-heading font-bold text-neon mb-1">
                     {item.title}
                 </h4>
+                {item.artist && (
+                    <p className="text-white/70 text-sm mb-3 font-medium">
+                        {item.artist}
+                    </p>
+                )}
                 {item.quote && (
                     <blockquote className="text-white/90 text-sm italic border-l-2 border-electric pl-3 mb-4">
                         "{item.quote}"

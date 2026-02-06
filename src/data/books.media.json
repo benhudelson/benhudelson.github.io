@@ -4,20 +4,27 @@
         "title": "First Law Trilogy",
         "poster": "/images/books/first_law.jpg",
         "quote": "",
-        "blurb": ""
+        "blurb": "Joe Abercrombie"
     },
     {
         "id": "stormlight_archive",
         "title": "Stormlight Archive",
         "poster": "/images/books/way_of_kings.jpg",
         "quote": "",
-        "blurb": ""
+        "blurb": "Brandon Sanderson"
     },
     {
         "id": "the_expanse",
         "title": "The Expanse",
         "poster": "/images/books/cibola_burn.jpg",
         "quote": "",
-        "blurb": ""
+        "blurb": "James S. A. Corey"
+    },
+    {
+        "id": "be_here_now",
+        "title": "Be Here Now",
+        "poster": "/images/books/be_here_now.jpg",
+        "quote": "",
+        "blurb": "Ram Dass"
     }
 ]

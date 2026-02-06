@@ -199,7 +199,7 @@ export function BentoGrid({ items, movies = [], books = [], music = [] }: BentoG
           <h3 className="text-lg font-medium text-neon mb-6">Favorite Media</h3>
           <MediaGrid items={movies} type="movies" title="Movies & TV Series" />
           <MediaGrid items={books} type="books" title="Books" />
-          <MediaGrid items={music} type="music" title="Albums" />
+          <MediaGrid items={music} type="music" title="Great Albums by Great Musicians" />
         </div>
       )}
     </Section>

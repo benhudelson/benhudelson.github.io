@@ -2,6 +2,7 @@
     {
         "id": "tango_in_the_night",
         "title": "Tango in the Night",
+        "artist": "Fleetwood Mac",
         "poster": "/images/music/tango_in_the_night.jpg",
         "quote": "",
         "blurb": ""
@@ -9,6 +10,7 @@
     {
         "id": "fear_inoculum",
         "title": "Fear Inoculum",
+        "artist": "Tool",
         "poster": "/images/music/fear_inoculum.jpg.webp",
         "quote": "",
         "blurb": ""
@@ -16,7 +18,16 @@
     {
         "id": "random_access_memories",
         "title": "Random Access Memories",
+        "artist": "Daft Punk",
         "poster": "/images/music/random_access_memories.jpg",
+        "quote": "",
+        "blurb": ""
+    },
+    {
+        "id": "led_zeppelin_iii",
+        "title": "Led Zeppelin III",
+        "artist": "Led Zeppelin",
+        "poster": "/images/music/led_zeppelin_iii.jpg",
         "quote": "",
         "blurb": ""
     }
