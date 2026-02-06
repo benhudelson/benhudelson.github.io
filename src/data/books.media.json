@@ -1,5 +1,19 @@
 [
     {
+        "id": "healthy_intelligent_training",
+        "title": "Healthy Intelligent Training",
+        "poster": "/images/books/healthy_intelligent_training.jpg",
+        "quote": "",
+        "blurb": "Keith Livingstone"
+    },
+    {
+        "id": "jack_daniels_running_formula",
+        "title": "Jack Daniels Running Formula",
+        "poster": "/images/books/jack_daniels_running_formula.jpg",
+        "quote": "",
+        "blurb": "Jack Daniels"
+    },
+    {
         "id": "first_law",
         "title": "First Law Trilogy",
         "poster": "/images/books/first_law.jpg",
@@ -26,5 +40,12 @@
         "poster": "/images/books/be_here_now.jpg",
         "quote": "",
         "blurb": "Ram Dass"
+    },
+    {
+        "id": "demon_copperhead",
+        "title": "Demon Copperhead",
+        "poster": "/images/books/demon_copperhead.jpg",
+        "quote": "",
+        "blurb": "Barbara Kingsolver"
     }
 ]

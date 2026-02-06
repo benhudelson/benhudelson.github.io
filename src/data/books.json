@@ -138,5 +138,11 @@
     "title": "Clean Code",
     "author": "Robert C. Martin",
     "cover": "/images/books/clean-code.jpg"
+  },
+  {
+    "id": "mythical-man-month",
+    "title": "Mythical Man-Month",
+    "author": "Frederick P. Brooks",
+    "cover": "/images/books/mythical_man_month.jpg"
   }
 ]
