@@ -1,4 +1,5 @@
 import { Navbar, Hero, Footer } from './components/layout'
+import { Philosophy } from './components/Philosophy'
 import { Timeline } from './components/Timeline'
 import { BentoGrid, HobbyItem, MediaItem } from './components/BentoGrid'
 import { Bookshelf } from './components/Bookshelf'
@@ -16,6 +17,7 @@ function App() {
     <div className="min-h-screen bg-charcoal text-white">
       <Navbar />
       <Hero />
+      <Philosophy />
       <Timeline items={experienceData as TimelineItemData[]} />
       <Bookshelf books={booksData as BookData[]} />
       <BentoGrid

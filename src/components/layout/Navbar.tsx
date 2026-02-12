@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const navLinks = [
-  { href: '#about', label: 'About' },
+  { href: '#philosophy', label: 'Philosophy' },
   { href: '#experience', label: 'Experience' },
   { href: '#bookshelf', label: 'Bookshelf' },
   { href: '#hobbies', label: 'Beyond Work' },
