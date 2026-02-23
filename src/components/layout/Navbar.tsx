@@ -6,6 +6,7 @@ const navLinks = [
   { href: '#experience', label: 'Experience' },
   { href: '#bookshelf', label: 'Bookshelf' },
   { href: '#hobbies', label: 'Beyond Work' },
+  { href: '#racing', label: 'Racing' },
 ]
 
 export function Navbar() {

@@ -1,0 +1,76 @@
+[
+    {
+        "name": "Fast & the Furriest 5K",
+        "date": "February 22, 2026",
+        "distance": "5K",
+        "location": "Frankfort, KY",
+        "time": "18:22",
+        "placeOverall": 1,
+        "totalOverall": 179,
+        "resultsUrl": "https://runsignup.com/Race/Results/158008/?resultSetId=629233",
+        "notes": "First race since Monumental after limited training in December and January from a tweaked ankle. 1st place overall in snowy and very windy conditions on a course of nothing but rolling hills. I led most of the race with another runner. We were both caught in the trap of pushing the pace or drafting. We matched each other move for move until I was able to make some space in the last mile."
+    },
+    {
+        "name": "CNO Financial Indianapolis Monumental Marathon",
+        "date": "November 8, 2025",
+        "distance": "Marathon",
+        "location": "Indianapolis, IN",
+        "time": "2:49:09",
+        "placeOverall": 409,
+        "totalOverall": 6679,
+        "division": "M45-49",
+        "placeInDivision": 14,
+        "totalInDivision": 350,
+        "resultsUrl": "https://www.athlinks.com/event/20222/results/Event/1127034/Course/2651523/Bib/4608",
+        "notes": "First marathon. Big shout out to Kevin McLendon for partnering with me the first 16 miles. Also big thanks to Larry Lovato, who I never spoke with, but carried me through the last 8 miles."
+    },
+    {
+        "name": "Iron Horse Half Marathon",
+        "date": "October 12, 2025",
+        "distance": "Half Marathon",
+        "location": "Midway, KY",
+        "time": "1:19:30",
+        "placeOverall": 2,
+        "totalOverall": 387,
+        "resultsUrl": "https://runsignup.com/Race/Results/28559#resultSetId-596393;perpage:25",
+        "notes": "Hilly and beautiful course. I spent most of the race running alone."
+    },
+    {
+        "name": "Geist Half Marathon",
+        "date": "September 13, 2025",
+        "distance": "Half Marathon",
+        "location": "Fishers, IN",
+        "time": "1:20:53",
+        "placeOverall": 12,
+        "totalOverall": 732,
+        "division": "M40-49",
+        "placeInDivision": 3,
+        "totalInDivision": 118,
+        "resultsUrl": "https://my.raceresult.com/353315/",
+        "notes": "First time racing a half marathon since 2011. Satisfied with my results and recent progress."
+    },
+    {
+        "name": "Small Town America 5K",
+        "date": "August 9, 2025",
+        "distance": "5K",
+        "location": "Sterling, KY",
+        "time": "18:19",
+        "placeOverall": 1,
+        "totalOverall": 120,
+        "resultsUrl": "https://results.raceroster.com/v3/events/w6eftxj7fhk35bap/race/236354?filter_search=",
+        "notes": "Killer hill at the end. It was nice to test my legs on the Kentucky terrain."
+    },
+    {
+        "name": "Butler Bulldog Jog",
+        "date": "April 12, 2025",
+        "distance": "10K",
+        "location": "Indianapolis, IN",
+        "time": "38:07",
+        "placeOverall": 4,
+        "totalOverall": 243,
+        "division": "Male Masters",
+        "placeInDivision": 1,
+        "resultsUrl": "https://my.raceresult.com/332631/#2_E3FCA7",
+        "notes": "Side stitch came on around 4.5 miles. Rough finish to the race."
+    }
+]

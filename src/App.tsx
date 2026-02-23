@@ -5,6 +5,7 @@ import { BentoGrid, HobbyItem, MediaItem } from './components/BentoGrid'
 import { Bookshelf } from './components/Bookshelf'
 import { TimelineItemData } from './components/TimelineItem'
 import { BookData } from './components/BookCard'
+import { RacingSection } from './pages/RacingPage'
 import experienceData from './data/experience.json'
 import hobbiesData from './data/hobbies.json'
 import booksData from './data/books.json'
@@ -26,6 +27,7 @@ function App() {
         books={booksMediaData as MediaItem[]}
         music={musicData as MediaItem[]}
       />
+      <RacingSection />
       <Footer />
     </div>
   )
