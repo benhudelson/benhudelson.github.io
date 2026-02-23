@@ -36,12 +36,17 @@ const parseDescription = (text: string) => {
     if (match.index > lastIndex) {
       parts.push(text.slice(lastIndex, match.index))
     }
+    const href = match[2]
+    const isInternalHash = href.startsWith('#')
     parts.push(
       <a
         key={match.index}
-        href={match[2]}
-        target="_blank"
-        rel="noopener noreferrer"
+        href={href}
+        {...(!isInternalHash && { target: "_blank", rel: "noopener noreferrer" })}
+        onClick={isInternalHash ? (e) => {
+          e.preventDefault()
+          document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' })
+        } : undefined}
         className="text-neon hover:text-white transition-colors underline"
       >
         {match[1]}
