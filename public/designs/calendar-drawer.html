@@ -234,11 +234,31 @@
             display: none;
         }
 
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(14, 80px);
-            gap: 12px;
+        .weeks-container {
+            display: flex;
+            gap: 20px;
+            min-width: max-content;
             padding-bottom: 8px;
+        }
+
+        .week-section {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .week-label {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding-left: 4px;
+        }
+
+        .week-row {
+            display: flex;
+            gap: 12px;
         }
 
         .day-card {
@@ -476,89 +496,99 @@
                 </div>
 
                 <div class="calendar-scroll">
-                    <div class="calendar-grid" id="calendar-grid">
-                        <!-- Previous Week -->
-                        <div class="day-card completed" onclick="selectDay(this)">
-                            <div class="day-date">Mon 17</div>
-                            <div class="day-workout">Long Run</div>
-                            <div class="day-distance">8 mi</div>
-                            <div class="day-indicator"></div>
-                        </div>
-                        <div class="day-card completed" onclick="selectDay(this)">
-                            <div class="day-date">Tue 18</div>
-                            <div class="day-workout">Easy</div>
-                            <div class="day-distance">4 mi</div>
-                            <div class="day-indicator"></div>
-                        </div>
-                        <div class="day-card rest">
-                            <div class="day-date">Wed 19</div>
-                            <div class="day-workout">Rest</div>
-                            <div class="day-indicator"></div>
-                        </div>
-                        <div class="day-card completed" onclick="selectDay(this)">
-                            <div class="day-date">Thu 20</div>
-                            <div class="day-workout">Tempo</div>
-                            <div class="day-distance">6 mi</div>
-                            <div class="day-indicator"></div>
-                        </div>
-                        <div class="day-card completed" onclick="selectDay(this)">
-                            <div class="day-date">Fri 21</div>
-                            <div class="day-workout">Recovery</div>
-                            <div class="day-distance">3 mi</div>
-                            <div class="day-indicator"></div>
-                        </div>
-                        <div class="day-card missed" onclick="selectDay(this)">
-                            <div class="day-date">Sat 22</div>
-                            <div class="day-workout">Easy</div>
-                            <div class="day-distance">5 mi</div>
-                            <div class="day-indicator"></div>
-                        </div>
-                        <div class="day-card rest">
-                            <div class="day-date">Sun 23</div>
-                            <div class="day-workout">Rest</div>
-                            <div class="day-indicator"></div>
+                    <div class="weeks-container" id="calendar-grid">
+                        <!-- Previous Week: Mar 24–30 -->
+                        <div class="week-section">
+                            <div class="week-label">Mar 24 – 30</div>
+                            <div class="week-row">
+                                <div class="day-card completed" onclick="selectDay(this)">
+                                    <div class="day-date">Mon 24</div>
+                                    <div class="day-workout">Long Run</div>
+                                    <div class="day-distance">8 mi</div>
+                                    <div class="day-indicator"></div>
+                                </div>
+                                <div class="day-card completed" onclick="selectDay(this)">
+                                    <div class="day-date">Tue 25</div>
+                                    <div class="day-workout">Easy</div>
+                                    <div class="day-distance">4 mi</div>
+                                    <div class="day-indicator"></div>
+                                </div>
+                                <div class="day-card rest">
+                                    <div class="day-date">Wed 26</div>
+                                    <div class="day-workout">Rest</div>
+                                    <div class="day-indicator"></div>
+                                </div>
+                                <div class="day-card completed" onclick="selectDay(this)">
+                                    <div class="day-date">Thu 27</div>
+                                    <div class="day-workout">Tempo</div>
+                                    <div class="day-distance">6 mi</div>
+                                    <div class="day-indicator"></div>
+                                </div>
+                                <div class="day-card completed" onclick="selectDay(this)">
+                                    <div class="day-date">Fri 28</div>
+                                    <div class="day-workout">Recovery</div>
+                                    <div class="day-distance">3 mi</div>
+                                    <div class="day-indicator"></div>
+                                </div>
+                                <div class="day-card missed" onclick="selectDay(this)">
+                                    <div class="day-date">Sat 29</div>
+                                    <div class="day-workout">Easy</div>
+                                    <div class="day-distance">5 mi</div>
+                                    <div class="day-indicator"></div>
+                                </div>
+                                <div class="day-card rest">
+                                    <div class="day-date">Sun 30</div>
+                                    <div class="day-workout">Rest</div>
+                                    <div class="day-indicator"></div>
+                                </div>
+                            </div>
                         </div>
 
-                        <!-- Current Week -->
-                        <div class="day-card completed" onclick="selectDay(this)">
-                            <div class="day-date">Mon 24</div>
-                            <div class="day-workout">Easy</div>
-                            <div class="day-distance">4 mi</div>
-                            <div class="day-indicator"></div>
-                        </div>
-                        <div class="day-card today selected" onclick="selectDay(this)">
-                            <div class="day-date">Tue 25</div>
-                            <div class="day-workout">Recovery</div>
-                            <div class="day-distance">5 mi</div>
-                            <div class="day-indicator"></div>
-                        </div>
-                        <div class="day-card upcoming" onclick="selectDay(this)">
-                            <div class="day-date">Wed 26</div>
-                            <div class="day-workout">Tempo</div>
-                            <div class="day-distance">6 mi</div>
-                            <div class="day-indicator"></div>
-                        </div>
-                        <div class="day-card rest">
-                            <div class="day-date">Thu 27</div>
-                            <div class="day-workout">Rest</div>
-                            <div class="day-indicator"></div>
-                        </div>
-                        <div class="day-card upcoming" onclick="selectDay(this)">
-                            <div class="day-date">Fri 28</div>
-                            <div class="day-workout">Easy</div>
-                            <div class="day-distance">5 mi</div>
-                            <div class="day-indicator"></div>
-                        </div>
-                        <div class="day-card upcoming" onclick="selectDay(this)">
-                            <div class="day-date">Sat 29</div>
-                            <div class="day-workout">Long Run</div>
-                            <div class="day-distance">10 mi</div>
-                            <div class="day-indicator"></div>
-                        </div>
-                        <div class="day-card rest">
-                            <div class="day-date">Sun 30</div>
-                            <div class="day-workout">Rest</div>
-                            <div class="day-indicator"></div>
+                        <!-- Current Week: Mar 31 – Apr 6 -->
+                        <div class="week-section">
+                            <div class="week-label">Mar 31 – Apr 6</div>
+                            <div class="week-row">
+                                <div class="day-card today selected" onclick="selectDay(this)">
+                                    <div class="day-date">Mon 31</div>
+                                    <div class="day-workout">Recovery</div>
+                                    <div class="day-distance">5 mi</div>
+                                    <div class="day-indicator"></div>
+                                </div>
+                                <div class="day-card upcoming" onclick="selectDay(this)">
+                                    <div class="day-date">Tue Apr 1</div>
+                                    <div class="day-workout">Tempo</div>
+                                    <div class="day-distance">6 mi</div>
+                                    <div class="day-indicator"></div>
+                                </div>
+                                <div class="day-card rest">
+                                    <div class="day-date">Wed Apr 2</div>
+                                    <div class="day-workout">Rest</div>
+                                    <div class="day-indicator"></div>
+                                </div>
+                                <div class="day-card upcoming" onclick="selectDay(this)">
+                                    <div class="day-date">Thu Apr 3</div>
+                                    <div class="day-workout">Easy</div>
+                                    <div class="day-distance">5 mi</div>
+                                    <div class="day-indicator"></div>
+                                </div>
+                                <div class="day-card upcoming" onclick="selectDay(this)">
+                                    <div class="day-date">Fri Apr 4</div>
+                                    <div class="day-workout">Long Run</div>
+                                    <div class="day-distance">10 mi</div>
+                                    <div class="day-indicator"></div>
+                                </div>
+                                <div class="day-card upcoming" onclick="selectDay(this)">
+                                    <div class="day-date">Sat Apr 5</div>
+                                    <div class="day-workout">Easy</div>
+                                    <div class="day-distance">3 mi</div>
+                                    <div class="day-indicator"></div>
+                                </div>
+                                <div class="day-card rest">
+                                    <div class="day-date">Sun Apr 6</div>
+                                    <div class="day-workout">Rest</div>
+                                    <div class="day-indicator"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -567,9 +597,9 @@
                 <div class="workout-detail-card visible" id="workout-detail">
                     <div class="workout-detail-header">
                         <div>
-                            <div class="workout-detail-type">Today • Easy Run</div>
+                            <div class="workout-detail-type">Today • Mon Mar 31</div>
                             <div class="workout-detail-title">Recovery Pace</div>
-                            <div class="workout-detail-distance">5 miles</div>
+                            <div class="workout-detail-distance">5 miles • Easy Run</div>
                         </div>
                     </div>
                     <p class="workout-detail-description">
