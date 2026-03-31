@@ -1,0 +1,64 @@
+{
+  "_note": "Canonical workout type and quality definitions for CoachME. Used by all screens for tooltips and labels. Will mirror the backend codebase definition when development begins.",
+
+  "qualities": {
+    "E": {
+      "label": "Easy",
+      "definition": "A conversational-pace run that builds aerobic base and promotes recovery. You should be able to speak in full sentences comfortably throughout."
+    },
+    "MQ": {
+      "label": "Moderate Quality",
+      "definition": "A comfortably hard effort incorporating moderate-intensity work such as fartlek segments or marathon-pace miles. Harder than easy, less demanding than a full quality session."
+    },
+    "HQ": {
+      "label": "High Quality",
+      "definition": "A challenging session targeting your lactate threshold or aerobic capacity — includes intervals, tempo work, or race-pace efforts. Requires full recovery before the next hard day."
+    },
+    "LR": {
+      "label": "Long Run",
+      "definition": "Your weekly endurance cornerstone at easy to moderate pace, building the aerobic base and mental toughness needed for race day.",
+      "note": "LR is both a quality and a type."
+    },
+    "R": {
+      "label": "Rest",
+      "definition": "A scheduled recovery day. Adaptation and fitness gains happen during rest — this is a critical part of your training, not an absence of it.",
+      "mileage": false
+    },
+    "XT": {
+      "label": "Cross Train",
+      "definition": "Non-running aerobic activity (cycling, swimming, elliptical) that maintains cardiovascular fitness while reducing impact stress on your legs.",
+      "mileage": false
+    }
+  },
+
+  "types": {
+    "SSR": {
+      "label": "Steady State Run",
+      "definition": "A sustained effort at comfortably hard pace — below race pace but harder than easy. Builds lactate threshold and improves running economy. You should be able to speak only in short phrases.",
+      "typical_quality": "HQ"
+    },
+    "LR": {
+      "label": "Long Run",
+      "definition": "Your weekly endurance cornerstone at easy to moderate pace, building the aerobic base and mental toughness needed for race day.",
+      "typical_quality": "LR"
+    },
+    "R": {
+      "label": "Rest",
+      "definition": "A scheduled recovery day. No running. Essential for adaptation and injury prevention.",
+      "typical_quality": "R",
+      "mileage": false
+    },
+    "XT": {
+      "label": "Cross Train",
+      "definition": "Non-running aerobic activity that maintains fitness while reducing impact load.",
+      "typical_quality": "XT",
+      "mileage": false
+    }
+  },
+
+  "open_questions": [
+    "Can a Steady State Run be prescribed at MQ quality, or is it always HQ?",
+    "Are there additional workout types to be added (e.g. Intervals, Race, Recovery Run)?",
+    "Day Screen stats (Last 7 days / Week to date): should they be anchored to today always, or shift when viewing a past/future day? Currently anchored to today — flagged for product decision."
+  ]
+}

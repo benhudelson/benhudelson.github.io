@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intervention Modal - CoachME</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Primary Energetic Colors */
+            --color-primary: #F04E23;
+            --color-primary-dark: #D63F1A;
+            --color-primary-light: #FF6B42;
+
+            /* Success & Positive */
+            --color-success: #00A651;
+            --color-success-dark: #008A43;
+            --color-success-light: #00C961;
+
+            /* Supporting Colors */
+            --color-bg: #FAFAFA;
+            --color-bg-secondary: #F5F5F5;
+            --color-card: #FFFFFF;
+            --color-text: #1A1A1A;
+            --color-text-secondary: #4A4A4A;
+            --color-text-muted: #737373;
+            --color-border: #E0E0E0;
+            --color-border-light: #F0F0F0;
+
+            /* Accent & Energy */
+            --color-accent: #FFB800;
+            --color-warning: #FF8C00;
+
+            /* Overlays & Shadows */
+            --color-overlay: rgba(26, 26, 26, 0.6);
+
+            --font-display: Futura, 'Futura PT', 'Century Gothic', 'AppleGothic', sans-serif;
+            --font-body: 'Outfit', sans-serif;
+
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
+            --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.15);
+        }
+
+        h1, h2, h3,
+        .greeting,
+        .workout-title,
+        .hero-title,
+        .question,
+        .modal-title,
+        .drawer-title,
+        .welcome-title,
+        .section-title,
+        .effort-zone-name,
+        .workout-detail-title {
+            font-family: var(--font-display);
+            font-variant: small-caps;
+            font-style: italic;
+            letter-spacing: 0.02em;
+            font-weight: 600;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Demo: Today Screen in Background */
+        .app-container {
+            max-width: 430px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background: var(--color-bg);
+            position: relative;
+        }
+
+        .background-content {
+            padding: 48px 24px;
+            filter: blur(2px);
+            opacity: 0.5;
+        }
+
+        .demo-card {
+            background: var(--color-card);
+            border-radius: 24px;
+            padding: 32px 28px;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 24px;
+        }
+
+        /* Modal Overlay */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--color-overlay);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: flex-end;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        /* Modal Container */
+        .modal-container {
+            width: 100%;
+            max-width: 430px;
+            margin: 0 auto;
+            animation: slideUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .modal {
+            background: var(--color-card);
+            border-radius: 32px 32px 0 0;
+            padding: 32px 24px 40px;
+            box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.12);
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        /* Handle Bar */
+        .modal-handle {
+            width: 40px;
+            height: 4px;
+            background: var(--color-border);
+            border-radius: 2px;
+            margin: 0 auto 24px;
+        }
+
+        /* Coach Icon */
+        .coach-icon {
+            width: 72px;
+            height: 72px;
+            margin: 0 auto 24px;
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 24px rgba(240, 78, 35, 0.35);
+            animation: scaleIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s backwards;
+        }
+
+        .coach-icon::before {
+            content: 'M';
+            font-family: var(--font-display);
+            font-size: 32px;
+            color: white;
+            font-weight: 400;
+        }
+
+        /* Alert Badge */
+        .alert-badge {
+            display: inline-block;
+            padding: 6px 14px;
+            background: rgba(255, 184, 0, 0.15);
+            color: #cc8f00;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+            animation: fadeIn 0.6s ease-out 0.3s backwards;
+        }
+
+        /* Title */
+        .modal-title {
+            font-family: var(--font-display);
+            font-size: 28px;
+            line-height: 1.2;
+            color: var(--color-text);
+            margin-bottom: 16px;
+            text-align: center;
+            animation: fadeInUp 0.6s ease-out 0.4s backwards;
+        }
+
+        /* Message */
+        .modal-message {
+            font-size: 16px;
+            line-height: 1.7;
+            color: var(--color-text);
+            text-align: center;
+            margin-bottom: 28px;
+            animation: fadeInUp 0.6s ease-out 0.5s backwards;
+        }
+
+        .modal-message strong {
+            color: var(--color-text);
+            font-weight: 600;
+        }
+
+        /* Recommendation Card */
+        .recommendation-card {
+            background: linear-gradient(135deg, #f8f6f2 0%, #faf8f4 100%);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 24px;
+            border: 1px solid var(--color-border);
+            animation: fadeInUp 0.6s ease-out 0.6s backwards;
+        }
+
+        .recommendation-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .recommendation-text {
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--color-text);
+        }
+
+        .recommendation-highlight {
+            font-family: var(--font-display);
+            font-size: 18px;
+            color: var(--color-primary);
+            margin-top: 8px;
+        }
+
+        /* Expandable Details */
+        .expandable-section {
+            margin-bottom: 24px;
+            animation: fadeInUp 0.6s ease-out 0.7s backwards;
+        }
+
+        .expand-btn {
+            width: 100%;
+            padding: 14px;
+            background: transparent;
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-text-muted);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .expand-btn:hover {
+            background: var(--color-bg);
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+        }
+
+        .expand-icon {
+            width: 16px;
+            height: 16px;
+            transition: transform 0.3s ease;
+        }
+
+        .expand-btn.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .expanded-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+        }
+
+        .expanded-content.open {
+            max-height: 300px;
+            padding-top: 16px;
+        }
+
+        .expanded-content p {
+            font-size: 14px;
+            line-height: 1.7;
+            color: var(--color-text-muted);
+        }
+
+        /* Action Buttons */
+        .modal-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            animation: fadeInUp 0.6s ease-out 0.8s backwards;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 14px;
+            font-family: var(--font-body);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: white;
+            box-shadow: 0 4px 16px rgba(240, 78, 35, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(240, 78, 35, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--color-text);
+            border: 1px solid var(--color-border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-bg);
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Background Content (Blurred) -->
+        <div class="background-content">
+            <h1 style="font-family: var(--font-display); font-size: 32px; margin-bottom: 24px;">Today's Run</h1>
+            <div class="demo-card">
+                <p style="color: var(--color-text-muted);">Tempo Run</p>
+                <h2 style="font-family: var(--font-display); font-size: 28px; margin: 8px 0;">6 miles</h2>
+            </div>
+        </div>
+
+        <!-- Intervention Modal -->
+        <div class="modal-overlay">
+            <div class="modal-container">
+                <div class="modal">
+                    <div class="modal-handle"></div>
+
+                    <div class="coach-icon"></div>
+
+                    <div class="alert-badge">Coach Recommendation</div>
+
+                    <h2 class="modal-title">Let's adjust your plan</h2>
+
+                    <p class="modal-message">
+                        You've reported <strong>low physical scores</strong> for the past 3 workouts.
+                        Your body is telling us something important.
+                    </p>
+
+                    <div class="recommendation-card">
+                        <div class="recommendation-label">My Recommendation</div>
+                        <p class="recommendation-text">
+                            Replace tomorrow's tempo run with a rest day or easy cross-training session.
+                        </p>
+                        <div class="recommendation-highlight">
+                            Thursday → Rest Day
+                        </div>
+                    </div>
+
+                    <div class="expandable-section">
+                        <button class="expand-btn" onclick="toggleExpand()">
+                            <span>Why this matters</span>
+                            <svg class="expand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M6 9l6 6 6-6"/>
+                            </svg>
+                        </button>
+                        <div class="expanded-content" id="expandable">
+                            <p>
+                                Accumulated fatigue is one of the primary drivers of injury. When you consistently
+                                report feeling tired, your body needs rest—not more hard workouts. Taking a rest
+                                day now prevents potential injury and keeps you on track for your race goal.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="modal-actions">
+                        <a href="today-screen.html" class="btn btn-primary" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">Accept Adjustment</a>
+                        <a href="today-screen.html" class="btn btn-secondary" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">Keep Original Plan</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleExpand() {
+            const btn = document.querySelector('.expand-btn');
+            const content = document.getElementById('expandable');
+
+            btn.classList.toggle('expanded');
+            content.classList.toggle('open');
+        }
+    </script>
+</body>
+</html>

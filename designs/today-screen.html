@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day Screen (Today) - CoachME</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Primary Energetic Colors */
+            --color-primary: #F04E23;
+            --color-primary-dark: #D63F1A;
+            --color-primary-light: #FF6B42;
+
+            /* Success & Positive */
+            --color-success: #00A651;
+            --color-success-dark: #008A43;
+            --color-success-light: #00C961;
+
+            /* Supporting Colors */
+            --color-bg: #FAFAFA;
+            --color-bg-secondary: #F5F5F5;
+            --color-card: #FFFFFF;
+            --color-text: #1A1A1A;
+            --color-text-secondary: #4A4A4A;
+            --color-text-muted: #737373;
+            --color-border: #E0E0E0;
+            --color-border-light: #F0F0F0;
+
+            /* Accent & Energy */
+            --color-accent: #FFB800;
+            --color-warning: #FF8C00;
+
+            /* Overlays & Shadows */
+            --color-overlay: rgba(26, 26, 26, 0.6);
+
+            --font-display: Futura, 'Futura PT', 'Century Gothic', 'AppleGothic', sans-serif;
+            --font-body: 'Outfit', sans-serif;
+
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
+            --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.15);
+        }
+
+        h1, h2, h3,
+        .greeting,
+        .workout-title,
+        .hero-title,
+        .question,
+        .modal-title,
+        .drawer-title,
+        .welcome-title,
+        .section-title,
+        .effort-zone-name,
+        .workout-detail-title {
+            font-family: var(--font-display);
+            font-variant: small-caps;
+            font-style: italic;
+            letter-spacing: 0.02em;
+            font-weight: 600;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        .app-container {
+            max-width: 430px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background: var(--color-bg);
+            position: relative;
+            padding-bottom: 60px;
+        }
+
+        /* Header */
+        .header {
+            padding: 48px 24px 24px;
+            background: linear-gradient(180deg, var(--color-bg) 0%, rgba(250, 248, 244, 0) 100%);
+            animation: fadeInDown 0.6s ease-out;
+        }
+
+        .date-badge {
+            display: inline-block;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--color-text-muted);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            opacity: 0;
+            animation: fadeIn 0.6s ease-out 0.2s forwards;
+        }
+
+        .greeting {
+            font-family: var(--font-display);
+            font-size: 36px;
+            line-height: 1.2;
+            color: var(--color-text);
+            margin-bottom: 4px;
+            opacity: 0;
+            animation: fadeInUp 0.6s ease-out 0.3s forwards;
+        }
+
+        .miles-stats {
+            display: flex;
+            gap: 24px;
+            opacity: 0;
+            animation: fadeIn 0.6s ease-out 0.4s forwards;
+            margin-top: 2px;
+        }
+
+        .miles-stat {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .miles-label {
+            font-size: 11px;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+        }
+
+        .miles-value {
+            font-size: 17px;
+            color: var(--color-text);
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+
+        /* Open UI question: should these stats shift relative to viewed day or stay anchored to today?
+           Current behavior: always anchored to today. Flagged for product decision. */
+
+        /* Workout Card */
+        .workout-card {
+            margin: 0 24px 32px;
+            background: var(--color-card);
+            border-radius: 24px;
+            padding: 32px 28px;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            animation: scaleIn 0.6s ease-out 0.5s forwards;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .workout-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .workout-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+        }
+
+        .workout-type {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-primary);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .workout-title {
+            font-family: var(--font-display);
+            font-size: 32px;
+            line-height: 1.2;
+            color: var(--color-text);
+            margin-bottom: 20px;
+        }
+
+        .workout-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 28px;
+        }
+
+        .stat {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--color-text-muted);
+            font-weight: 500;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--color-text);
+            font-family: var(--font-display);
+        }
+
+        .view-details-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-family: var(--font-body);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .view-details-btn:hover {
+            background: var(--color-primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .view-details-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .view-details-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .view-details-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Week Preview */
+        .week-preview {
+            margin: 0 24px 32px;
+            opacity: 0;
+            animation: fadeInUp 0.6s ease-out 0.6s forwards;
+        }
+
+        .section-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--color-text);
+            margin-bottom: 16px;
+            letter-spacing: 0.3px;
+        }
+
+        .week-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+        }
+
+        .day-pill {
+            background: var(--color-card);
+            border-radius: 12px;
+            padding: 10px 4px 8px;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .day-pill:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .day-pill.today {
+            background: var(--color-primary);
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(240, 78, 35, 0.3);
+        }
+
+        .day-pill.completed {
+            background: var(--color-success);
+            color: white;
+        }
+
+        .day-pill.rest {
+            background: var(--color-bg-secondary);
+            color: var(--color-text-muted);
+        }
+
+        .day-name {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            margin-bottom: 5px;
+            opacity: 0.85;
+        }
+
+        .day-workout-tag {
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            opacity: 0.75;
+            line-height: 1.2;
+        }
+
+        .day-pill.today .day-workout-tag,
+        .day-pill.completed .day-workout-tag {
+            opacity: 0.9;
+        }
+
+        /* Info button and tooltip */
+        .workout-type-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+
+        .workout-type {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-primary);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .info-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 16px;
+            height: 16px;
+            min-width: 16px;
+            border-radius: 50%;
+            border: 1.5px solid var(--color-primary);
+            background: none;
+            color: var(--color-primary);
+            font-size: 9px;
+            font-weight: 700;
+            cursor: pointer;
+            padding: 0;
+            font-family: var(--font-body);
+            transition: all 0.2s ease;
+            line-height: 1;
+        }
+
+        .info-btn:hover, .info-btn.active {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .workout-tooltip {
+            display: none;
+            background: var(--color-text);
+            color: white;
+            font-size: 13px;
+            line-height: 1.5;
+            padding: 12px 16px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            font-family: var(--font-body);
+            font-weight: 400;
+        }
+
+        .workout-tooltip.visible {
+            display: block;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        /* Calendar Drawer */
+        .drawer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(26, 31, 46, 0);
+            pointer-events: none;
+            transition: background 0.3s ease;
+            z-index: 999;
+        }
+
+        .drawer-overlay.visible {
+            background: var(--color-overlay);
+            pointer-events: auto;
+        }
+
+        .calendar-drawer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            max-width: 430px;
+            margin: 0 auto;
+            background: var(--color-card);
+            border-radius: 32px 32px 0 0;
+            box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.12);
+            transform: translateY(calc(100% - 80px));
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .calendar-drawer.open {
+            transform: translateY(0);
+        }
+
+        /* Drawer Handle */
+        .drawer-handle-area {
+            padding: 16px 24px 0;
+            cursor: pointer;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: none;
+        }
+
+        .drawer-handle {
+            width: 40px;
+            height: 4px;
+            background: var(--color-border);
+            border-radius: 2px;
+            margin: 0 auto 8px;
+            transition: background 0.2s ease;
+        }
+
+        .drawer-handle-area:hover .drawer-handle {
+            background: var(--color-text-muted);
+        }
+
+        .drawer-peek-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--color-text);
+            text-align: center;
+            padding-bottom: 16px;
+        }
+
+        /* Drawer Content */
+        .drawer-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0 24px 40px;
+        }
+
+        .drawer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .drawer-title {
+            font-family: var(--font-display);
+            font-size: 24px;
+            color: var(--color-text);
+        }
+
+        /* Calendar nav arrows */
+        .cal-arrow {
+            border: none;
+            background: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+            color: var(--color-text-muted);
+        }
+
+        .cal-arrow:hover {
+            color: var(--color-text);
+        }
+
+        .cal-arrow:disabled {
+            opacity: 0.2;
+            cursor: default;
+            pointer-events: none;
+        }
+
+        .cal-arrow-up,
+        .cal-arrow-down {
+            width: 100%;
+            height: 28px;
+            display: flex;
+        }
+
+        .cal-arrow-up {
+            margin-bottom: 6px;
+        }
+
+        .cal-arrow-down {
+            margin-top: 6px;
+        }
+
+        .calendar-row {
+            position: relative;
+        }
+
+        .cal-arrow-left,
+        .cal-arrow-right {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 36px;
+            z-index: 2;
+            border-radius: 12px;
+        }
+
+        .cal-arrow-left {
+            left: 0;
+            background: linear-gradient(to right, var(--color-card) 55%, transparent);
+            justify-content: flex-start;
+            padding-left: 2px;
+        }
+
+        .cal-arrow-right {
+            right: 0;
+            background: linear-gradient(to left, var(--color-card) 55%, transparent);
+            justify-content: flex-end;
+            padding-right: 2px;
+        }
+
+        /* Calendar Grid */
+        .calendar-nav-wrapper {
+            margin-bottom: 16px;
+        }
+
+        .calendar-scroll {
+            overflow: hidden;
+        }
+
+        .calendar-track {
+            display: flex;
+            gap: 12px;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .day-card {
+            background: var(--color-bg);
+            border-radius: 16px;
+            padding: 16px 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            flex: 0 0 80px;
+            min-height: 130px;
+        }
+
+        .day-card.empty {
+            background: var(--color-card);
+            border: 2px solid var(--color-border);
+            opacity: 0.45;
+            cursor: default;
+            pointer-events: none;
+        }
+
+        .day-card.empty .day-workout {
+            color: var(--color-text-muted);
+            font-style: italic;
+            font-weight: 400;
+        }
+
+        .day-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* State = date relationship only. No workout-type styling. */
+
+        /* Past: light orange tint — workouts are behind you */
+        .day-card.past {
+            background: rgba(240, 78, 35, 0.08);
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+        }
+
+        /* Today: sage green — your active day */
+        .day-card.today {
+            background: var(--color-success);
+            color: white;
+            border-color: var(--color-success);
+        }
+
+        /* Future: full terracotta — work ahead of you */
+        .day-card.future {
+            background: var(--color-primary);
+            color: white;
+            border-color: var(--color-primary);
+            box-shadow: 0 4px 16px rgba(240, 78, 35, 0.2);
+        }
+
+        .day-card.selected {
+            outline: 3px solid rgba(240, 78, 35, 0.5);
+            outline-offset: 2px;
+        }
+
+        /* Keep context line readable on colored backgrounds */
+        .day-card.today .day-date-context,
+        .day-card.future .day-date-context {
+            opacity: 0.8;
+        }
+
+        .day-card.past .day-date-context {
+            opacity: 0.65;
+        }
+
+        .day-date-context {
+            font-size: 10px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            opacity: 0.6;
+            margin-bottom: 1px;
+            white-space: nowrap;
+        }
+
+        .day-date-number {
+            font-family: var(--font-display);
+            font-size: 22px;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .day-workout {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .day-distance {
+            font-size: 13px;
+            opacity: 0.8;
+        }
+
+
+        /* Workout Detail Card */
+        .workout-detail-card {
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+            border-radius: 20px;
+            padding: 24px;
+            color: white;
+            margin-bottom: 16px;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .workout-detail-card.visible {
+            opacity: 1;
+            max-height: 400px;
+            margin-top: 16px;
+        }
+
+        .workout-detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 16px;
+        }
+
+        .workout-detail-type {
+            font-size: 13px;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .workout-detail-title {
+            font-family: var(--font-display);
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+
+        .workout-detail-distance {
+            font-size: 15px;
+            opacity: 0.9;
+        }
+
+        .workout-rating {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+        }
+
+        .workout-detail-description {
+            font-size: 14px;
+            line-height: 1.6;
+            opacity: 0.95;
+            margin-bottom: 16px;
+        }
+
+        .workout-detail-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .detail-btn {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 10px;
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .detail-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .week-label {
+            font-size: 13px;
+            color: var(--color-text-muted);
+            font-family: var(--font-body);
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header class="header">
+            <div class="date-badge">Tuesday, March 23</div>
+            <h1 class="greeting">Today's Run</h1>
+            <div class="miles-stats">
+                <div class="miles-stat">
+                    <span class="miles-label">Last 7 days</span>
+                    <span class="miles-value">34 mi</span>
+                </div>
+                <div class="miles-stat">
+                    <span class="miles-label">Week to date</span>
+                    <span class="miles-value">18 mi</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="workout-card">
+            <div class="workout-type-row">
+                <span class="workout-type">Steady State Run</span>
+                <button class="info-btn" id="infoBtn" onclick="toggleTooltip()" aria-label="What is a Steady State Run?">i</button>
+            </div>
+            <div class="workout-tooltip" id="workoutTooltip"></div>
+            <h2 class="workout-title">Hilly 85% Effort</h2>
+
+            <div class="workout-stats">
+                <div class="stat">
+                    <div class="stat-label">Distance</div>
+                    <div class="stat-value">8 mi</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">Effort</div>
+                    <div class="stat-value">85%</div>
+                </div>
+            </div>
+
+            <a href="workout-detail.html" class="view-details-btn" style="text-decoration: none; display: block; text-align: center;">View Details</a>
+        </div>
+
+        <div class="week-preview">
+            <h3 class="section-title">This Week</h3>
+            <div class="week-days">
+                <div class="day-pill completed">
+                    <div class="day-name">M22</div>
+                    <div class="day-workout-tag">HQ 8mi</div>
+                </div>
+                <div class="day-pill today">
+                    <div class="day-name">T23</div>
+                    <div class="day-workout-tag">SSR 8mi</div>
+                </div>
+                <div class="day-pill rest">
+                    <div class="day-name">W24</div>
+                    <div class="day-workout-tag">R</div>
+                </div>
+                <div class="day-pill">
+                    <div class="day-name">Th25</div>
+                    <div class="day-workout-tag">E 6mi</div>
+                </div>
+                <div class="day-pill">
+                    <div class="day-name">F26</div>
+                    <div class="day-workout-tag">MQ 7mi</div>
+                </div>
+                <div class="day-pill">
+                    <div class="day-name">Sa27</div>
+                    <div class="day-workout-tag">LR 12mi</div>
+                </div>
+                <div class="day-pill">
+                    <div class="day-name">Su28</div>
+                    <div class="day-workout-tag">E 4mi</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Drawer Overlay -->
+    <div class="drawer-overlay" id="overlay"></div>
+
+    <!-- Calendar Drawer -->
+    <div class="calendar-drawer" id="drawer">
+        <div class="drawer-handle-area" id="drawerHandle">
+            <div class="drawer-handle"></div>
+            <div class="drawer-peek-title">View Calendar</div>
+        </div>
+
+        <div class="drawer-content">
+            <div class="drawer-header">
+                <h2 class="drawer-title">Training Calendar</h2>
+                <div class="week-label" id="week-label"></div>
+            </div>
+
+            <div class="calendar-nav-wrapper">
+                <!-- Up: go to older week -->
+                <button class="cal-arrow cal-arrow-up" id="weekPrevBtn" onclick="navigateWeek(-1)">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 15l-6-6-6 6"/>
+                    </svg>
+                </button>
+
+                <!-- Card row with overlaid left/right arrows -->
+                <div class="calendar-row">
+                    <button class="cal-arrow cal-arrow-left" id="scrollLeftBtn" onclick="scrollCards(-1)">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M15 18l-6-6 6-6"/>
+                        </svg>
+                    </button>
+                    <div class="calendar-scroll">
+                        <div class="calendar-track" id="calendar-track"></div>
+                    </div>
+                    <button class="cal-arrow cal-arrow-right" id="scrollRightBtn" onclick="scrollCards(1)">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 18l6-6-6-6"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Down: go to newer week -->
+                <button class="cal-arrow cal-arrow-down" id="weekNextBtn" onclick="navigateWeek(1)">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 9l6 6 6-6"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Workout Detail Card (shown when day selected) -->
+            <div class="workout-detail-card visible" id="workout-detail">
+                <div class="workout-detail-header">
+                    <div>
+                        <div class="workout-detail-type">Today • Easy Run</div>
+                        <div class="workout-detail-title">Recovery Pace</div>
+                        <div class="workout-detail-distance">5 miles</div>
+                    </div>
+                </div>
+                <p class="workout-detail-description">
+                    Keep it truly easy today. This is an active recovery run — you should feel refreshed, not fatigued.
+                </p>
+                <div class="workout-detail-actions">
+                    <a href="workout-detail.html" class="detail-btn" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">View Details</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const WORKOUT_TYPES = {
+            "SSR": {
+                label: "Steady State Run",
+                definition: "A sustained effort at comfortably hard pace — below race pace but harder than easy. Builds lactate threshold and improves running economy. You should be able to speak only in short phrases."
+            },
+            "E": {
+                label: "Easy",
+                definition: "A conversational-pace run that builds aerobic base and promotes recovery. You should be able to speak in full sentences comfortably throughout."
+            },
+            "MQ": {
+                label: "Moderate Quality",
+                definition: "A comfortably hard effort incorporating moderate-intensity work such as fartlek segments or marathon-pace miles. Harder than easy, less demanding than a quality session."
+            },
+            "HQ": {
+                label: "High Quality",
+                definition: "A challenging session targeting your lactate threshold or aerobic capacity — includes intervals, tempo work, or race-pace efforts. Requires full recovery before the next hard day."
+            },
+            "LR": {
+                label: "Long Run",
+                definition: "Your weekly endurance cornerstone at easy to moderate pace, building the aerobic base and mental toughness needed for race day."
+            },
+            "R": {
+                label: "Rest",
+                definition: "A scheduled recovery day. Adaptation and fitness gains happen during rest — this is a critical part of your training, not an absence of it."
+            },
+            "XT": {
+                label: "Cross Train",
+                definition: "Non-running aerobic activity (cycling, swimming, elliptical) that maintains cardiovascular fitness while reducing impact stress on your legs."
+            }
+        };
+
+        function toggleTooltip() {
+            const tooltip = document.getElementById('workoutTooltip');
+            const btn = document.getElementById('infoBtn');
+            const isVisible = tooltip.classList.contains('visible');
+
+            if (isVisible) {
+                tooltip.classList.remove('visible');
+                btn.classList.remove('active');
+            } else {
+                tooltip.textContent = WORKOUT_TYPES['SSR'].definition;
+                tooltip.classList.add('visible');
+                btn.classList.add('active');
+            }
+        }
+
+        // Close tooltip when tapping outside
+        document.addEventListener('click', function(e) {
+            const btn = document.getElementById('infoBtn');
+            const tooltip = document.getElementById('workoutTooltip');
+            if (btn && !btn.contains(e.target)) {
+                tooltip.classList.remove('visible');
+                btn.classList.remove('active');
+            }
+        });
+    </script>
+    <script>
+        const drawer = document.getElementById('drawer');
+        const overlay = document.getElementById('overlay');
+        const drawerHandle = document.getElementById('drawerHandle');
+        let isOpen = false;
+
+        // Touch/drag state
+        let startY = 0;
+        let currentY = 0;
+        let isDragging = false;
+        let initialTransform = 0;
+
+        // Toggle drawer (for click/tap)
+        function toggleDrawer() {
+            isOpen = !isOpen;
+            drawer.classList.toggle('open', isOpen);
+            overlay.classList.toggle('visible', isOpen);
+        }
+
+        function openDrawer() {
+            isOpen = true;
+            drawer.classList.add('open');
+            overlay.classList.add('visible');
+        }
+
+        function closeDrawer() {
+            isOpen = false;
+            drawer.classList.remove('open');
+            overlay.classList.remove('visible');
+        }
+
+        // Handle click on overlay
+        overlay.addEventListener('click', closeDrawer);
+
+        // Handle click/tap on drawer handle
+        drawerHandle.addEventListener('click', (e) => {
+            if (!isDragging) {
+                toggleDrawer();
+            }
+        });
+
+        // Touch/Mouse drag handlers
+        function handleDragStart(e) {
+            isDragging = true;
+            startY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
+            currentY = startY;
+
+            // Get current transform value
+            const transform = window.getComputedStyle(drawer).transform;
+            if (transform !== 'none') {
+                const matrix = new DOMParser().parseFromString(
+                    `<div style="transform: ${transform}"></div>`,
+                    'text/html'
+                ).querySelector('div');
+                initialTransform = new DOMMatrix(transform).m42;
+            } else {
+                initialTransform = 0;
+            }
+
+            drawer.style.transition = 'none';
+        }
+
+        function handleDragMove(e) {
+            if (!isDragging) return;
+
+            e.preventDefault();
+            currentY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
+            const deltaY = currentY - startY;
+
+            // Calculate new position
+            let newTransform;
+            if (isOpen) {
+                // When open, only allow dragging down
+                newTransform = Math.max(0, deltaY);
+            } else {
+                // When closed, only allow dragging up
+                const closedPosition = drawer.offsetHeight - 80;
+                newTransform = closedPosition + Math.min(0, deltaY);
+            }
+
+            drawer.style.transform = `translateY(${newTransform}px)`;
+        }
+
+        function handleDragEnd(e) {
+            if (!isDragging) return;
+
+            isDragging = false;
+            drawer.style.transition = '';
+
+            const deltaY = currentY - startY;
+            const threshold = 50; // pixels to trigger open/close
+
+            if (isOpen) {
+                // If dragged down more than threshold, close
+                if (deltaY > threshold) {
+                    closeDrawer();
+                } else {
+                    // Snap back to open
+                    drawer.style.transform = '';
+                    openDrawer();
+                }
+            } else {
+                // If dragged up more than threshold, open
+                if (deltaY < -threshold) {
+                    openDrawer();
+                } else {
+                    // Snap back to closed
+                    drawer.style.transform = '';
+                    closeDrawer();
+                }
+            }
+        }
+
+        // Mouse events for desktop
+        drawerHandle.addEventListener('mousedown', handleDragStart);
+        document.addEventListener('mousemove', handleDragMove);
+        document.addEventListener('mouseup', handleDragEnd);
+
+        // Touch events for mobile
+        drawerHandle.addEventListener('touchstart', handleDragStart, { passive: true });
+        document.addEventListener('touchmove', handleDragMove, { passive: false });
+        document.addEventListener('touchend', handleDragEnd);
+
+        // ── Calendar Data ────────────────────────────────────────────────────
+        const WEEK_DATA = [
+            {
+                // Before program start — all days empty (no plan generated)
+                label: "Mar 3 – 9",
+                days: [
+                    { day: "Mon", month: "Mar", num: "3",  workout: null, distance: null, state: "empty" },
+                    { day: "Tue", month: "Mar", num: "4",  workout: null, distance: null, state: "empty" },
+                    { day: "Wed", month: "Mar", num: "5",  workout: null, distance: null, state: "empty" },
+                    { day: "Thu", month: "Mar", num: "6",  workout: null, distance: null, state: "empty" },
+                    { day: "Fri", month: "Mar", num: "7",  workout: null, distance: null, state: "empty" },
+                    { day: "Sat", month: "Mar", num: "8",  workout: null, distance: null, state: "empty" },
+                    { day: "Sun", month: "Mar", num: "9",  workout: null, distance: null, state: "empty" },
+                ]
+            },
+            {
+                label: "Mar 10 – 16",
+                days: [
+                    { day: "Mon", month: "Mar", num: "10", workout: "Easy",         distance: "5 mi",  state: "past" },
+                    { day: "Tue", month: "Mar", num: "11", workout: "Steady State", distance: "7 mi",  state: "past" },
+                    { day: "Wed", month: "Mar", num: "12", workout: "Rest",         distance: null,    state: "past" },
+                    { day: "Thu", month: "Mar", num: "13", workout: "Easy",         distance: "4 mi",  state: "past" },
+                    { day: "Fri", month: "Mar", num: "14", workout: "Long Run",     distance: "11 mi", state: "past" },
+                    { day: "Sat", month: "Mar", num: "15", workout: "Easy",         distance: "3 mi",  state: "past" },
+                    { day: "Sun", month: "Mar", num: "16", workout: "Rest",         distance: null,    state: "past" },
+                ]
+            },
+            {
+                label: "Mar 17 – 23",
+                days: [
+                    { day: "Mon", month: "Mar", num: "17", workout: "Long Run",     distance: "8 mi",  state: "past" },
+                    { day: "Tue", month: "Mar", num: "18", workout: "Easy",         distance: "4 mi",  state: "past" },
+                    { day: "Wed", month: "Mar", num: "19", workout: "Rest",         distance: null,    state: "past" },
+                    { day: "Thu", month: "Mar", num: "20", workout: "Steady State", distance: "6 mi",  state: "past" },
+                    { day: "Fri", month: "Mar", num: "21", workout: "Easy",         distance: "3 mi",  state: "past" },
+                    { day: "Sat", month: "Mar", num: "22", workout: "Easy",         distance: "5 mi",  state: "past" },
+                    { day: "Sun", month: "Mar", num: "23", workout: "Rest",         distance: null,    state: "past" },
+                ]
+            },
+            {
+                label: "Mar 24 – 31",
+                days: [
+                    { day: "Mon", month: "Mar", num: "24", workout: "Easy",         distance: "4 mi",  state: "past" },
+                    { day: "Tue", month: "Mar", num: "25", workout: "Easy",         distance: "3 mi",  state: "past" },
+                    { day: "Wed", month: "Mar", num: "26", workout: "Rest",         distance: null,    state: "past" },
+                    { day: "Thu", month: "Mar", num: "27", workout: "Steady State", distance: "8 mi",  state: "past" },
+                    { day: "Fri", month: "Mar", num: "28", workout: "Easy",         distance: "5 mi",  state: "past" },
+                    { day: "Sat", month: "Mar", num: "29", workout: "Long Run",     distance: "10 mi", state: "past" },
+                    { day: "Sun", month: "Mar", num: "30", workout: "Rest",         distance: null,    state: "past" },
+                    { day: "Mon", month: "Mar", num: "31", workout: "Easy",         distance: "4 mi",  state: "today" },
+                ]
+            },
+            {
+                label: "Apr 1 – 7",
+                days: [
+                    { day: "Tue", month: "Apr", num: "1",  workout: "Steady State", distance: "7 mi",  state: "future" },
+                    { day: "Wed", month: "Apr", num: "2",  workout: "Rest",         distance: null,    state: "future" },
+                    { day: "Thu", month: "Apr", num: "3",  workout: "Easy",         distance: "5 mi",  state: "future" },
+                    { day: "Fri", month: "Apr", num: "4",  workout: "Long Run",     distance: "13 mi", state: "future" },
+                    { day: "Sat", month: "Apr", num: "5",  workout: "Easy",         distance: "3 mi",  state: "future" },
+                    { day: "Sun", month: "Apr", num: "6",  workout: "Rest",         distance: null,    state: "future" },
+                    { day: "Mon", month: "Apr", num: "7",  workout: "Easy",         distance: "5 mi",  state: "future" },
+                ]
+            },
+            {
+                label: "Apr 8 – 14",
+                days: [
+                    { day: "Tue", month: "Apr", num: "8",  workout: "Steady State", distance: "8 mi",  state: "future" },
+                    { day: "Wed", month: "Apr", num: "9",  workout: "Rest",         distance: null,    state: "future" },
+                    { day: "Thu", month: "Apr", num: "10", workout: "Easy",         distance: "5 mi",  state: "future" },
+                    { day: "Fri", month: "Apr", num: "11", workout: "Long Run",     distance: "14 mi", state: "future" },
+                    { day: "Sat", month: "Apr", num: "12", workout: null,           distance: null,    state: "empty" },
+                    { day: "Sun", month: "Apr", num: "13", workout: null,           distance: null,    state: "empty" },
+                    { day: "Mon", month: "Apr", num: "14", workout: null,           distance: null,    state: "empty" },
+                ]
+            },
+        ];
+
+        const CURRENT_WEEK_IDX = 3; // index of the week containing today (Mar 31)
+        let currentWeekIdx = CURRENT_WEEK_IDX;
+        let cardOffset = 0;
+        const CARD_WIDTH = 80;
+        const CARD_GAP = 12;
+        const CARD_STEP = CARD_WIDTH + CARD_GAP;
+        const VISIBLE_COUNT = 4;
+
+        function renderWeek() {
+            const week = WEEK_DATA[currentWeekIdx];
+            const track = document.getElementById('calendar-track');
+
+            track.innerHTML = week.days.map((day) => {
+                if (day.state === 'empty') {
+                    return `<div class="day-card empty">
+                        <div class="day-date-context">${day.day} · ${day.month}</div>
+                        <div class="day-date-number">${day.num}</div>
+                        <div class="day-workout">—</div>
+                    </div>`;
+                }
+
+                const distHtml = day.distance
+                    ? `<div class="day-distance">${day.distance}</div>` : '';
+
+                const selected = day.state === 'today' ? ' selected' : '';
+                const dateParam = encodeURIComponent(`${day.day}-${day.month}-${day.num}`);
+
+                return `<div class="day-card ${day.state}${selected}" onclick="handleDayClick(this, '${dateParam}')">
+                    <div class="day-date-context">${day.day} · ${day.month}</div>
+                    <div class="day-date-number">${day.num}</div>
+                    <div class="day-workout">${day.workout}</div>
+                    ${distHtml}
+                </div>`;
+            }).join('');
+
+            // Start offset so today is visible (position 1 from left)
+            if (currentWeekIdx === CURRENT_WEEK_IDX) {
+                const todayIdx = week.days.findIndex(d => d.state === 'today');
+                cardOffset = Math.max(0, todayIdx - 1);
+            } else {
+                cardOffset = 0;
+            }
+
+            updateTrack();
+            updateArrows();
+            document.getElementById('week-label').textContent = week.label;
+        }
+
+        function updateTrack() {
+            document.getElementById('calendar-track').style.transform =
+                `translateX(-${cardOffset * CARD_STEP}px)`;
+        }
+
+        function scrollCards(dir) {
+            const maxOffset = WEEK_DATA[currentWeekIdx].days.length - VISIBLE_COUNT;
+            cardOffset = Math.max(0, Math.min(maxOffset, cardOffset + dir));
+            updateTrack();
+            updateArrows();
+        }
+
+        function navigateWeek(dir) {
+            const next = currentWeekIdx + dir;
+            if (next < 0 || next >= WEEK_DATA.length) return;
+            currentWeekIdx = next;
+            cardOffset = 0;
+            renderWeek();
+        }
+
+        function updateArrows() {
+            const maxOffset = WEEK_DATA[currentWeekIdx].days.length - VISIBLE_COUNT;
+            document.getElementById('scrollLeftBtn').disabled = cardOffset <= 0;
+            document.getElementById('scrollRightBtn').disabled = cardOffset >= maxOffset;
+            document.getElementById('weekPrevBtn').disabled = currentWeekIdx <= 0;
+            document.getElementById('weekNextBtn').disabled = currentWeekIdx >= WEEK_DATA.length - 1;
+        }
+
+        function handleDayClick(el, dateParam) {
+            document.querySelectorAll('.day-card').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+            document.getElementById('workout-detail').classList.add('visible');
+            // Navigate to day screen: today-screen.html?date=<dateParam>
+            // (navigation disabled in prototype — detail card shown instead)
+        }
+
+        // Init calendar on drawer open
+        document.getElementById('drawerHandle').addEventListener('click', function() {
+            if (!document.getElementById('calendar-track').children.length) {
+                renderWeek();
+            }
+        });
+
+        // Also init immediately so it's ready
+        renderWeek();
+    </script>
+</body>
+</html>

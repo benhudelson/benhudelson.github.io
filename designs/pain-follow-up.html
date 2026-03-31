@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pain Follow-up - CoachME</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Primary Energetic Colors */
+            --color-primary: #F04E23;
+            --color-primary-dark: #D63F1A;
+            --color-primary-light: #FF6B42;
+
+            /* Success & Positive */
+            --color-success: #00A651;
+            --color-success-dark: #008A43;
+            --color-success-light: #00C961;
+
+            /* Supporting Colors */
+            --color-bg: #FAFAFA;
+            --color-bg-secondary: #F5F5F5;
+            --color-card: #FFFFFF;
+            --color-text: #1A1A1A;
+            --color-text-secondary: #4A4A4A;
+            --color-text-muted: #737373;
+            --color-border: #E0E0E0;
+            --color-border-light: #F0F0F0;
+
+            /* Accent & Energy */
+            --color-accent: #FFB800;
+            --color-warning: #FF8C00;
+
+            /* Overlays & Shadows */
+            --color-overlay: rgba(26, 26, 26, 0.6);
+
+            --font-display: Futura, 'Futura PT', 'Century Gothic', 'AppleGothic', sans-serif;
+            --font-body: 'Outfit', sans-serif;
+
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
+            --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.15);
+        }
+
+        h1, h2, h3,
+        .greeting,
+        .workout-title,
+        .hero-title,
+        .question,
+        .modal-title,
+        .drawer-title,
+        .welcome-title,
+        .section-title,
+        .effort-zone-name,
+        .workout-detail-title {
+            font-family: var(--font-display);
+            font-variant: small-caps;
+            font-style: italic;
+            letter-spacing: 0.02em;
+            font-weight: 600;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow: hidden;
+        }
+
+        .app-container {
+            max-width: 430px;
+            margin: 0 auto;
+            height: 100vh;
+            background: var(--color-bg);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            padding: 24px 24px 0;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: var(--color-border);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--color-warning) 0%, var(--color-accent) 100%);
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Screen Container */
+        .screen {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 32px 24px;
+        }
+
+        /* Alert Banner */
+        .alert-banner {
+            background: linear-gradient(135deg, rgba(255, 140, 0, 0.15) 0%, rgba(255, 184, 0, 0.05) 100%);
+            border: 1px solid rgba(255, 140, 0, 0.3);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 24px;
+            display: flex;
+            gap: 12px;
+            align-items: start;
+            opacity: 0;
+            animation: fadeInDown 0.5s ease-out 0.1s forwards;
+        }
+
+        .alert-icon {
+            width: 24px;
+            height: 24px;
+            color: var(--color-warning);
+            flex-shrink: 0;
+        }
+
+        .alert-text {
+            font-size: 14px;
+            color: var(--color-text);
+            line-height: 1.5;
+        }
+
+        .alert-keyword {
+            font-weight: 600;
+            color: var(--color-warning);
+        }
+
+        /* Question */
+        .question {
+            font-family: var(--font-display);
+            font-size: 32px;
+            line-height: 1.2;
+            color: var(--color-text);
+            margin-bottom: 32px;
+            opacity: 0;
+            animation: fadeInUp 0.6s ease-out 0.2s forwards;
+        }
+
+        /* Body Diagram */
+        .body-diagram-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 32px;
+            opacity: 0;
+            animation: scaleIn 0.6s ease-out 0.4s forwards;
+        }
+
+        .body-diagram {
+            position: relative;
+            width: 200px;
+            height: 400px;
+            margin-bottom: 24px;
+        }
+
+        .body-outline {
+            width: 100%;
+            height: 100%;
+            stroke: var(--color-border);
+            fill: var(--color-bg);
+        }
+
+        .body-zone {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            fill: transparent;
+            stroke: transparent;
+        }
+
+        .body-zone:hover {
+            fill: rgba(240, 78, 35, 0.15);
+            stroke: var(--color-primary);
+            stroke-width: 2;
+        }
+
+        .body-zone.selected {
+            fill: rgba(240, 78, 35, 0.25);
+            stroke: var(--color-primary);
+            stroke-width: 3;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .zone-label {
+            display: none;
+            font-size: 11px;
+            font-weight: 600;
+            fill: var(--color-primary);
+        }
+
+        .body-zone.selected + .zone-label {
+            display: block;
+        }
+
+        /* Alternative: List View */
+        .body-parts-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 32px;
+            opacity: 0;
+            animation: fadeInUp 0.6s ease-out 0.4s forwards;
+        }
+
+        .body-part-btn {
+            padding: 16px;
+            background: var(--color-card);
+            border: 2px solid var(--color-border);
+            border-radius: 12px;
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--color-text);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .body-part-btn:hover {
+            border-color: var(--color-primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .body-part-btn.selected {
+            background: linear-gradient(135deg, rgba(240, 78, 35, 0.1) 0%, rgba(255, 107, 66, 0.1) 100%);
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+            font-weight: 600;
+        }
+
+        /* Pain Type Selection */
+        .pain-types {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 32px;
+            opacity: 0;
+            animation: fadeInUp 0.6s ease-out 0.4s forwards;
+        }
+
+        .pain-type-btn {
+            padding: 20px 16px;
+            background: var(--color-card);
+            border: 2px solid var(--color-border);
+            border-radius: 14px;
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--color-text);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .pain-type-icon {
+            font-size: 24px;
+        }
+
+        .pain-type-btn:hover {
+            border-color: var(--color-primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .pain-type-btn.selected {
+            background: linear-gradient(135deg, rgba(240, 78, 35, 0.1) 0%, rgba(255, 107, 66, 0.1) 100%);
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+            font-weight: 600;
+        }
+
+        /* Severity Slider */
+        .severity-container {
+            margin-bottom: 32px;
+            opacity: 0;
+            animation: scaleIn 0.6s ease-out 0.4s forwards;
+        }
+
+        .severity-label {
+            font-size: 15px;
+            color: var(--color-text-muted);
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .slider-wrapper {
+            position: relative;
+            padding: 20px 0;
+            margin-bottom: 16px;
+        }
+
+        .slider-track {
+            height: 8px;
+            background: var(--color-border);
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slider-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--color-success) 0%, var(--color-warning) 50%, var(--color-primary) 100%);
+            border-radius: 4px;
+            transition: width 0.2s ease;
+        }
+
+        input[type="range"] {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 48px;
+            transform: translateY(-50%);
+            -webkit-appearance: none;
+            appearance: none;
+            background: transparent;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: white;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15), 0 0 0 4px var(--color-primary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: white;
+            border: none;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15), 0 0 0 4px var(--color-primary);
+            cursor: pointer;
+        }
+
+        .severity-value {
+            text-align: center;
+            font-family: var(--font-display);
+            font-size: 48px;
+            color: var(--color-primary);
+        }
+
+        .severity-description {
+            text-align: center;
+            font-size: 14px;
+            color: var(--color-text-muted);
+            margin-top: 8px;
+        }
+
+        /* Checkboxes */
+        .checkbox-group {
+            margin-bottom: 32px;
+            opacity: 0;
+            animation: fadeInUp 0.6s ease-out 0.4s forwards;
+        }
+
+        .checkbox-label {
+            font-size: 15px;
+            color: var(--color-text-muted);
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .checkbox-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            background: var(--color-card);
+            border: 2px solid var(--color-border);
+            border-radius: 12px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .checkbox-option:hover {
+            border-color: var(--color-primary);
+        }
+
+        .checkbox-option input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--color-primary);
+            cursor: pointer;
+        }
+
+        .checkbox-option label {
+            font-size: 15px;
+            color: var(--color-text);
+            cursor: pointer;
+            flex: 1;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            opacity: 0;
+            animation: fadeInUp 0.6s ease-out 0.6s forwards;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 18px;
+            border: none;
+            border-radius: 14px;
+            font-family: var(--font-body);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-back {
+            background: var(--color-card);
+            color: var(--color-text-muted);
+            border: 1px solid var(--color-border);
+        }
+
+        .btn-back:hover {
+            background: var(--color-border);
+        }
+
+        .btn-next {
+            background: var(--color-warning);
+            color: white;
+            box-shadow: 0 4px 16px rgba(255, 140, 0, 0.3);
+        }
+
+        .btn-next:hover {
+            background: var(--color-accent);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 140, 0, 0.4);
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        .screen.hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 33%"></div>
+            </div>
+        </div>
+
+        <!-- Screen 1: Location -->
+        <div class="screen" id="screen-location">
+            <div class="alert-banner">
+                <svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="8" x2="12" y2="12"/>
+                    <line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+                <div class="alert-text">
+                    You mentioned <span class="alert-keyword">"knee pain"</span> in your notes. Let's learn more about it.
+                </div>
+            </div>
+
+            <h1 class="question">Where does it hurt?</h1>
+
+            <div class="body-parts-list">
+                <button class="body-part-btn" onclick="selectBodyPart(this)">Left Knee</button>
+                <button class="body-part-btn selected" onclick="selectBodyPart(this)">Right Knee</button>
+                <button class="body-part-btn" onclick="selectBodyPart(this)">Left Ankle</button>
+                <button class="body-part-btn" onclick="selectBodyPart(this)">Right Ankle</button>
+                <button class="body-part-btn" onclick="selectBodyPart(this)">Left Hip</button>
+                <button class="body-part-btn" onclick="selectBodyPart(this)">Right Hip</button>
+                <button class="body-part-btn" onclick="selectBodyPart(this)">Lower Back</button>
+                <button class="body-part-btn" onclick="selectBodyPart(this)">Achilles</button>
+                <button class="body-part-btn" onclick="selectBodyPart(this)">Shin</button>
+                <button class="body-part-btn" onclick="selectBodyPart(this)">Calf</button>
+                <button class="body-part-btn" onclick="selectBodyPart(this)">Foot</button>
+                <button class="body-part-btn" onclick="selectBodyPart(this)">Other</button>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-back">Back</button>
+                <button class="btn btn-next">Next</button>
+            </div>
+        </div>
+
+        <!-- Screen 2: Pain Type (hidden initially) -->
+        <div class="screen hidden" id="screen-type">
+            <h1 class="question">What does it feel like?</h1>
+
+            <div class="pain-types">
+                <button class="pain-type-btn" onclick="selectPainType(this)">
+                    <div class="pain-type-icon">⚡</div>
+                    <div>Sharp</div>
+                </button>
+                <button class="pain-type-btn" onclick="selectPainType(this)">
+                    <div class="pain-type-icon">〰️</div>
+                    <div>Dull</div>
+                </button>
+                <button class="pain-type-btn selected" onclick="selectPainType(this)">
+                    <div class="pain-type-icon">🔄</div>
+                    <div>Aching</div>
+                </button>
+                <button class="pain-type-btn" onclick="selectPainType(this)">
+                    <div class="pain-type-icon">🎯</div>
+                    <div>Tight</div>
+                </button>
+                <button class="pain-type-btn" onclick="selectPainType(this)">
+                    <div class="pain-type-icon">🔥</div>
+                    <div>Burning</div>
+                </button>
+                <button class="pain-type-btn" onclick="selectPainType(this)">
+                    <div class="pain-type-icon">📍</div>
+                    <div>Stabbing</div>
+                </button>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-back">Back</button>
+                <button class="btn btn-next">Next</button>
+            </div>
+        </div>
+
+        <!-- Screen 3: Severity (hidden initially) -->
+        <div class="screen hidden" id="screen-severity">
+            <h1 class="question">How severe is the pain?</h1>
+
+            <div class="severity-container">
+                <div class="severity-label">Rate your pain level</div>
+
+                <div class="slider-wrapper">
+                    <div class="slider-track">
+                        <div class="slider-fill" style="width: 60%"></div>
+                    </div>
+                    <input type="range" min="1" max="10" value="6" id="severity-slider">
+                </div>
+
+                <div class="severity-value">6</div>
+                <div class="severity-description">Moderate — noticeable discomfort during activity</div>
+            </div>
+
+            <div class="checkbox-group">
+                <label class="checkbox-label">When does it hurt?</label>
+
+                <div class="checkbox-option">
+                    <input type="checkbox" id="pain-during" checked>
+                    <label for="pain-during">During running</label>
+                </div>
+
+                <div class="checkbox-option">
+                    <input type="checkbox" id="pain-after" checked>
+                    <label for="pain-after">After running</label>
+                </div>
+
+                <div class="checkbox-option">
+                    <input type="checkbox" id="pain-walking">
+                    <label for="pain-walking">While walking</label>
+                </div>
+
+                <div class="checkbox-option">
+                    <input type="checkbox" id="pain-rest">
+                    <label for="pain-rest">At rest</label>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-back">Back</button>
+                <a href="intervention-modal.html" class="btn btn-next" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">Submit</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function selectBodyPart(element) {
+            const siblings = element.parentElement.querySelectorAll('.body-part-btn');
+            siblings.forEach(btn => btn.classList.remove('selected'));
+            element.classList.add('selected');
+        }
+
+        function selectPainType(element) {
+            const siblings = element.parentElement.querySelectorAll('.pain-type-btn');
+            siblings.forEach(btn => btn.classList.remove('selected'));
+            element.classList.add('selected');
+        }
+
+        // Severity slider
+        const severitySlider = document.getElementById('severity-slider');
+        if (severitySlider) {
+            const valueDisplay = severitySlider.closest('.severity-container').querySelector('.severity-value');
+            const descDisplay = severitySlider.closest('.severity-container').querySelector('.severity-description');
+            const fill = severitySlider.closest('.slider-wrapper').querySelector('.slider-fill');
+
+            const descriptions = {
+                1: "Very mild — barely noticeable",
+                2: "Mild — slight discomfort",
+                3: "Mild — aware but tolerable",
+                4: "Moderate — starting to interfere",
+                5: "Moderate — uncomfortable during activity",
+                6: "Moderate — noticeable discomfort during activity",
+                7: "Severe — significantly affects performance",
+                8: "Severe — difficult to continue activity",
+                9: "Very severe — activity nearly impossible",
+                10: "Extreme — unbearable pain"
+            };
+
+            severitySlider.addEventListener('input', (e) => {
+                const value = e.target.value;
+                valueDisplay.textContent = value;
+                descDisplay.textContent = descriptions[value];
+                fill.style.width = ((value - 1) / 9) * 100 + '%';
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post-Workout Check-in - CoachME</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-primary: #F04E23;
+            --color-primary-dark: #D63F1A;
+            --color-primary-light: #FF6B42;
+            --color-success: #00A651;
+            --color-success-dark: #008A43;
+            --color-success-light: #00C961;
+            --color-bg: #FAFAFA;
+            --color-bg-secondary: #F5F5F5;
+            --color-card: #FFFFFF;
+            --color-text: #1A1A1A;
+            --color-text-secondary: #4A4A4A;
+            --color-text-muted: #737373;
+            --color-border: #E0E0E0;
+            --color-border-light: #F0F0F0;
+            --color-accent: #FFB800;
+            --color-warning: #FF8C00;
+            --color-overlay: rgba(26, 26, 26, 0.6);
+
+            --font-display: Futura, 'Futura PT', 'Century Gothic', 'AppleGothic', sans-serif;
+            --font-body: 'Outfit', sans-serif;
+
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
+            --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.15);
+        }
+
+        h1, h2, h3,
+        .question,
+        .slider-value,
+        .summary-value {
+            font-family: var(--font-display);
+            font-variant: small-caps;
+            font-style: italic;
+            letter-spacing: 0.02em;
+            font-weight: 600;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            max-width: 430px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background: var(--color-bg);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hidden { display: none !important; }
+
+        /* ── Progress Bar ── */
+        .progress-container {
+            padding: 24px 24px 0;
+            flex-shrink: 0;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: var(--color-border);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ── Screen Nav (back button + step label) ── */
+        .screen-nav {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px 0;
+            min-height: 52px;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .btn-back {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            border-radius: 50%;
+            transition: background 0.2s ease;
+            position: relative;
+            z-index: 1;
+            flex-shrink: 0;
+        }
+
+        .btn-back:hover { background: var(--color-border-light); }
+        .btn-back:active { transform: scale(0.92); }
+
+        .btn-back svg {
+            width: 20px;
+            height: 20px;
+            stroke: var(--color-text-secondary);
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            fill: none;
+        }
+
+        .nav-placeholder { width: 40px; flex-shrink: 0; }
+
+        .screen-nav-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* ── Screen ── */
+        .screen {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 24px 32px 32px;
+        }
+
+        .screen-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ── Question ── */
+        .question {
+            font-size: 34px;
+            line-height: 1.2;
+            color: var(--color-text);
+            margin-bottom: 40px;
+            opacity: 0;
+            animation: fadeInUp 0.6s ease-out 0.15s forwards;
+        }
+
+        /* ── Slider ── */
+        .slider-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin-bottom: 32px;
+            opacity: 0;
+            animation: scaleIn 0.6s ease-out 0.3s forwards;
+        }
+
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 28px;
+        }
+
+        .slider-label {
+            font-size: 13px;
+            color: var(--color-text-muted);
+            font-weight: 500;
+        }
+
+        .slider-wrapper {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .slider-track {
+            height: 8px;
+            background: var(--color-border);
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slider-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-accent) 50%, var(--color-success) 100%);
+            border-radius: 4px;
+            transition: width 0.15s ease;
+        }
+
+        input[type="range"] {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 48px;
+            transform: translateY(-50%);
+            -webkit-appearance: none;
+            appearance: none;
+            background: transparent;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: white;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15), 0 0 0 4px var(--color-primary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2), 0 0 0 6px var(--color-primary);
+        }
+
+        input[type="range"]::-webkit-slider-thumb:active { transform: scale(0.95); }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: white;
+            border: none;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15), 0 0 0 4px var(--color-primary);
+        }
+
+        .slider-value {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 52px;
+            color: var(--color-primary);
+        }
+
+        /* ── Exhaustion Follow-up ── */
+        .followup-container {
+            background: rgba(240, 78, 35, 0.05);
+            border: 1px solid rgba(240, 78, 35, 0.18);
+            border-radius: 14px;
+            padding: 14px 18px;
+            margin-bottom: 16px;
+            animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .followup-question {
+            font-size: 14px;
+            color: var(--color-text-secondary);
+            font-weight: 500;
+            text-align: center;
+            line-height: 1.45;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── Option Buttons (replace Next on low physical) ── */
+        .option-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+            animation: fadeInUp 0.3s ease-out;
+        }
+
+        .btn-option {
+            width: 100%;
+            padding: 17px 20px;
+            border: 2px solid var(--color-border);
+            border-radius: 14px;
+            background: var(--color-card);
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--color-text);
+            cursor: pointer;
+            transition: all 0.25s ease;
+            text-align: center;
+            line-height: 1.3;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-option:hover {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+            background: rgba(240, 78, 35, 0.04);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(240, 78, 35, 0.15);
+        }
+
+        .btn-option:active { transform: scale(0.98); }
+
+        .btn-option-warn {
+            color: var(--color-text-secondary);
+        }
+
+        .btn-option-warn:hover {
+            border-color: var(--color-warning);
+            color: var(--color-warning);
+            background: rgba(255, 140, 0, 0.04);
+            box-shadow: 0 6px 16px rgba(255, 140, 0, 0.15);
+        }
+
+        /* ── Standard Action Buttons ── */
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            opacity: 0;
+            animation: fadeInUp 0.6s ease-out 0.5s forwards;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 18px;
+            border: none;
+            border-radius: 14px;
+            font-family: var(--font-body);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-skip {
+            background: var(--color-card);
+            color: var(--color-text-muted);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-skip:hover { background: var(--color-border); }
+
+        .btn-next {
+            background: var(--color-primary);
+            color: white;
+            box-shadow: 0 4px 16px rgba(240, 78, 35, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-next::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 0; height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn-next:hover::before { width: 300px; height: 300px; }
+
+        .btn-next:hover {
+            background: var(--color-primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(240, 78, 35, 0.4);
+        }
+
+        .btn:active { transform: scale(0.98); }
+
+        /* ── Check-in Summary Card (Notes screen) ── */
+        .summary-card {
+            background: var(--color-card);
+            border: 1px solid var(--color-border);
+            border-radius: 16px;
+            padding: 14px 18px 16px;
+            margin-bottom: 16px;
+            opacity: 0;
+            animation: fadeInUp 0.5s ease-out 0.2s forwards;
+            flex-shrink: 0;
+        }
+
+        .summary-title {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--color-text-muted);
+            margin-bottom: 12px;
+        }
+
+        .summary-rows {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        .summary-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .summary-divider {
+            height: 1px;
+            background: var(--color-border-light);
+            margin: 2px 0;
+        }
+
+        .summary-label {
+            font-size: 13px;
+            color: var(--color-text-secondary);
+            font-weight: 500;
+        }
+
+        .summary-label-sub {
+            font-size: 12px;
+            color: var(--color-text-muted);
+            padding-left: 14px;
+        }
+
+        .summary-value {
+            font-size: 15px;
+            color: var(--color-text);
+        }
+
+        .summary-badge {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.2px;
+            padding: 3px 10px;
+            border-radius: 20px;
+        }
+
+        .summary-badge-ok {
+            background: rgba(0, 166, 81, 0.1);
+            color: var(--color-success-dark);
+        }
+
+        .summary-badge-warn {
+            background: rgba(255, 140, 0, 0.1);
+            color: var(--color-warning);
+        }
+
+        /* ── Notes ── */
+        .notes-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 72px;
+            opacity: 0;
+            animation: fadeInUp 0.6s ease-out 0.35s forwards;
+        }
+
+        .notes-input {
+            flex: 1;
+            padding: 16px;
+            border: 2px solid var(--color-border);
+            border-radius: 16px;
+            font-family: var(--font-body);
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--color-text);
+            background: var(--color-card);
+            resize: none;
+            transition: all 0.3s ease;
+            min-height: 72px;
+        }
+
+        .notes-input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 4px rgba(240, 78, 35, 0.12);
+        }
+
+        .notes-input::placeholder {
+            color: var(--color-text-muted);
+            opacity: 0.7;
+        }
+
+        /* Notes screen: tighter spacing throughout */
+        #screen-notes .question {
+            font-size: 28px;
+            margin-bottom: 16px;
+        }
+
+        /* ── Animations ── */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(18px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.96); }
+            to   { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 25%"></div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════
+             Screen 1: Effort
+        ═══════════════════════════════════ -->
+        <div class="screen" id="screen-effort">
+            <div class="screen-nav">
+                <div class="nav-placeholder"></div>
+                <span class="screen-nav-label">Question 1 of 4</span>
+            </div>
+            <div class="screen-content">
+                <h1 class="question">How was your effort?</h1>
+
+                <div class="slider-container">
+                    <div class="slider-labels">
+                        <span class="slider-label">Rest</span>
+                        <span class="slider-label">Moderate</span>
+                        <span class="slider-label">Max Effort</span>
+                    </div>
+                    <div class="slider-wrapper">
+                        <div class="slider-track">
+                            <div class="slider-fill" id="effort-fill" style="width: 50%"></div>
+                        </div>
+                        <input type="range" min="0" max="10" value="5" id="effort-slider">
+                    </div>
+                    <div class="slider-value" id="effort-value">5</div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-next" onclick="goNext()">Next</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════
+             Screen 2: Physical State
+        ═══════════════════════════════════ -->
+        <div class="screen hidden" id="screen-physical">
+            <div class="screen-nav">
+                <button class="btn-back" onclick="goBack()" aria-label="Back">
+                    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+                </button>
+                <span class="screen-nav-label">Question 2 of 4</span>
+            </div>
+            <div class="screen-content">
+                <h1 class="question">How did your body feel right when you finished?</h1>
+
+                <div class="slider-container">
+                    <div class="slider-labels">
+                        <span class="slider-label">Wrecked</span>
+                        <span class="slider-label">So-so</span>
+                        <span class="slider-label">Fresh</span>
+                    </div>
+                    <div class="slider-wrapper">
+                        <div class="slider-track">
+                            <div class="slider-fill" id="physical-fill" style="width: 70%"></div>
+                        </div>
+                        <input type="range" min="0" max="10" value="7" id="physical-slider">
+                    </div>
+                    <div class="slider-value" id="physical-value">7</div>
+                </div>
+
+                <!-- Conditional follow-up: slides in when score ≤ 3 -->
+                <div class="followup-container hidden" id="exhaustion-followup">
+                    <p class="followup-question">Was that the kind of tired you'd expect after a workout like this?</p>
+                </div>
+
+                <div class="action-buttons">
+                    <!-- Normal Next (shown when physical > 3) -->
+                    <button class="btn btn-next" id="physical-next" onclick="goNext()">Next</button>
+
+                    <!-- Two-tap options (shown when physical ≤ 3, replace Next) -->
+                    <div class="option-buttons hidden" id="physical-options">
+                        <button class="btn-option" onclick="selectExhaustion('expected')">
+                            Yes — expected for this workout
+                        </button>
+                        <button class="btn-option btn-option-warn" onclick="selectExhaustion('more')">
+                            More than I'd expect
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════
+             Screen 3: Enthusiasm Level
+        ═══════════════════════════════════ -->
+        <div class="screen hidden" id="screen-enthusiasm">
+            <div class="screen-nav">
+                <button class="btn-back" onclick="goBack()" aria-label="Back">
+                    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+                </button>
+                <span class="screen-nav-label">Question 3 of 4</span>
+            </div>
+            <div class="screen-content">
+                <h1 class="question">How's your enthusiasm for training right now?</h1>
+
+                <div class="slider-container">
+                    <div class="slider-labels">
+                        <span class="slider-label">Running on Empty</span>
+                        <span class="slider-label">Neutral</span>
+                        <span class="slider-label">Fired Up</span>
+                    </div>
+                    <div class="slider-wrapper">
+                        <div class="slider-track">
+                            <div class="slider-fill" id="enthusiasm-fill" style="width: 50%"></div>
+                        </div>
+                        <input type="range" min="0" max="10" value="5" id="enthusiasm-slider">
+                    </div>
+                    <div class="slider-value" id="enthusiasm-value">5</div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-next" onclick="goNext()">Next</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════
+             Screen 4: Notes + Summary
+        ═══════════════════════════════════ -->
+        <div class="screen hidden" id="screen-notes">
+            <div class="screen-nav">
+                <button class="btn-back" onclick="goBack()" aria-label="Back">
+                    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+                </button>
+                <span class="screen-nav-label">Question 4 of 4</span>
+            </div>
+            <div class="screen-content">
+                <h1 class="question">Anything to note?</h1>
+
+                <!-- Check-in summary -->
+                <div class="summary-card" id="summary-card">
+                    <div class="summary-title">Your check-in</div>
+                    <div class="summary-rows">
+                        <div class="summary-row">
+                            <span class="summary-label">Effort</span>
+                            <span class="summary-value" id="summary-effort">—</span>
+                        </div>
+                        <div class="summary-divider"></div>
+                        <div class="summary-row">
+                            <span class="summary-label">Physical</span>
+                            <span class="summary-value" id="summary-physical">—</span>
+                        </div>
+                        <div class="summary-row hidden" id="summary-exhaustion-row">
+                            <span class="summary-label summary-label-sub">Felt</span>
+                            <span class="summary-badge" id="summary-exhaustion-badge">—</span>
+                        </div>
+                        <div class="summary-divider"></div>
+                        <div class="summary-row">
+                            <span class="summary-label">Enthusiasm</span>
+                            <span class="summary-value" id="summary-enthusiasm">—</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="notes-container">
+                    <textarea
+                        class="notes-input"
+                        placeholder="Anything on your mind? Pain, soreness, how the workout felt…"
+                    ></textarea>
+                </div>
+
+                <div class="action-buttons">
+                    <a href="today-screen.html" class="btn btn-skip" style="text-decoration:none;display:flex;align-items:center;justify-content:center;">Skip</a>
+                    <a href="today-screen-scenario-3.html" class="btn btn-next" style="text-decoration:none;display:flex;align-items:center;justify-content:center;">Submit</a>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- /.app-container -->
+
+    <script>
+        // ── State ──────────────────────────────────────
+        const state = {
+            effortVal:       5,
+            physicalVal:     7,
+            enthusiasmVal:   5,
+            exhaustionAnswer: null  // 'expected' | 'more' | null
+        };
+
+        const SCREEN_IDS = [
+            'screen-effort',
+            'screen-physical',
+            'screen-enthusiasm',
+            'screen-notes'
+        ];
+        let currentIdx = 0;
+
+        // ── Navigation ─────────────────────────────────
+        function goToScreen(idx) {
+            SCREEN_IDS.forEach((id, i) => {
+                document.getElementById(id).classList.toggle('hidden', i !== idx);
+            });
+            currentIdx = idx;
+
+            // Progress: 1/4, 2/4, 3/4, 4/4
+            document.getElementById('progress-fill').style.width =
+                ((currentIdx + 1) / SCREEN_IDS.length) * 100 + '%';
+
+            if (idx === 3) buildSummary();
+
+            // Re-check physical follow-up when returning to screen 2
+            if (idx === 1) applyPhysicalFollowUp(state.physicalVal);
+        }
+
+        function goNext() {
+            if (currentIdx < SCREEN_IDS.length - 1) goToScreen(currentIdx + 1);
+        }
+
+        function goBack() {
+            if (currentIdx > 0) goToScreen(currentIdx - 1);
+        }
+
+        // ── Slider Setup ───────────────────────────────
+        function setupSlider(sliderId, fillId, valueId, stateKey) {
+            const slider  = document.getElementById(sliderId);
+            const fill    = document.getElementById(fillId);
+            const display = document.getElementById(valueId);
+
+            function refresh() {
+                const v = parseInt(slider.value);
+                state[stateKey] = v;
+                display.textContent = v;
+                fill.style.width = (v / 10) * 100 + '%';
+                if (stateKey === 'physicalVal') applyPhysicalFollowUp(v);
+            }
+
+            slider.addEventListener('input', refresh);
+            refresh(); // set initial state
+        }
+
+        // ── Exhaustion Follow-up ───────────────────────
+        function applyPhysicalFollowUp(val) {
+            const followup  = document.getElementById('exhaustion-followup');
+            const nextBtn   = document.getElementById('physical-next');
+            const optionBtns = document.getElementById('physical-options');
+
+            if (val <= 3) {
+                followup.classList.remove('hidden');
+                nextBtn.classList.add('hidden');
+                optionBtns.classList.remove('hidden');
+            } else {
+                followup.classList.add('hidden');
+                nextBtn.classList.remove('hidden');
+                optionBtns.classList.add('hidden');
+                state.exhaustionAnswer = null;
+            }
+        }
+
+        function selectExhaustion(answer) {
+            state.exhaustionAnswer = answer;
+            goNext();
+        }
+
+        // ── Summary ─────────────────────────────────────
+        function buildSummary() {
+            document.getElementById('summary-effort').textContent      = state.effortVal + '/10';
+            document.getElementById('summary-physical').textContent    = state.physicalVal + '/10';
+            document.getElementById('summary-enthusiasm').textContent  = state.enthusiasmVal + '/10';
+
+            const exhaustionRow   = document.getElementById('summary-exhaustion-row');
+            const exhaustionBadge = document.getElementById('summary-exhaustion-badge');
+
+            if (state.exhaustionAnswer) {
+                exhaustionRow.classList.remove('hidden');
+                if (state.exhaustionAnswer === 'expected') {
+                    exhaustionBadge.textContent = 'Expected';
+                    exhaustionBadge.className   = 'summary-badge summary-badge-ok';
+                } else {
+                    exhaustionBadge.textContent = 'More than expected';
+                    exhaustionBadge.className   = 'summary-badge summary-badge-warn';
+                }
+            } else {
+                exhaustionRow.classList.add('hidden');
+            }
+        }
+
+        // ── Init ────────────────────────────────────────
+        setupSlider('effort-slider',     'effort-fill',     'effort-value',     'effortVal');
+        setupSlider('physical-slider',   'physical-fill',   'physical-value',   'physicalVal');
+        setupSlider('enthusiasm-slider', 'enthusiasm-fill', 'enthusiasm-value', 'enthusiasmVal');
+    </script>
+</body>
+</html>
