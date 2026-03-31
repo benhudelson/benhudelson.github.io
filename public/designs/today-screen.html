@@ -619,74 +619,55 @@
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
+        /* Day cards — neutral white, status communicated via 3px bottom bar only */
         .day-card {
-            background: var(--color-bg);
-            border-radius: 16px;
-            padding: 16px 12px;
+            background: var(--color-card);
+            border-radius: 12px;
+            padding: 10px 6px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-            flex: 0 0 80px;
-            min-height: 130px;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+            border: 1.5px solid var(--color-border-light);
+            flex: 0 0 72px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
         }
 
+        .day-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            border-radius: 0 0 10px 10px;
+            background: transparent;
+        }
+
+        /* past = assumed completed; show muted green bar */
+        .day-card.past::after   { background: rgba(0, 166, 81, 0.45); }
+        .day-card.today::after  { background: var(--color-primary); }
+        /* future: no bar — no status yet */
+
         .day-card.empty {
-            background: var(--color-card);
-            border: 2px solid var(--color-border);
-            opacity: 0.45;
+            opacity: 0.35;
             cursor: default;
             pointer-events: none;
         }
 
-        .day-card.empty .day-workout {
-            color: var(--color-text-muted);
-            font-style: italic;
-            font-weight: 400;
-        }
-
-        .day-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-md);
-        }
-
-        /* State = date relationship only. No workout-type styling. */
-
-        /* Past: light orange tint — workouts are behind you */
-        .day-card.past {
-            background: rgba(240, 78, 35, 0.08);
-            border-color: var(--color-primary);
-            color: var(--color-primary);
-        }
-
-        /* Today: sage green — your active day */
-        .day-card.today {
-            background: var(--color-success);
-            color: white;
-            border-color: var(--color-success);
-        }
-
-        /* Future: full terracotta — work ahead of you */
-        .day-card.future {
-            background: var(--color-primary);
-            color: white;
-            border-color: var(--color-primary);
-            box-shadow: 0 4px 16px rgba(240, 78, 35, 0.2);
+        .day-card:not(.selected):not(.empty):hover {
+            border-color: var(--color-border);
+            box-shadow: var(--shadow-sm);
         }
 
         .day-card.selected {
-            outline: 3px solid rgba(240, 78, 35, 0.5);
-            outline-offset: 2px;
+            border-color: var(--color-primary);
+            box-shadow: 0 2px 10px rgba(240, 78, 35, 0.14);
+            transform: translateY(-1px);
+            outline: none;
         }
 
-        /* Keep context line readable on colored backgrounds */
-        .day-card.today .day-date-context,
-        .day-card.future .day-date-context {
-            opacity: 0.8;
-        }
-
-        .day-card.past .day-date-context {
-            opacity: 0.65;
-        }
+        .day-card.today .day-date-number { color: var(--color-primary); }
 
         .day-date-context {
             font-size: 10px;
@@ -1219,30 +1200,32 @@
         const CARD_STEP = CARD_WIDTH + CARD_GAP;
         const VISIBLE_COUNT = 4;
 
+        const ABBREV_MAP = {
+            'Steady State': 'SSR', 'Long Run': 'LR', 'Easy': 'Easy',
+            'Rest': 'Rest', 'Cross Train': 'XT', 'Recovery': 'Rec'
+        };
+
         function renderWeek() {
             const week = WEEK_DATA[currentWeekIdx];
             const track = document.getElementById('calendar-track');
 
             track.innerHTML = week.days.map((day) => {
+                const label = day.workout ? (ABBREV_MAP[day.workout] || day.workout) : '—';
                 if (day.state === 'empty') {
                     return `<div class="day-card empty">
-                        <div class="day-date-context">${day.day} · ${day.month}</div>
+                        <div class="day-date-context">${day.day}</div>
                         <div class="day-date-number">${day.num}</div>
-                        <div class="day-workout">—</div>
+                        <div class="day-workout">${label}</div>
                     </div>`;
                 }
-
-                const distHtml = day.distance
-                    ? `<div class="day-distance">${day.distance}</div>` : '';
 
                 const selected = day.state === 'today' ? ' selected' : '';
                 const dateParam = encodeURIComponent(`${day.day}-${day.month}-${day.num}`);
 
                 return `<div class="day-card ${day.state}${selected}" onclick="handleDayClick(this, '${dateParam}')">
-                    <div class="day-date-context">${day.day} · ${day.month}</div>
+                    <div class="day-date-context">${day.day}</div>
                     <div class="day-date-number">${day.num}</div>
-                    <div class="day-workout">${day.workout}</div>
-                    ${distHtml}
+                    <div class="day-workout">${label}</div>
                 </div>`;
             }).join('');
 
