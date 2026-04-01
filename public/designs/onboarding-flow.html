@@ -495,6 +495,75 @@
         .goal-fields { display: none; }
         .goal-fields.visible { display: block; }
 
+        /* ── Review Back Pill ── */
+        .review-back-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(240,78,35,0.09);
+            color: var(--color-primary);
+            border: none;
+            border-radius: 100px;
+            padding: 7px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 12px;
+            font-family: var(--font-body);
+            transition: background 0.2s;
+        }
+        .review-back-pill:hover { background: rgba(240,78,35,0.16); }
+
+        /* ── Summary Screen ── */
+        .summary-card {
+            background: var(--color-card);
+            border: 1.5px solid var(--color-border-light);
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+            opacity: 0;
+            animation: scaleIn 0.4s ease-out forwards;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .summary-card:hover {
+            border-color: var(--color-primary);
+            box-shadow: var(--shadow-sm);
+        }
+        .summary-card-left { flex: 1; min-width: 0; }
+        .summary-step-label {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            margin-bottom: 4px;
+        }
+        .summary-step-value {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--color-text);
+            line-height: 1.4;
+            word-break: break-word;
+        }
+        .summary-step-value.empty { color: var(--color-text-muted); font-style: italic; }
+        .summary-edit-btn {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--color-primary);
+            cursor: pointer;
+            white-space: nowrap;
+            padding: 2px 0;
+            flex-shrink: 0;
+            border: none;
+            background: none;
+            font-family: var(--font-body);
+        }
+        .summary-edit-btn:hover { opacity: 0.7; }
+
         /* ── Injury Bottom Sheet ── */
         .injury-overlay {
             position: fixed;
@@ -988,7 +1057,7 @@
         </div>
         <div class="nav-buttons">
             <button class="btn btn-back" onclick="nav(2)">Back</button>
-            <button class="btn btn-next" id="s3-next" disabled onclick="nav(4)">Continue</button>
+            <button class="btn btn-next" id="s3-next" disabled onclick="proceed(4)">Continue</button>
         </div>
     </div>
 
@@ -1034,7 +1103,7 @@
         </div>
         <div class="nav-buttons">
             <button class="btn btn-back" onclick="nav(3)">Back</button>
-            <button class="btn btn-next" onclick="nav(5)">Continue</button>
+            <button class="btn btn-next" onclick="proceed(5)">Continue</button>
         </div>
     </div>
 
@@ -1067,8 +1136,8 @@
         </div>
         <div class="nav-buttons">
             <button class="btn btn-back" onclick="nav(4)">Back</button>
-            <button class="btn btn-skip" onclick="nav(6)">Skip</button>
-            <button class="btn btn-next" onclick="nav(6)">Continue</button>
+            <button class="btn btn-skip" onclick="proceed(6)">Skip</button>
+            <button class="btn btn-next" onclick="proceed(6)">Continue</button>
         </div>
     </div>
 
@@ -1126,7 +1195,7 @@
         </div>
         <div class="nav-buttons">
             <button class="btn btn-back" onclick="nav(5)">Back</button>
-            <button class="btn btn-next" onclick="nav(7)">Continue</button>
+            <button class="btn btn-next" onclick="proceed(7)">Continue</button>
         </div>
     </div>
 
@@ -1160,7 +1229,7 @@
         </div>
         <div class="nav-buttons">
             <button class="btn btn-back" onclick="nav(6)">Back</button>
-            <button class="btn btn-next" onclick="nav(8)">Continue</button>
+            <button class="btn btn-next" onclick="proceed(8)">Continue</button>
         </div>
     </div>
 
@@ -1191,7 +1260,7 @@
         </div>
         <div class="nav-buttons">
             <button class="btn btn-back" onclick="nav(7)">Back</button>
-            <button class="btn btn-next" onclick="nav(9)">Continue</button>
+            <button class="btn btn-next" onclick="proceed(9)">Continue</button>
         </div>
     </div>
 
@@ -1252,7 +1321,7 @@
         </div>
         <div class="nav-buttons">
             <button class="btn btn-back" onclick="nav(8)">Back</button>
-            <button class="btn btn-next" onclick="nav(10)">Continue</button>
+            <button class="btn btn-next" onclick="proceed(10)">Continue</button>
         </div>
     </div>
 
@@ -1430,8 +1499,24 @@
         </div>
         <div class="nav-buttons">
             <button class="btn btn-back" onclick="nav(9)">Back</button>
-            <button class="btn btn-skip" onclick="showComplete()">Skip</button>
-            <button class="btn btn-next" onclick="showComplete()">Done</button>
+            <button class="btn btn-skip" onclick="proceed(11)">Skip</button>
+            <button class="btn btn-next" onclick="proceed(11)">Done</button>
+        </div>
+    </div>
+
+    <!-- ── Screen 11: Review ── -->
+    <div class="screen hidden" id="s11">
+        <div class="screen-header">
+            <div class="question-step">Review</div>
+            <h1 class="question">Does everything look right?</h1>
+            <p class="question-subtitle">Tap Edit on any section to update your answers</p>
+        </div>
+        <div class="screen-body" id="s11-body">
+            <!-- populated by renderSummary() -->
+        </div>
+        <div class="nav-buttons">
+            <button class="btn btn-back" onclick="nav(10)">Back</button>
+            <button class="btn btn-next" onclick="showComplete()" style="font-weight:700">Generate Plan →</button>
         </div>
     </div>
 
@@ -1480,6 +1565,166 @@
 
 <script>
     const TOTAL = 10;
+    let reviewMode = false;
+
+    // ── Review / proceed ──
+    function proceed(defaultNext) {
+        if (reviewMode) {
+            backToReview();
+        } else {
+            nav(defaultNext);
+        }
+    }
+
+    function editFromReview(step) {
+        reviewMode = true;
+        nav(step);
+        // Inject "← Back to Review" pill at top of screen header
+        const screen = document.getElementById('s' + step);
+        const header = screen.querySelector('.screen-header');
+        const existing = document.getElementById('review-back-pill');
+        if (existing) existing.remove();
+        const pill = document.createElement('button');
+        pill.id = 'review-back-pill';
+        pill.className = 'review-back-pill';
+        pill.innerHTML = '← Back to Review';
+        pill.setAttribute('onclick', 'backToReview()');
+        header.insertBefore(pill, header.firstChild);
+    }
+
+    function backToReview() {
+        reviewMode = false;
+        const pill = document.getElementById('review-back-pill');
+        if (pill) pill.remove();
+        nav(11);
+        renderSummary();
+    }
+
+    // ── Summary data ──
+    function getSummaryData() {
+        // s1: runner type
+        const s1sel = document.querySelector('#s1 .option-card.selected .option-title');
+        // s2: distance
+        const s2sel = document.querySelector('#s2 .option-card.selected .option-title');
+        // s3: race
+        const raceName = document.getElementById('race-name')?.value?.trim();
+        const raceDate = document.getElementById('race-date')?.value;
+        const raceDateFmt = raceDate ? new Date(raceDate + 'T00:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) : '';
+        // s4
+        const ft = document.getElementById('height-ft')?.value;
+        const inches = document.getElementById('height-in')?.value;
+        const lbs = document.getElementById('weight-lbs')?.value;
+        const heightStr = (ft || inches) ? `${ft||'?'}'${inches||'0'}"` : '';
+        // s5
+        const pbInputs = [...(document.querySelectorAll('#s5 .pb-input')||[])].filter(i=>i.value.trim());
+        // s6
+        const s6inputs = document.querySelectorAll('#s6 .input-field');
+        const miAvg  = s6inputs[0]?.value;
+        const miPeak = s6inputs[1]?.value;
+        const longAvg  = s6inputs[2]?.value;
+        const longPeak = s6inputs[3]?.value;
+        const runsAvg  = s6inputs[4]?.value;
+        const runsPeak = s6inputs[5]?.value;
+        const dowSel = document.querySelector('#s6 .dow-chip.selected');
+        // s7
+        const workoutChips = [...(document.querySelectorAll('#s7 .chips-wrap:first-of-type .chip.selected')||[])].map(c=>c.textContent);
+        const xtChips = [...(document.querySelectorAll('#s7 .chips-wrap:last-of-type .chip.selected')||[])].map(c=>c.textContent);
+        // s8
+        const days  = stepperData.days.val;
+        const hours = stepperData.hours.val;
+        // s9
+        const goalBtn = document.querySelector('.goal-toggle-btn.active');
+        const goalType = goalBtn?.textContent || '';
+        const goalDist = document.querySelector('#goal-time-fields select')?.value || document.querySelector('#goal-comp-fields select')?.value || '';
+        const goalTime = document.querySelector('#goal-time-fields input')?.value?.trim() || '';
+        const goalComp = document.querySelectorAll('#goal-comp-fields select')[1]?.value || '';
+        // s10
+        const injuryZones = Object.keys(injuryData);
+
+        return [
+            {
+                step: 1,
+                label: 'Why Are You Here?',
+                value: s1sel?.textContent || '',
+            },
+            {
+                step: 2,
+                label: 'Goal Race Distance',
+                value: s2sel?.textContent || '',
+            },
+            {
+                step: 3,
+                label: 'Race Details',
+                value: [raceName || (raceDate ? 'Race' : ''), raceDateFmt].filter(Boolean).join(' · '),
+            },
+            {
+                step: 4,
+                label: 'Running History',
+                value: [
+                    `${stepperData.years.val} yr${stepperData.years.val!==1?'s':''} running`,
+                    heightStr,
+                    lbs ? lbs + ' lbs' : ''
+                ].filter(Boolean).join(' · '),
+            },
+            {
+                step: 5,
+                label: 'Personal Bests',
+                value: pbInputs.length ? `${pbInputs.length} time${pbInputs.length!==1?'s':''} entered` : 'Skipped',
+            },
+            {
+                step: 6,
+                label: 'Training Volume',
+                value: [
+                    miAvg ? `${miAvg} mi/wk avg` : '',
+                    miPeak ? `${miPeak} peak` : '',
+                    dowSel ? `Long run: ${dowSel.textContent}` : ''
+                ].filter(Boolean).join(' · '),
+            },
+            {
+                step: 7,
+                label: 'Training Content',
+                value: [...workoutChips, ...xtChips].join(', '),
+            },
+            {
+                step: 8,
+                label: 'Available Time',
+                value: `${days} day${days!==1?'s':''}/week · ${hours} hr${hours!==1?'s':''}/week`,
+            },
+            {
+                step: 9,
+                label: 'Running Goals',
+                value: goalBtn?.id === 'goal-time-btn'
+                    ? [goalType, goalDist, goalTime].filter(Boolean).join(' · ')
+                    : goalBtn?.id === 'goal-comp-btn'
+                    ? [goalType, goalDist, goalComp].filter(Boolean).join(' · ')
+                    : goalType,
+            },
+            {
+                step: 10,
+                label: 'Injury History',
+                value: injuryZones.length === 0
+                    ? 'None reported'
+                    : injuryZones.slice(0,3).join(', ') + (injuryZones.length > 3 ? ` +${injuryZones.length-3} more` : ''),
+            },
+        ];
+    }
+
+    function renderSummary() {
+        const container = document.getElementById('s11-body');
+        if (!container) return;
+        const sections = getSummaryData();
+        container.innerHTML = sections.map((s, i) => {
+            const isEmpty = !s.value || s.value === 'Skipped' || s.value === 'None reported';
+            return `
+            <div class="summary-card" style="animation-delay:${0.05 + i * 0.04}s" onclick="editFromReview(${s.step})">
+                <div class="summary-card-left">
+                    <div class="summary-step-label">Step ${s.step} · ${s.label}</div>
+                    <div class="summary-step-value${isEmpty?' empty':''}">${s.value || '—'}</div>
+                </div>
+                <button class="summary-edit-btn" onclick="event.stopPropagation();editFromReview(${s.step})">Edit</button>
+            </div>`;
+        }).join('');
+    }
 
     // ── Injury data ──
     let injuryData = {};          // label → { type, severity, notes }
@@ -1536,7 +1781,11 @@
 
         // progress
         document.getElementById('progress-track').style.display = 'block';
-        document.getElementById('progress-fill').style.width = ((step / TOTAL) * 100) + '%';
+        const pct = step >= TOTAL ? 100 : (step / TOTAL) * 100;
+        document.getElementById('progress-fill').style.width = pct + '%';
+
+        // render summary when landing on review screen
+        if (step === 11) renderSummary();
     }
 
     function showComplete() {
@@ -1561,7 +1810,13 @@
 
         // auto-advance
         if (nextStep) {
-            setTimeout(() => nav(nextStep), 340);
+            setTimeout(() => {
+                if (reviewMode) {
+                    backToReview();
+                } else {
+                    nav(nextStep);
+                }
+            }, 340);
         }
     }
 
