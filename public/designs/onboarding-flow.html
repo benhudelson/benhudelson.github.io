@@ -9,17 +9,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Primary Energetic Colors */
             --color-primary: #F04E23;
             --color-primary-dark: #D63F1A;
             --color-primary-light: #FF6B42;
-
-            /* Success & Positive */
             --color-success: #00A651;
-            --color-success-dark: #008A43;
-            --color-success-light: #00C961;
-
-            /* Supporting Colors */
             --color-bg: #FAFAFA;
             --color-bg-secondary: #F5F5F5;
             --color-card: #FFFFFF;
@@ -28,44 +21,23 @@
             --color-text-muted: #737373;
             --color-border: #E0E0E0;
             --color-border-light: #F0F0F0;
-
-            /* Accent & Energy */
             --color-accent: #FFB800;
-            --color-warning: #FF8C00;
-
-            /* Overlays & Shadows */
-            --color-overlay: rgba(26, 26, 26, 0.6);
-
+            --color-injury: #E53935;
             --font-display: Futura, 'Futura PT', 'Century Gothic', 'AppleGothic', sans-serif;
             --font-body: 'Outfit', sans-serif;
-
-            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
-            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
-            --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.15);
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.12);
+            --shadow-lg: 0 12px 32px rgba(0,0,0,0.15);
         }
 
-        h1, h2, h3,
-        .greeting,
-        .workout-title,
-        .hero-title,
-        .question,
-        .modal-title,
-        .drawer-title,
-        .welcome-title,
-        .section-title,
-        .effort-zone-name,
-        .workout-detail-title {
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        h1, h2, h3, .question, .welcome-title, .section-title {
             font-family: var(--font-display);
             font-variant: small-caps;
             font-style: italic;
             letter-spacing: 0.02em;
             font-weight: 600;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
         }
 
         body {
@@ -74,7 +46,6 @@
             color: var(--color-text);
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
             overflow: hidden;
         }
 
@@ -85,284 +56,659 @@
             background: var(--color-bg);
             display: flex;
             flex-direction: column;
+            position: relative;
         }
 
-        /* Progress Dots */
-        .progress-dots {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            padding: 32px 24px 24px;
+        /* ── Progress Bar ── */
+        .progress-bar-track {
+            height: 3px;
+            background: var(--color-border-light);
+            position: relative;
         }
-
-        .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--color-border);
-            transition: all 0.3s ease;
-        }
-
-        .dot.active {
+        .progress-bar-fill {
+            height: 100%;
             background: var(--color-primary);
-            width: 24px;
-            border-radius: 4px;
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Screen Container */
+        /* ── Screen ── */
         .screen {
             flex: 1;
             display: flex;
             flex-direction: column;
-            padding: 24px 24px 32px;
+            overflow: hidden;
+        }
+        .screen.hidden { display: none; }
+
+        .screen-header {
+            padding: 20px 24px 0;
+            flex-shrink: 0;
         }
 
-        .screen.hidden {
-            display: none;
-        }
-
-        /* Question Header */
         .question-step {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
             color: var(--color-text-muted);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 12px;
+            letter-spacing: 0.6px;
+            margin-bottom: 10px;
             opacity: 0;
-            animation: fadeInDown 0.5s ease-out 0.1s forwards;
+            animation: fadeInDown 0.4s ease-out 0.05s forwards;
         }
-
         .question {
-            font-family: var(--font-display);
-            font-size: 32px;
+            font-size: 28px;
             line-height: 1.2;
             color: var(--color-text);
-            margin-bottom: 12px;
+            margin-bottom: 6px;
             opacity: 0;
-            animation: fadeInUp 0.6s ease-out 0.2s forwards;
+            animation: fadeInUp 0.5s ease-out 0.1s forwards;
         }
-
         .question-subtitle {
-            font-size: 15px;
+            font-size: 14px;
             color: var(--color-text-muted);
-            margin-bottom: 32px;
+            margin-bottom: 0;
             opacity: 0;
-            animation: fadeInUp 0.6s ease-out 0.3s forwards;
+            animation: fadeInUp 0.5s ease-out 0.15s forwards;
         }
 
-        /* Options Container */
-        .options-container {
+        /* ── Scroll area ── */
+        .screen-body {
             flex: 1;
             overflow-y: auto;
-            margin-bottom: 24px;
+            padding: 20px 24px;
+            -webkit-overflow-scrolling: touch;
         }
+        .screen-body::-webkit-scrollbar { display: none; }
 
-        /* Card Options */
-        .option-card {
-            background: var(--color-card);
-            border: 2px solid var(--color-border);
-            border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            opacity: 0;
-            animation: scaleIn 0.5s ease-out forwards;
-        }
-
-        .option-card:nth-child(1) { animation-delay: 0.4s; }
-        .option-card:nth-child(2) { animation-delay: 0.5s; }
-        .option-card:nth-child(3) { animation-delay: 0.6s; }
-        .option-card:nth-child(4) { animation-delay: 0.7s; }
-
-        .option-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
-            border-color: var(--color-primary);
-        }
-
-        .option-card.selected {
-            border-color: var(--color-primary);
-            background: linear-gradient(135deg, rgba(240, 78, 35, 0.05) 0%, rgba(255, 107, 66, 0.05) 100%);
-            box-shadow: 0 0 0 1px var(--color-primary);
-        }
-
-        .option-icon {
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 16px;
-            font-size: 24px;
-        }
-
-        .option-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--color-text);
-            margin-bottom: 6px;
-        }
-
-        .option-description {
-            font-size: 14px;
-            color: var(--color-text-muted);
-            line-height: 1.5;
-        }
-
-        /* Date Picker Style */
-        .date-input {
-            width: 100%;
-            padding: 20px;
-            border: 2px solid var(--color-border);
-            border-radius: 16px;
-            font-family: var(--font-body);
-            font-size: 18px;
-            color: var(--color-text);
-            background: var(--color-card);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            opacity: 0;
-            animation: scaleIn 0.5s ease-out 0.4s forwards;
-        }
-
-        .date-input:focus {
-            outline: none;
-            border-color: var(--color-primary);
-            box-shadow: 0 0 0 4px rgba(240, 78, 35, 0.15);
-        }
-
-        /* Slider Input */
-        .slider-container {
-            opacity: 0;
-            animation: scaleIn 0.5s ease-out 0.4s forwards;
-        }
-
-        .slider-labels {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 24px;
-        }
-
-        .slider-label {
-            font-size: 14px;
-            color: var(--color-text-muted);
-            font-weight: 500;
-        }
-
-        .slider-wrapper {
-            position: relative;
-            padding: 20px 0;
-        }
-
-        .slider-track {
-            height: 8px;
-            background: var(--color-border);
-            border-radius: 4px;
-        }
-
-        input[type="range"] {
-            position: absolute;
-            top: 50%;
-            left: 0;
-            width: 100%;
-            height: 48px;
-            transform: translateY(-50%);
-            -webkit-appearance: none;
-            appearance: none;
-            background: transparent;
-            cursor: pointer;
-        }
-
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: white;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15), 0 0 0 4px var(--color-primary);
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        input[type="range"]::-webkit-slider-thumb:hover {
-            transform: scale(1.1);
-        }
-
-        input[type="range"]::-moz-range-thumb {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: white;
-            border: none;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15), 0 0 0 4px var(--color-primary);
-            cursor: pointer;
-        }
-
-        .slider-value {
-            text-align: center;
-            margin-top: 24px;
-            font-family: var(--font-display);
-            font-size: 40px;
-            color: var(--color-primary);
-        }
-
-        /* Navigation Buttons */
+        /* ── Nav buttons ── */
         .nav-buttons {
             display: flex;
             gap: 12px;
+            padding: 16px 24px 28px;
+            flex-shrink: 0;
             opacity: 0;
-            animation: fadeInUp 0.6s ease-out 0.8s forwards;
+            animation: fadeInUp 0.5s ease-out 0.35s forwards;
         }
-
         .btn {
             flex: 1;
-            padding: 18px;
+            padding: 16px;
             border: none;
             border-radius: 14px;
             font-family: var(--font-body);
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.25s ease;
         }
-
         .btn-back {
             background: var(--color-card);
             color: var(--color-text-muted);
-            border: 1px solid var(--color-border);
+            border: 1.5px solid var(--color-border);
+            flex: 0 0 80px;
         }
-
-        .btn-back:hover {
-            background: var(--color-border);
-        }
-
+        .btn-back:hover { background: var(--color-border); }
         .btn-next {
             background: var(--color-primary);
             color: white;
-            box-shadow: 0 4px 16px rgba(240, 78, 35, 0.3);
+            box-shadow: 0 4px 16px rgba(240,78,35,0.3);
         }
-
-        .btn-next:hover {
+        .btn-next:hover:not(:disabled) {
             background: var(--color-primary-dark);
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(240, 78, 35, 0.4);
+            box-shadow: 0 6px 20px rgba(240,78,35,0.4);
+        }
+        .btn-next:disabled { opacity: 0.4; cursor: not-allowed; }
+        .btn-skip {
+            background: transparent;
+            color: var(--color-text-muted);
+            border: 1.5px solid var(--color-border);
+            flex: 0 0 70px;
+            font-size: 14px;
+        }
+        .btn-skip:hover { background: var(--color-border-light); }
+        .btn:active:not(:disabled) { transform: scale(0.98); }
+
+        /* ── Option Cards ── */
+        .option-card {
+            background: var(--color-card);
+            border: 2px solid var(--color-border);
+            border-radius: 14px;
+            padding: 18px 20px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            opacity: 0;
+            animation: scaleIn 0.4s ease-out forwards;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .option-card:nth-child(1) { animation-delay: 0.2s; }
+        .option-card:nth-child(2) { animation-delay: 0.27s; }
+        .option-card:nth-child(3) { animation-delay: 0.34s; }
+        .option-card:nth-child(4) { animation-delay: 0.41s; }
+        .option-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--color-primary);
+        }
+        .option-card.selected {
+            border-color: var(--color-primary);
+            background: linear-gradient(135deg,rgba(240,78,35,0.04),rgba(255,107,66,0.04));
+            box-shadow: 0 0 0 1px var(--color-primary);
+        }
+        .option-card .option-check {
+            margin-left: auto;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid var(--color-border);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            color: transparent;
+            font-size: 13px;
+        }
+        .option-card.selected .option-check {
+            background: var(--color-primary);
+            border-color: var(--color-primary);
+            color: white;
+        }
+        .select-hint {
+            text-align: center;
+            font-size: 13px;
+            color: var(--color-text-muted);
+            padding: 4px 0 8px;
+            transition: opacity 0.3s ease;
+            opacity: 1;
+        }
+        .select-hint.fading { opacity: 0; }
+        .option-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg,var(--color-primary),var(--color-primary-light));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        .option-card.selected .option-icon {
+            background: linear-gradient(135deg,var(--color-primary-dark),var(--color-primary));
+        }
+        .option-text .option-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--color-text);
+            margin-bottom: 2px;
+            font-family: var(--font-body);
+            font-variant: normal;
+            font-style: normal;
+        }
+        .option-text .option-desc {
+            font-size: 13px;
+            color: var(--color-text-muted);
+            line-height: 1.4;
         }
 
-        .btn-next:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
+        /* ── Text / Date Inputs ── */
+        .input-field {
+            width: 100%;
+            padding: 16px 18px;
+            border: 2px solid var(--color-border);
+            border-radius: 14px;
+            font-family: var(--font-body);
+            font-size: 16px;
+            color: var(--color-text);
+            background: var(--color-card);
+            transition: border-color 0.25s, box-shadow 0.25s;
+            margin-bottom: 12px;
+        }
+        .input-field:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(240,78,35,0.12);
+        }
+        .input-field::placeholder { color: var(--color-text-muted); }
+        .input-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--color-text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+            display: block;
+        }
+        .input-group { margin-bottom: 16px; }
+        .input-row { display: flex; gap: 12px; }
+        .input-row .input-group { flex: 1; }
+
+        /* ── Stepper ── */
+        .stepper-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--color-card);
+            border: 2px solid var(--color-border);
+            border-radius: 14px;
+            padding: 14px 18px;
+            margin-bottom: 12px;
+        }
+        .stepper-label {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--color-text);
+        }
+        .stepper-label small {
+            font-size: 12px;
+            color: var(--color-text-muted);
+            font-weight: 400;
+            display: block;
+        }
+        .stepper-controls {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .stepper-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid var(--color-border);
+            background: var(--color-card);
+            color: var(--color-text);
+            font-size: 18px;
+            font-weight: 400;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            line-height: 1;
+        }
+        .stepper-btn:hover { border-color: var(--color-primary); color: var(--color-primary); }
+        .stepper-value {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--color-primary);
+            min-width: 48px;
+            text-align: center;
         }
 
-        .btn:active:not(:disabled) {
-            transform: scale(0.98);
+        /* ── Height / Weight row ── */
+        .hw-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        .hw-group {
+            flex: 1;
+        }
+        .hw-group label { font-size: 12px; font-weight: 600; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 6px; }
+        .hw-input-row { display: flex; gap: 6px; }
+        .hw-input {
+            flex: 1;
+            padding: 14px 12px;
+            border: 2px solid var(--color-border);
+            border-radius: 12px;
+            font-family: var(--font-body);
+            font-size: 16px;
+            text-align: center;
+            color: var(--color-text);
+            background: var(--color-card);
+            transition: border-color 0.25s;
+        }
+        .hw-input:focus { outline: none; border-color: var(--color-primary); }
+        .hw-unit {
+            font-size: 12px;
+            color: var(--color-text-muted);
+            align-self: center;
         }
 
-        /* Welcome Screen Special */
+        /* ── Personal Bests Grid ── */
+        .pb-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .pb-item {
+            background: var(--color-card);
+            border: 2px solid var(--color-border);
+            border-radius: 12px;
+            padding: 12px 14px;
+            opacity: 0;
+            animation: scaleIn 0.4s ease-out forwards;
+            transition: border-color 0.2s;
+        }
+        .pb-item:nth-child(1) { animation-delay: 0.2s; }
+        .pb-item:nth-child(2) { animation-delay: 0.24s; }
+        .pb-item:nth-child(3) { animation-delay: 0.28s; }
+        .pb-item:nth-child(4) { animation-delay: 0.32s; }
+        .pb-item:nth-child(5) { animation-delay: 0.36s; }
+        .pb-item:nth-child(6) { animation-delay: 0.40s; }
+        .pb-item:nth-child(7) { animation-delay: 0.44s; }
+        .pb-item:nth-child(8) { animation-delay: 0.48s; }
+        .pb-item:focus-within { border-color: var(--color-primary); }
+        .pb-distance {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+        .pb-input {
+            width: 100%;
+            border: none;
+            outline: none;
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--color-text);
+            background: transparent;
+        }
+        .pb-input::placeholder { color: var(--color-border); }
+
+        /* ── Day-of-week selector ── */
+        .dow-row {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .dow-chip {
+            flex: 1;
+            min-width: 36px;
+            padding: 10px 4px;
+            border: 2px solid var(--color-border);
+            border-radius: 10px;
+            background: var(--color-card);
+            font-family: var(--font-body);
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--color-text-muted);
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        .dow-chip:hover { border-color: var(--color-primary); color: var(--color-primary); }
+        .dow-chip.selected {
+            background: var(--color-primary);
+            border-color: var(--color-primary);
+            color: white;
+        }
+
+        /* ── Chip multi-select ── */
+        .chips-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        .chip {
+            padding: 9px 16px;
+            border: 2px solid var(--color-border);
+            border-radius: 100px;
+            background: var(--color-card);
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--color-text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .chip:hover { border-color: var(--color-primary); color: var(--color-primary); }
+        .chip.selected {
+            background: var(--color-primary);
+            border-color: var(--color-primary);
+            color: white;
+        }
+
+        /* ── Goal toggle ── */
+        .goal-toggle {
+            display: flex;
+            background: var(--color-bg-secondary);
+            border-radius: 12px;
+            padding: 4px;
+            margin-bottom: 20px;
+        }
+        .goal-toggle-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 9px;
+            background: transparent;
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-text-muted);
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+        .goal-toggle-btn.active {
+            background: var(--color-card);
+            color: var(--color-primary);
+            box-shadow: var(--shadow-sm);
+        }
+        .goal-fields { display: none; }
+        .goal-fields.visible { display: block; }
+
+        /* ── Injury Bottom Sheet ── */
+        .injury-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.45);
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .injury-overlay.visible { opacity: 1; pointer-events: all; }
+
+        .injury-sheet {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%) translateY(100%);
+            width: min(430px, 100vw);
+            background: var(--color-card);
+            border-radius: 22px 22px 0 0;
+            z-index: 101;
+            transition: transform 0.38s cubic-bezier(0.32, 0.72, 0, 1);
+            box-shadow: 0 -8px 40px rgba(0,0,0,0.18);
+        }
+        .injury-sheet.open { transform: translateX(-50%) translateY(0); }
+
+        .injury-sheet-handle {
+            width: 36px; height: 4px;
+            background: var(--color-border);
+            border-radius: 2px;
+            margin: 12px auto 0;
+        }
+        .injury-sheet-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 20px 4px;
+        }
+        .injury-sheet-title {
+            font-family: var(--font-display);
+            font-size: 20px;
+            font-style: italic;
+            font-variant: small-caps;
+            font-weight: 600;
+        }
+        .injury-sheet-close {
+            width: 30px; height: 30px;
+            border: none;
+            background: var(--color-bg-secondary);
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--color-text-muted);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .injury-sheet-body { padding: 4px 20px 28px; }
+
+        .required-star { color: var(--color-injury); margin-left: 2px; }
+
+        .severity-row { display: flex; gap: 8px; margin-bottom: 0; }
+        .severity-chip {
+            flex: 1;
+            padding: 10px 6px;
+            border: 2px solid var(--color-border);
+            border-radius: 10px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--color-text-muted);
+        }
+        .severity-chip:hover { border-color: var(--color-primary); }
+        .severity-chip[data-sev="mild"].selected    { background:#00A651; border-color:#00A651; color:white; }
+        .severity-chip[data-sev="moderate"].selected{ background:#FFB800; border-color:#FFB800; color:#1A1A1A; }
+        .severity-chip[data-sev="significant"].selected{ background:var(--color-injury); border-color:var(--color-injury); color:white; }
+
+        .injury-notes-ta {
+            resize: none;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 0;
+        }
+
+        /* ── Injury Body Map ── */
+        .body-map-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .body-view-toggle {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .view-btn {
+            padding: 8px 24px;
+            border: 2px solid var(--color-border);
+            border-radius: 100px;
+            background: var(--color-card);
+            font-family: var(--font-body);
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--color-text-muted);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .view-btn.active {
+            background: var(--color-primary);
+            border-color: var(--color-primary);
+            color: white;
+        }
+
+        .body-svg-wrap {
+            position: relative;
+            width: 200px;
+            height: 340px;
+        }
+        .body-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* SVG zones */
+        .body-zone {
+            cursor: pointer;
+            transition: fill 0.2s, opacity 0.2s;
+            fill: #E8E8E8;
+            stroke: white;
+            stroke-width: 2;
+        }
+        .body-zone:hover { fill: #FFCDD2; }
+        .body-zone.selected { fill: var(--color-injury) !important; opacity: 0.85; }
+        .body-zone.body-silhouette {
+            fill: #E8E8E8;
+            cursor: default;
+            stroke: #D0D0D0;
+        }
+
+        .injury-selected-list {
+            margin-top: 14px;
+            width: 100%;
+        }
+        .injury-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            min-height: 28px;
+        }
+        .injury-tag {
+            width: 100%;
+            background: rgba(229,57,53,0.05);
+            border: 1.5px solid rgba(229,57,53,0.25);
+            border-radius: 12px;
+            padding: 12px 14px;
+            margin-bottom: 8px;
+        }
+        .injury-tag-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 3px;
+        }
+        .injury-tag-zone {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--color-text);
+        }
+        .injury-tag-actions { display: flex; gap: 10px; }
+        .injury-tag-btn {
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--color-text-muted);
+            padding: 1px 4px;
+            transition: color 0.2s;
+        }
+        .injury-tag-btn:hover { color: var(--color-primary); }
+        .injury-tag-type {
+            font-size: 13px;
+            color: var(--color-injury);
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .injury-tag-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+        .injury-severity-badge {
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 100px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .badge-mild      { background: rgba(0,166,81,0.12); color: #00A651; }
+        .badge-moderate  { background: rgba(255,184,0,0.15); color: #8B6A00; }
+        .badge-significant{ background: rgba(229,57,53,0.12); color: var(--color-injury); }
+        .injury-tag-notes {
+            font-size: 12px;
+            color: var(--color-text-muted);
+            line-height: 1.5;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+        .no-injuries-note {
+            font-size: 13px;
+            color: var(--color-text-muted);
+            font-style: italic;
+        }
+
+        /* ── Welcome screen ── */
         .welcome-screen {
+            flex: 1;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -370,297 +716,1023 @@
             text-align: center;
             padding: 48px 32px;
         }
-
+        .welcome-screen.hidden { display: none; }
         .app-logo {
-            width: 96px;
-            height: 96px;
-            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
-            border-radius: 24px;
+            width: 88px;
+            height: 88px;
+            background: linear-gradient(135deg,var(--color-primary),var(--color-primary-light));
+            border-radius: 22px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 32px;
-            box-shadow: 0 12px 32px rgba(240, 78, 35, 0.35);
-            animation: scaleIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            margin-bottom: 28px;
+            box-shadow: 0 12px 32px rgba(240,78,35,0.35);
+            animation: scaleIn 0.6s cubic-bezier(0.34,1.56,0.64,1);
         }
-
         .app-logo::before {
             content: 'ME';
             font-family: var(--font-display);
-            font-size: 36px;
-            color: var(--color-success);
-            -webkit-text-stroke: 1px white;
-            text-stroke: 1px white;
+            font-size: 32px;
+            color: white;
+            font-weight: 700;
         }
-
         .welcome-title {
-            font-family: var(--font-display);
             font-size: 40px;
-            line-height: 1.2;
             color: var(--color-text);
-            margin-bottom: 16px;
+            margin-bottom: 12px;
             animation: fadeInUp 0.6s ease-out 0.2s backwards;
         }
-
         .welcome-subtitle {
-            font-size: 17px;
+            font-size: 16px;
             color: var(--color-text-muted);
             line-height: 1.6;
-            margin-bottom: 48px;
+            margin-bottom: 44px;
+            max-width: 280px;
             animation: fadeInUp 0.6s ease-out 0.3s backwards;
         }
-
         .welcome-cta {
             width: 100%;
             max-width: 300px;
-            padding: 20px;
+            padding: 18px;
             background: var(--color-primary);
             color: white;
             border: none;
             border-radius: 16px;
             font-family: var(--font-body);
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 8px 24px rgba(240, 78, 35, 0.35);
+            box-shadow: 0 8px 24px rgba(240,78,35,0.35);
             transition: all 0.3s ease;
             animation: scaleIn 0.6s ease-out 0.4s backwards;
         }
-
         .welcome-cta:hover {
             background: var(--color-primary-dark);
-            transform: translateY(-4px);
-            box-shadow: 0 12px 32px rgba(240, 78, 35, 0.45);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(240,78,35,0.45);
         }
 
-        /* Animations */
+        /* ── Complete screen ── */
+        .complete-screen {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 48px 32px;
+        }
+        .complete-screen.hidden { display: none; }
+        .complete-icon {
+            width: 88px;
+            height: 88px;
+            background: linear-gradient(135deg, var(--color-success), #00C961);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 28px;
+            font-size: 40px;
+            box-shadow: 0 12px 32px rgba(0,166,81,0.35);
+            animation: scaleIn 0.6s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        .complete-title {
+            font-size: 32px;
+            color: var(--color-text);
+            margin-bottom: 12px;
+            animation: fadeInUp 0.6s ease-out 0.15s backwards;
+        }
+        .complete-subtitle {
+            font-size: 16px;
+            color: var(--color-text-muted);
+            line-height: 1.6;
+            margin-bottom: 44px;
+            max-width: 280px;
+            animation: fadeInUp 0.6s ease-out 0.25s backwards;
+        }
+        .complete-cta {
+            width: 100%;
+            max-width: 300px;
+            padding: 18px;
+            background: var(--color-success);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-family: var(--font-body);
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(0,166,81,0.35);
+            transition: all 0.3s ease;
+            animation: scaleIn 0.6s ease-out 0.35s backwards;
+        }
+        .complete-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(0,166,81,0.45);
+        }
+
+        /* ── Section divider ── */
+        .section-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+            margin-bottom: 10px;
+            margin-top: 4px;
+        }
+
+        /* ── Animations ── */
         @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(-8px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
-
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(16px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
-
         @keyframes scaleIn {
-            from {
-                opacity: 0;
-                transform: scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
+            from { opacity: 0; transform: scale(0.95); }
+            to   { opacity: 1; transform: scale(1); }
         }
     </style>
 </head>
 <body>
-    <div class="app-container">
-        <!-- Welcome Screen -->
-        <div class="screen welcome-screen" id="welcome">
-            <div class="app-logo"></div>
-            <h1 class="welcome-title">CoachME</h1>
-            <p class="welcome-subtitle">
-                Your AI-powered running coach.<br>
-                Adaptive training that listens to your body.
-            </p>
-            <button class="welcome-cta" onclick="startOnboarding()">Let's Get Started</button>
+<div class="app-container">
+
+    <!-- Progress Bar (hidden on welcome/complete) -->
+    <div class="progress-bar-track" id="progress-track" style="display:none">
+        <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
+    </div>
+
+    <!-- ── Welcome ── -->
+    <div class="welcome-screen" id="welcome">
+        <div class="app-logo"></div>
+        <h1 class="welcome-title">CoachME</h1>
+        <p class="welcome-subtitle">Your AI running coach. Adaptive training that listens to your body.</p>
+        <button class="welcome-cta" onclick="nav(1)">Let's Get Started</button>
+    </div>
+
+    <!-- ── Screen 1: Runner Type ── -->
+    <div class="screen hidden" id="s1">
+        <div class="screen-header">
+            <div class="question-step">Step 1 of 10</div>
+            <h1 class="question">Why are you here?</h1>
+            <p class="question-subtitle">This shapes how we coach you day to day</p>
+        </div>
+        <div class="screen-body">
+            <div class="option-card" onclick="selectCard(this,'s1',2)">
+                <div class="option-icon">🏆</div>
+                <div class="option-text">
+                    <div class="option-title">Competitive</div>
+                    <div class="option-desc">Winning or placing overall / age group</div>
+                </div>
+                <div class="option-check">✓</div>
+            </div>
+            <div class="option-card" onclick="selectCard(this,'s1',2)">
+                <div class="option-icon">🎯</div>
+                <div class="option-text">
+                    <div class="option-title">Goal-Oriented</div>
+                    <div class="option-desc">Chasing personal records and time goals</div>
+                </div>
+                <div class="option-check">✓</div>
+            </div>
+            <div class="option-card" onclick="selectCard(this,'s1',2)">
+                <div class="option-icon">💪</div>
+                <div class="option-text">
+                    <div class="option-title">Fitness First</div>
+                    <div class="option-desc">Running is my primary way to stay in shape</div>
+                </div>
+                <div class="option-check">✓</div>
+            </div>
+            <div class="option-card" onclick="selectCard(this,'s1',2)">
+                <div class="option-icon">👥</div>
+                <div class="option-text">
+                    <div class="option-title">Social Runner</div>
+                    <div class="option-desc">I run for community, fun, and fresh air</div>
+                </div>
+                <div class="option-check">✓</div>
+            </div>
+            <p class="select-hint" id="s1-hint">Select one to continue</p>
+        </div>
         </div>
 
-        <!-- Question 1: Goal Race -->
-        <div class="screen hidden" id="screen-race">
-            <div class="progress-dots">
-                <div class="dot active"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
-            </div>
-
-            <div class="question-step">Step 1 of 6</div>
-            <h1 class="question">What's your goal race?</h1>
-            <p class="question-subtitle">We'll build a training plan tailored to this distance</p>
-
-            <div class="options-container">
-                <div class="option-card" onclick="selectOption(this)">
-                    <div class="option-icon">🏃</div>
+    <!-- ── Screen 2: Goal Race Distance ── -->
+    <div class="screen hidden" id="s2">
+        <div class="screen-header">
+            <div class="question-step">Step 2 of 10</div>
+            <h1 class="question">Goal race distance?</h1>
+            <p class="question-subtitle">We'll build your entire plan around this distance</p>
+        </div>
+        <div class="screen-body">
+            <div class="option-card" onclick="selectCard(this,'s2',3)">
+                <div class="option-icon">🏃</div>
+                <div class="option-text">
                     <div class="option-title">5K</div>
-                    <p class="option-description">3.1 miles • Perfect for building speed</p>
+                    <div class="option-desc">3.1 miles — speed and strength</div>
                 </div>
-
-                <div class="option-card" onclick="selectOption(this)">
-                    <div class="option-icon">🏃‍♂️</div>
+                <div class="option-check">✓</div>
+            </div>
+            <div class="option-card" onclick="selectCard(this,'s2',3)">
+                <div class="option-icon">🏃‍♂️</div>
+                <div class="option-text">
                     <div class="option-title">10K</div>
-                    <p class="option-description">6.2 miles • Great stepping stone</p>
+                    <div class="option-desc">6.2 miles — the great stepping stone</div>
                 </div>
-
-                <div class="option-card" onclick="selectOption(this)">
-                    <div class="option-icon">🎯</div>
+                <div class="option-check">✓</div>
+            </div>
+            <div class="option-card" onclick="selectCard(this,'s2',3)">
+                <div class="option-icon">🎽</div>
+                <div class="option-text">
                     <div class="option-title">Half Marathon</div>
-                    <p class="option-description">13.1 miles • Most popular distance</p>
+                    <div class="option-desc">13.1 miles — the most popular distance</div>
                 </div>
-
-                <div class="option-card" onclick="selectOption(this)">
-                    <div class="option-icon">🏆</div>
+                <div class="option-check">✓</div>
+            </div>
+            <div class="option-card" onclick="selectCard(this,'s2',3)">
+                <div class="option-icon">🏅</div>
+                <div class="option-text">
                     <div class="option-title">Marathon</div>
-                    <p class="option-description">26.2 miles • The ultimate challenge</p>
+                    <div class="option-desc">26.2 miles — the ultimate challenge</div>
                 </div>
+                <div class="option-check">✓</div>
             </div>
-
-            <div class="nav-buttons">
-                <button class="btn btn-next" disabled>Continue</button>
-            </div>
+            <p class="select-hint" id="s2-hint">Select one to continue</p>
         </div>
-
-        <!-- Question 2: Race Date -->
-        <div class="screen hidden" id="screen-date">
-            <div class="progress-dots">
-                <div class="dot active"></div>
-                <div class="dot active"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
-            </div>
-
-            <div class="question-step">Step 2 of 6</div>
-            <h1 class="question">When's race day?</h1>
-            <p class="question-subtitle">We'll work backwards to create your plan</p>
-
-            <div class="options-container">
-                <input type="date" class="date-input">
-            </div>
-
-            <div class="nav-buttons">
-                <button class="btn btn-back">Back</button>
-                <button class="btn btn-next">Continue</button>
-            </div>
-        </div>
-
-        <!-- Question 3: Experience Level -->
-        <div class="screen hidden" id="screen-experience">
-            <div class="progress-dots">
-                <div class="dot active"></div>
-                <div class="dot active"></div>
-                <div class="dot active"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
-            </div>
-
-            <div class="question-step">Step 3 of 6</div>
-            <h1 class="question">What's your experience level?</h1>
-            <p class="question-subtitle">This helps us calibrate your training intensity</p>
-
-            <div class="options-container">
-                <div class="option-card" onclick="selectOption(this)">
-                    <div class="option-icon">🌱</div>
-                    <div class="option-title">Beginner</div>
-                    <p class="option-description">New to running or returning after a long break</p>
-                </div>
-
-                <div class="option-card" onclick="selectOption(this)">
-                    <div class="option-icon">💪</div>
-                    <div class="option-title">Intermediate</div>
-                    <p class="option-description">Running regularly, completed a few races</p>
-                </div>
-
-                <div class="option-card" onclick="selectOption(this)">
-                    <div class="option-icon">⚡</div>
-                    <div class="option-title">Advanced</div>
-                    <p class="option-description">Experienced runner training for performance</p>
-                </div>
-            </div>
-
-            <div class="nav-buttons">
-                <button class="btn btn-back">Back</button>
-                <button class="btn btn-next" disabled>Continue</button>
-            </div>
-        </div>
-
-        <!-- Question 4: Weekly Mileage -->
-        <div class="screen hidden" id="screen-mileage">
-            <div class="progress-dots">
-                <div class="dot active"></div>
-                <div class="dot active"></div>
-                <div class="dot active"></div>
-                <div class="dot active"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
-            </div>
-
-            <div class="question-step">Step 4 of 6</div>
-            <h1 class="question">Current weekly mileage?</h1>
-            <p class="question-subtitle">We'll build up from where you are today</p>
-
-            <div class="options-container">
-                <div class="slider-container">
-                    <div class="slider-labels">
-                        <span class="slider-label">0 miles</span>
-                        <span class="slider-label">50+ miles</span>
-                    </div>
-
-                    <div class="slider-wrapper">
-                        <div class="slider-track"></div>
-                        <input type="range" min="0" max="50" value="15" id="mileage-slider">
-                    </div>
-
-                    <div class="slider-value">15 miles/week</div>
-                </div>
-            </div>
-
-            <div class="nav-buttons">
-                <button class="btn btn-back">Back</button>
-                <button class="btn btn-next">Continue</button>
-            </div>
+        <div class="nav-buttons">
+            <button class="btn btn-back" onclick="nav(1)">Back</button>
         </div>
     </div>
 
-    <script>
-        function startOnboarding() {
-            document.getElementById('welcome').classList.add('hidden');
-            document.getElementById('screen-race').classList.remove('hidden');
+    <!-- ── Screen 3: Goal Race Details ── -->
+    <div class="screen hidden" id="s3">
+        <div class="screen-header">
+            <div class="question-step">Step 3 of 10</div>
+            <h1 class="question">Tell us about your race</h1>
+            <p class="question-subtitle">We'll work backwards from race day to build your plan</p>
+        </div>
+        <div class="screen-body">
+            <div class="input-group">
+                <label class="input-label">Race Name <span style="font-weight:400;color:var(--color-text-muted)">(optional)</span></label>
+                <input type="text" class="input-field" placeholder="e.g. Boston Marathon, Local 5K" id="race-name">
+            </div>
+            <div class="input-group">
+                <label class="input-label">Race Date</label>
+                <input type="date" class="input-field" id="race-date" oninput="checkS3()">
+            </div>
+            <div class="input-group" style="margin-top:8px">
+                <label class="input-label">Any Other Upcoming Races? <span style="font-weight:400;color:var(--color-text-muted)">(optional)</span></label>
+                <input type="text" class="input-field" placeholder="Race name" id="other-race-name">
+                <input type="date" class="input-field" id="other-race-date">
+            </div>
+        </div>
+        <div class="nav-buttons">
+            <button class="btn btn-back" onclick="nav(2)">Back</button>
+            <button class="btn btn-next" id="s3-next" disabled onclick="nav(4)">Continue</button>
+        </div>
+    </div>
+
+    <!-- ── Screen 4: Running History ── -->
+    <div class="screen hidden" id="s4">
+        <div class="screen-header">
+            <div class="question-step">Step 4 of 10</div>
+            <h1 class="question">Your running history</h1>
+            <p class="question-subtitle">Helps us understand your experience and build appropriate volume</p>
+        </div>
+        <div class="screen-body">
+            <div id="stepper-years" class="stepper-row">
+                <div class="stepper-label">Years Running</div>
+                <div class="stepper-controls">
+                    <button class="stepper-btn" onclick="stepperChange('years',-1)">−</button>
+                    <div class="stepper-value" id="val-years">3</div>
+                    <button class="stepper-btn" onclick="stepperChange('years',1)">+</button>
+                </div>
+            </div>
+            <div class="stepper-row">
+                <div class="stepper-label">Consecutive Years<small>Without long break</small></div>
+                <div class="stepper-controls">
+                    <button class="stepper-btn" onclick="stepperChange('consec',-1)">−</button>
+                    <div class="stepper-value" id="val-consec">2</div>
+                    <button class="stepper-btn" onclick="stepperChange('consec',1)">+</button>
+                </div>
+            </div>
+            <div class="hw-row" style="margin-top:8px">
+                <div class="hw-group">
+                    <label>Height</label>
+                    <div class="hw-input-row">
+                        <input type="number" class="hw-input" placeholder="5" min="3" max="7" id="height-ft"> <span class="hw-unit">ft</span>
+                        <input type="number" class="hw-input" placeholder="8" min="0" max="11" id="height-in"> <span class="hw-unit">in</span>
+                    </div>
+                </div>
+                <div class="hw-group">
+                    <label>Weight</label>
+                    <div class="hw-input-row">
+                        <input type="number" class="hw-input" placeholder="155" min="50" max="500" id="weight-lbs"> <span class="hw-unit">lbs</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="nav-buttons">
+            <button class="btn btn-back" onclick="nav(3)">Back</button>
+            <button class="btn btn-next" onclick="nav(5)">Continue</button>
+        </div>
+    </div>
+
+    <!-- ── Screen 5: Personal Bests ── -->
+    <div class="screen hidden" id="s5">
+        <div class="screen-header">
+            <div class="question-step">Step 5 of 10</div>
+            <h1 class="question">Personal bests</h1>
+            <p class="question-subtitle">Fill in what you know — skip anything you don't have</p>
+        </div>
+        <div class="screen-body">
+            <div class="section-label">All-time bests</div>
+            <div class="pb-grid">
+                <div class="pb-item"><div class="pb-distance">400m</div><input class="pb-input" type="text" placeholder="0:58"></div>
+                <div class="pb-item"><div class="pb-distance">Mile</div><input class="pb-input" type="text" placeholder="5:30"></div>
+                <div class="pb-item"><div class="pb-distance">5K</div><input class="pb-input" type="text" placeholder="18:45"></div>
+                <div class="pb-item"><div class="pb-distance">8K / 5M</div><input class="pb-input" type="text" placeholder="31:00"></div>
+                <div class="pb-item"><div class="pb-distance">10K</div><input class="pb-input" type="text" placeholder="39:20"></div>
+                <div class="pb-item"><div class="pb-distance">10 Mile</div><input class="pb-input" type="text" placeholder="1:05:00"></div>
+                <div class="pb-item"><div class="pb-distance">Half Marathon</div><input class="pb-input" type="text" placeholder="1:28:00"></div>
+                <div class="pb-item"><div class="pb-distance">Marathon</div><input class="pb-input" type="text" placeholder="3:10:00"></div>
+            </div>
+            <div class="section-label" style="margin-top:20px">Last 4 years</div>
+            <div class="pb-grid">
+                <div class="pb-item"><div class="pb-distance">5K</div><input class="pb-input" type="text" placeholder="19:30"></div>
+                <div class="pb-item"><div class="pb-distance">10K</div><input class="pb-input" type="text" placeholder="40:15"></div>
+                <div class="pb-item"><div class="pb-distance">Half Marathon</div><input class="pb-input" type="text" placeholder="1:30:00"></div>
+                <div class="pb-item"><div class="pb-distance">Marathon</div><input class="pb-input" type="text" placeholder="3:15:00"></div>
+            </div>
+        </div>
+        <div class="nav-buttons">
+            <button class="btn btn-back" onclick="nav(4)">Back</button>
+            <button class="btn btn-skip" onclick="nav(6)">Skip</button>
+            <button class="btn btn-next" onclick="nav(6)">Continue</button>
+        </div>
+    </div>
+
+    <!-- ── Screen 6: Training Volume ── -->
+    <div class="screen hidden" id="s6">
+        <div class="screen-header">
+            <div class="question-step">Step 6 of 10</div>
+            <h1 class="question">Current training volume</h1>
+            <p class="question-subtitle">Tell us about your typical training week</p>
+        </div>
+        <div class="screen-body">
+            <div class="section-label">Weekly Mileage</div>
+            <div class="input-row">
+                <div class="input-group">
+                    <label class="input-label">Average</label>
+                    <input type="number" class="input-field" placeholder="30" min="0" max="200" style="margin-bottom:0">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Peak</label>
+                    <input type="number" class="input-field" placeholder="45" min="0" max="200" style="margin-bottom:0">
+                </div>
+            </div>
+            <div class="section-label" style="margin-top:16px">Long Run Distance (miles)</div>
+            <div class="input-row">
+                <div class="input-group">
+                    <label class="input-label">Average</label>
+                    <input type="number" class="input-field" placeholder="12" min="0" max="35" style="margin-bottom:0">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Peak</label>
+                    <input type="number" class="input-field" placeholder="18" min="0" max="35" style="margin-bottom:0">
+                </div>
+            </div>
+            <div class="section-label" style="margin-top:16px">Runs Per Week</div>
+            <div class="input-row">
+                <div class="input-group">
+                    <label class="input-label">Average</label>
+                    <input type="number" class="input-field" placeholder="4" min="0" max="14" style="margin-bottom:0">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Peak</label>
+                    <input type="number" class="input-field" placeholder="6" min="0" max="14" style="margin-bottom:0">
+                </div>
+            </div>
+            <div class="section-label" style="margin-top:16px">Typical Long Run Day</div>
+            <div class="dow-row">
+                <div class="dow-chip" onclick="selectDow(this)">Mon</div>
+                <div class="dow-chip" onclick="selectDow(this)">Tue</div>
+                <div class="dow-chip" onclick="selectDow(this)">Wed</div>
+                <div class="dow-chip" onclick="selectDow(this)">Thu</div>
+                <div class="dow-chip" onclick="selectDow(this)">Fri</div>
+                <div class="dow-chip selected" onclick="selectDow(this)">Sat</div>
+                <div class="dow-chip" onclick="selectDow(this)">Sun</div>
+            </div>
+        </div>
+        <div class="nav-buttons">
+            <button class="btn btn-back" onclick="nav(5)">Back</button>
+            <button class="btn btn-next" onclick="nav(7)">Continue</button>
+        </div>
+    </div>
+
+    <!-- ── Screen 7: Training Content ── -->
+    <div class="screen hidden" id="s7">
+        <div class="screen-header">
+            <div class="question-step">Step 7 of 10</div>
+            <h1 class="question">What's in your training?</h1>
+            <p class="question-subtitle">Select everything that currently applies</p>
+        </div>
+        <div class="screen-body">
+            <div class="section-label">Workout types you currently do</div>
+            <div class="chips-wrap">
+                <div class="chip" onclick="toggleChip(this)">Long Runs</div>
+                <div class="chip" onclick="toggleChip(this)">Steady State / Tempo</div>
+                <div class="chip" onclick="toggleChip(this)">Speed / Intervals</div>
+                <div class="chip" onclick="toggleChip(this)">Strides</div>
+                <div class="chip" onclick="toggleChip(this)">Hills</div>
+                <div class="chip" onclick="toggleChip(this)">Fartlek</div>
+            </div>
+            <div class="section-label">Cross-training you do</div>
+            <div class="chips-wrap">
+                <div class="chip" onclick="toggleChip(this)">Cycling</div>
+                <div class="chip" onclick="toggleChip(this)">Swimming</div>
+                <div class="chip" onclick="toggleChip(this)">Strength Training</div>
+                <div class="chip" onclick="toggleChip(this)">Elliptical</div>
+                <div class="chip" onclick="toggleChip(this)">Stair Climbing</div>
+                <div class="chip" onclick="toggleChip(this)">Yoga / Mobility</div>
+                <div class="chip" onclick="toggleChip(this)">None</div>
+            </div>
+        </div>
+        <div class="nav-buttons">
+            <button class="btn btn-back" onclick="nav(6)">Back</button>
+            <button class="btn btn-next" onclick="nav(8)">Continue</button>
+        </div>
+    </div>
+
+    <!-- ── Screen 8: Available Time ── -->
+    <div class="screen hidden" id="s8">
+        <div class="screen-header">
+            <div class="question-step">Step 8 of 10</div>
+            <h1 class="question">Available training time</h1>
+            <p class="question-subtitle">We'll fit your plan around your real schedule</p>
+        </div>
+        <div class="screen-body">
+            <div class="stepper-row" style="margin-bottom:16px">
+                <div class="stepper-label">Days per week<small>Available to train</small></div>
+                <div class="stepper-controls">
+                    <button class="stepper-btn" onclick="stepperChange('days',-1)">−</button>
+                    <div class="stepper-value" id="val-days">5</div>
+                    <button class="stepper-btn" onclick="stepperChange('days',1)">+</button>
+                </div>
+            </div>
+            <div class="stepper-row">
+                <div class="stepper-label">Hours per week<small>Total training time available</small></div>
+                <div class="stepper-controls">
+                    <button class="stepper-btn" onclick="stepperChange('hours',-1)">−</button>
+                    <div class="stepper-value" id="val-hours">6</div>
+                    <button class="stepper-btn" onclick="stepperChange('hours',1)">+</button>
+                </div>
+            </div>
+        </div>
+        <div class="nav-buttons">
+            <button class="btn btn-back" onclick="nav(7)">Back</button>
+            <button class="btn btn-next" onclick="nav(9)">Continue</button>
+        </div>
+    </div>
+
+    <!-- ── Screen 9: Running Goals ── -->
+    <div class="screen hidden" id="s9">
+        <div class="screen-header">
+            <div class="question-step">Step 9 of 10</div>
+            <h1 class="question">What's your goal?</h1>
+            <p class="question-subtitle">Be specific — we'll use this to calibrate your target paces</p>
+        </div>
+        <div class="screen-body">
+            <div class="goal-toggle">
+                <button class="goal-toggle-btn active" id="goal-time-btn" onclick="setGoalType('time')">Time Goal</button>
+                <button class="goal-toggle-btn" id="goal-comp-btn" onclick="setGoalType('comp')">Competitive</button>
+                <button class="goal-toggle-btn" id="goal-finish-btn" onclick="setGoalType('finish')">Just Finish</button>
+            </div>
+            <div class="goal-fields visible" id="goal-time-fields">
+                <div class="input-group">
+                    <label class="input-label">Target Distance</label>
+                    <select class="input-field" style="cursor:pointer">
+                        <option>5K</option>
+                        <option>10K</option>
+                        <option selected>Half Marathon</option>
+                        <option>Marathon</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Target Time</label>
+                    <input type="text" class="input-field" placeholder="1:45:00" style="margin-bottom:0">
+                </div>
+            </div>
+            <div class="goal-fields" id="goal-comp-fields">
+                <div class="input-group">
+                    <label class="input-label">Target Distance</label>
+                    <select class="input-field" style="cursor:pointer">
+                        <option>5K</option>
+                        <option>10K</option>
+                        <option>Half Marathon</option>
+                        <option>Marathon</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Competition Type</label>
+                    <select class="input-field" style="cursor:pointer;margin-bottom:0">
+                        <option>Top 10 Overall</option>
+                        <option>Top 3 Overall</option>
+                        <option>Win Age Group</option>
+                        <option>Top 3 Age Group</option>
+                    </select>
+                </div>
+            </div>
+            <div class="goal-fields" id="goal-finish-fields">
+                <p style="font-size:15px;color:var(--color-text-muted);line-height:1.6;padding:8px 0">
+                    No problem — we'll focus on getting you to the finish line healthy and strong.
+                    You can always set a time goal later.
+                </p>
+            </div>
+        </div>
+        <div class="nav-buttons">
+            <button class="btn btn-back" onclick="nav(8)">Back</button>
+            <button class="btn btn-next" onclick="nav(10)">Continue</button>
+        </div>
+    </div>
+
+    <!-- ── Screen 10: Injury History ── -->
+    <div class="screen hidden" id="s10">
+        <div class="screen-header">
+            <div class="question-step">Step 10 of 10</div>
+            <h1 class="question">Injury history</h1>
+            <p class="question-subtitle">Tap areas you've had significant issues with in the last 2 years</p>
+        </div>
+        <div class="screen-body">
+            <div class="body-map-container">
+                <div class="body-view-toggle">
+                    <button class="view-btn active" id="btn-front" onclick="setBodyView('front')">Front</button>
+                    <button class="view-btn" id="btn-back" onclick="setBodyView('back')">Back</button>
+                </div>
+
+                <!-- Front View -->
+                <div class="body-svg-wrap" id="body-front">
+                    <svg class="body-svg" viewBox="0 0 200 360" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Head -->
+                        <ellipse cx="100" cy="28" rx="22" ry="26" fill="#E8E8E8" stroke="#D0D0D0" stroke-width="1.5"/>
+                        <!-- Torso -->
+                        <rect x="65" y="64" width="70" height="90" rx="10" fill="#E8E8E8" stroke="#D0D0D0" stroke-width="1.5"/>
+                        <!-- Left arm -->
+                        <rect x="32" y="66" width="28" height="80" rx="12" fill="#E8E8E8" stroke="#D0D0D0" stroke-width="1.5"/>
+                        <!-- Right arm -->
+                        <rect x="140" y="66" width="28" height="80" rx="12" fill="#E8E8E8" stroke="#D0D0D0" stroke-width="1.5"/>
+                        <!-- Hip area -->
+                        <rect x="65" y="148" width="70" height="28" rx="6" fill="#E8E8E8" stroke="#D0D0D0" stroke-width="1.5"/>
+                        <!-- Left upper leg -->
+                        <rect x="68" y="172" width="28" height="78" rx="10" fill="#E8E8E8" stroke="#D0D0D0" stroke-width="1.5"/>
+                        <!-- Right upper leg -->
+                        <rect x="104" y="172" width="28" height="78" rx="10" fill="#E8E8E8" stroke="#D0D0D0" stroke-width="1.5"/>
+                        <!-- Left lower leg -->
+                        <rect x="70" y="256" width="24" height="76" rx="8" fill="#E8E8E8" stroke="#D0D0D0" stroke-width="1.5"/>
+                        <!-- Right lower leg -->
+                        <rect x="106" y="256" width="24" height="76" rx="8" fill="#E8E8E8" stroke="#D0D0D0" stroke-width="1.5"/>
+
+                        <!-- Clickable zones (front) -->
+                        <rect class="body-zone" id="z-neck" x="85" y="52" width="30" height="16" rx="6"
+                              onclick="toggleZone(this,'Neck')" data-label="Neck"/>
+
+                        <rect class="body-zone" id="z-upper-body" x="60" y="64" width="80" height="50" rx="8"
+                              onclick="toggleZone(this,'Upper Body')" data-label="Upper Body" style="opacity:0.6"/>
+
+                        <rect class="body-zone" id="z-hip-flex" x="62" y="145" width="76" height="32" rx="6"
+                              onclick="toggleZone(this,'Hip Flexors')" data-label="Hip Flexors"/>
+
+                        <rect class="body-zone" id="z-l-quad" x="66" y="173" width="30" height="70" rx="8"
+                              onclick="toggleZone(this,'Left Quad')" data-label="Left Quad" style="opacity:0.7"/>
+
+                        <rect class="body-zone" id="z-r-quad" x="104" y="173" width="30" height="70" rx="8"
+                              onclick="toggleZone(this,'Right Quad')" data-label="Right Quad" style="opacity:0.7"/>
+
+                        <rect class="body-zone" id="z-l-shin" x="68" y="252" width="26" height="60" rx="7"
+                              onclick="toggleZone(this,'Left Shin / Calf')" data-label="Left Shin / Calf" style="opacity:0.7"/>
+
+                        <rect class="body-zone" id="z-r-shin" x="106" y="252" width="26" height="60" rx="7"
+                              onclick="toggleZone(this,'Right Shin / Calf')" data-label="Right Shin / Calf" style="opacity:0.7"/>
+
+                        <rect class="body-zone" id="z-l-foot" x="66" y="318" width="28" height="20" rx="5"
+                              onclick="toggleZone(this,'Left Foot')" data-label="Left Foot"/>
+
+                        <rect class="body-zone" id="z-r-foot" x="106" y="318" width="28" height="20" rx="5"
+                              onclick="toggleZone(this,'Right Foot')" data-label="Right Foot"/>
+
+                        <!-- Zone labels -->
+                        <text x="100" y="63" text-anchor="middle" font-size="8" fill="#888" pointer-events="none">neck</text>
+                        <text x="100" y="97" text-anchor="middle" font-size="8" fill="#888" pointer-events="none">upper body</text>
+                        <text x="100" y="165" text-anchor="middle" font-size="8" fill="#888" pointer-events="none">hip flexors</text>
+                        <text x="81" y="215" text-anchor="middle" font-size="7" fill="#888" pointer-events="none">L quad</text>
+                        <text x="119" y="215" text-anchor="middle" font-size="7" fill="#888" pointer-events="none">R quad</text>
+                        <text x="81" y="285" text-anchor="middle" font-size="7" fill="#888" pointer-events="none">L shin</text>
+                        <text x="119" y="285" text-anchor="middle" font-size="7" fill="#888" pointer-events="none">R shin</text>
+                        <text x="80" y="332" text-anchor="middle" font-size="7" fill="#888" pointer-events="none">L foot</text>
+                        <text x="120" y="332" text-anchor="middle" font-size="7" fill="#888" pointer-events="none">R foot</text>
+                    </svg>
+                </div>
+
+                <!-- Back View -->
+                <div class="body-svg-wrap" id="body-back" style="display:none">
+                    <svg class="body-svg" viewBox="0 0 200 360" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Head -->
+                        <ellipse cx="100" cy="28" rx="22" ry="26" fill="#E8E8E8" stroke="#D0D0D0" stroke-width="1.5"/>
+                        <!-- Torso -->
+                        <rect x="65" y="64" width="70" height="90" rx="10" fill="#E8E8E8" stroke="#D0D0D0" stroke-width="1.5"/>
+                        <!-- Left arm -->
+                        <rect x="32" y="66" width="28" height="80" rx="12" fill="#E8E8E8" stroke="#D0D0D0" stroke-width="1.5"/>
+                        <!-- Right arm -->
+                        <rect x="140" y="66" width="28" height="80" rx="12" fill="#E8E8E8" stroke="#D0D0D0" stroke-width="1.5"/>
+                        <!-- Glutes -->
+                        <rect x="65" y="148" width="70" height="32" rx="6" fill="#E8E8E8" stroke="#D0D0D0" stroke-width="1.5"/>
+                        <!-- Left hamstring -->
+                        <rect x="68" y="176" width="28" height="74" rx="10" fill="#E8E8E8" stroke="#D0D0D0" stroke-width="1.5"/>
+                        <!-- Right hamstring -->
+                        <rect x="104" y="176" width="28" height="74" rx="10" fill="#E8E8E8" stroke="#D0D0D0" stroke-width="1.5"/>
+                        <!-- Left lower leg -->
+                        <rect x="70" y="256" width="24" height="60" rx="8" fill="#E8E8E8" stroke="#D0D0D0" stroke-width="1.5"/>
+                        <!-- Right lower leg -->
+                        <rect x="106" y="256" width="24" height="60" rx="8" fill="#E8E8E8" stroke="#D0D0D0" stroke-width="1.5"/>
+                        <!-- Feet back -->
+                        <rect x="66" y="320" width="28" height="18" rx="5" fill="#E8E8E8" stroke="#D0D0D0" stroke-width="1.5"/>
+                        <rect x="106" y="320" width="28" height="18" rx="5" fill="#E8E8E8" stroke="#D0D0D0" stroke-width="1.5"/>
+
+                        <!-- Clickable zones (back) -->
+                        <rect class="body-zone" id="z-upper-back" x="60" y="64" width="80" height="48" rx="8"
+                              onclick="toggleZone(this,'Upper Back')" data-label="Upper Back" style="opacity:0.6"/>
+
+                        <rect class="body-zone" id="z-lower-back" x="65" y="110" width="70" height="40" rx="6"
+                              onclick="toggleZone(this,'Lower Back / Spine')" data-label="Lower Back / Spine" style="opacity:0.6"/>
+
+                        <rect class="body-zone" id="z-glutes" x="62" y="145" width="76" height="36" rx="6"
+                              onclick="toggleZone(this,'Hips / Glutes')" data-label="Hips / Glutes"/>
+
+                        <rect class="body-zone" id="z-l-it" x="55" y="176" width="18" height="74" rx="8"
+                              onclick="toggleZone(this,'Left IT Band')" data-label="Left IT Band"/>
+
+                        <rect class="body-zone" id="z-r-it" x="127" y="176" width="18" height="74" rx="8"
+                              onclick="toggleZone(this,'Right IT Band')" data-label="Right IT Band"/>
+
+                        <rect class="body-zone" id="z-l-ham" x="68" y="176" width="28" height="68" rx="8"
+                              onclick="toggleZone(this,'Left Hamstring')" data-label="Left Hamstring" style="opacity:0.7"/>
+
+                        <rect class="body-zone" id="z-r-ham" x="104" y="176" width="28" height="68" rx="8"
+                              onclick="toggleZone(this,'Right Hamstring')" data-label="Right Hamstring" style="opacity:0.7"/>
+
+                        <rect class="body-zone" id="z-l-calf" x="70" y="254" width="24" height="44" rx="7"
+                              onclick="toggleZone(this,'Left Calf / Soleus')" data-label="Left Calf / Soleus" style="opacity:0.7"/>
+
+                        <rect class="body-zone" id="z-r-calf" x="106" y="254" width="24" height="44" rx="7"
+                              onclick="toggleZone(this,'Right Calf / Soleus')" data-label="Right Calf / Soleus" style="opacity:0.7"/>
+
+                        <rect class="body-zone" id="z-l-achilles" x="72" y="300" width="20" height="22" rx="5"
+                              onclick="toggleZone(this,'Left Achilles')" data-label="Left Achilles"/>
+
+                        <rect class="body-zone" id="z-r-achilles" x="108" y="300" width="20" height="22" rx="5"
+                              onclick="toggleZone(this,'Right Achilles')" data-label="Right Achilles"/>
+
+                        <rect class="body-zone" id="z-l-plantar" x="66" y="320" width="28" height="18" rx="5"
+                              onclick="toggleZone(this,'Left Plantar Fascia')" data-label="Left Plantar Fascia"/>
+
+                        <rect class="body-zone" id="z-r-plantar" x="106" y="320" width="28" height="18" rx="5"
+                              onclick="toggleZone(this,'Right Plantar Fascia')" data-label="Right Plantar Fascia"/>
+
+                        <!-- Labels -->
+                        <text x="100" y="92" text-anchor="middle" font-size="7.5" fill="#888" pointer-events="none">upper back</text>
+                        <text x="100" y="134" text-anchor="middle" font-size="7.5" fill="#888" pointer-events="none">lower back</text>
+                        <text x="100" y="168" text-anchor="middle" font-size="7.5" fill="#888" pointer-events="none">glutes</text>
+                        <text x="64" y="218" text-anchor="middle" font-size="6.5" fill="#888" pointer-events="none" transform="rotate(-90,64,218)">IT band</text>
+                        <text x="136" y="218" text-anchor="middle" font-size="6.5" fill="#888" pointer-events="none" transform="rotate(90,136,218)">IT band</text>
+                        <text x="82" y="215" text-anchor="middle" font-size="7" fill="#888" pointer-events="none">L ham</text>
+                        <text x="118" y="215" text-anchor="middle" font-size="7" fill="#888" pointer-events="none">R ham</text>
+                        <text x="82" y="279" text-anchor="middle" font-size="7" fill="#888" pointer-events="none">L calf</text>
+                        <text x="118" y="279" text-anchor="middle" font-size="7" fill="#888" pointer-events="none">R calf</text>
+                        <text x="82" y="315" text-anchor="middle" font-size="6.5" fill="#888" pointer-events="none">achilles</text>
+                        <text x="118" y="315" text-anchor="middle" font-size="6.5" fill="#888" pointer-events="none">achilles</text>
+                        <text x="80" y="332" text-anchor="middle" font-size="6.5" fill="#888" pointer-events="none">plantar</text>
+                        <text x="120" y="332" text-anchor="middle" font-size="6.5" fill="#888" pointer-events="none">plantar</text>
+                    </svg>
+                </div>
+
+                <div class="injury-selected-list">
+                    <div class="section-label">Selected areas</div>
+                    <div class="injury-tags" id="injury-tags">
+                        <span class="no-injuries-note">Tap areas on the body above</span>
+                    </div>
+                </div>
+
+                <div class="input-group" style="margin-top:16px;width:100%">
+                    <label class="input-label">Anything else? <span style="font-weight:400;color:var(--color-text-muted)">(optional)</span></label>
+                    <input type="text" class="input-field" placeholder="e.g. sciatica, nerve pain, general tightness" style="margin-bottom:0">
+                </div>
+            </div>
+        </div>
+        <div class="nav-buttons">
+            <button class="btn btn-back" onclick="nav(9)">Back</button>
+            <button class="btn btn-skip" onclick="showComplete()">Skip</button>
+            <button class="btn btn-next" onclick="showComplete()">Done</button>
+        </div>
+    </div>
+
+    <!-- ── Complete ── -->
+    <div class="complete-screen hidden" id="complete">
+        <div class="complete-icon">✓</div>
+        <h1 class="complete-title">You're all set</h1>
+        <p class="complete-subtitle">CoachME is building your personalized training plan. Ready in seconds.</p>
+        <button class="complete-cta" onclick="alert('Plan ready — navigating to your calendar…')">View My Plan →</button>
+    </div>
+
+</div>
+
+<!-- ── Injury Detail Bottom Sheet ── -->
+<div class="injury-overlay" id="injury-overlay" onclick="cancelInjury()"></div>
+<div class="injury-sheet" id="injury-sheet">
+    <div class="injury-sheet-handle"></div>
+    <div class="injury-sheet-header">
+        <h3 class="injury-sheet-title" id="injury-sheet-title">Left Quad</h3>
+        <button class="injury-sheet-close" onclick="cancelInjury()">✕</button>
+    </div>
+    <div class="injury-sheet-body">
+        <div class="input-group" style="margin-top:12px">
+            <label class="input-label">Injury Type <span class="required-star">*</span></label>
+            <select class="input-field" id="injury-type-sel" onchange="validateInjuryPanel()" style="cursor:pointer;margin-bottom:0">
+                <option value="">Select type...</option>
+            </select>
+        </div>
+        <div class="input-group" style="margin-top:14px">
+            <label class="input-label">Severity <span class="required-star">*</span></label>
+            <div class="severity-row">
+                <div class="severity-chip" data-sev="mild" onclick="selectSeverity(this,'mild')">Mild</div>
+                <div class="severity-chip" data-sev="moderate" onclick="selectSeverity(this,'moderate')">Moderate</div>
+                <div class="severity-chip" data-sev="significant" onclick="selectSeverity(this,'significant')">Significant</div>
+            </div>
+        </div>
+        <div class="input-group" style="margin-top:14px">
+            <label class="input-label">Notes <span class="required-star">*</span></label>
+            <textarea class="input-field injury-notes-ta" id="injury-notes-ta" rows="3"
+                placeholder="When did it occur? What makes it worse? Current status?"
+                oninput="validateInjuryPanel()"></textarea>
+        </div>
+        <button class="btn btn-next" id="injury-confirm-btn" disabled onclick="confirmInjury()" style="margin-top:12px">Save Injury</button>
+    </div>
+</div>
+
+<script>
+    const TOTAL = 10;
+
+    // ── Injury data ──
+    let injuryData = {};          // label → { type, severity, notes }
+    let currentInjuryZoneEl = null;
+    let currentInjuryLabel  = null;
+    let currentSeverity     = null;
+
+    const ZONE_INJURIES = {
+        'Neck':               ['Neck Strain / Sprain', 'Cervical Strain', 'Muscle Pull', 'Disc Issue', 'Other'],
+        'Upper Body':         ['Shoulder Strain', 'Rotator Cuff Issue', 'AC Joint Issue', 'Stress Fracture (Rib)', 'Muscle Pull', 'Other'],
+        'Upper Back':         ['Upper Back Strain', 'Thoracic Spine Issue', 'Muscle Tension / Spasm', 'Stress Fracture (Rib)', 'Other'],
+        'Lower Back / Spine': ['Lower Back Strain', 'Disc Herniation / Bulge', 'Sciatica', 'Spinal Stenosis', 'Spondylolysis', 'Sacroiliac Joint Issue', 'Other'],
+        'Hip Flexors':        ['Hip Flexor Strain', 'Hip Flexor Tendinopathy', 'Iliopsoas Bursitis', 'Snapping Hip Syndrome', 'Other'],
+        'Hips / Glutes':      ['Glute Strain', 'Hip Labrum Tear', 'Hip Bursitis', 'Piriformis Syndrome', 'Sciatica', 'Greater Trochanteric Pain Syndrome', 'Other'],
+    };
+    const BILATERAL_INJURIES = {
+        'IT Band':       ['IT Band Syndrome (ITBS)', 'Lateral Knee Pain', 'IT Band Friction Syndrome', 'Other'],
+        'Quad':          ["Quad Strain", "Patellar Tendinitis", "Patellofemoral Pain (Runner's Knee)", "Quad Tendinopathy", "Muscle Pull", "Other"],
+        'Hamstring':     ['Hamstring Strain — Grade 1 (mild)', 'Hamstring Strain — Grade 2 (moderate)', 'Hamstring Strain — Grade 3 (severe)', 'Proximal Hamstring Tendinopathy', 'Hamstring Tendinopathy', 'Other'],
+        'Shin / Calf':   ['Shin Splints (MTSS)', 'Calf Strain', 'Stress Fracture — Tibia', 'Stress Fracture — Fibula', 'Compartment Syndrome', 'Periostitis', 'Other'],
+        'Calf / Soleus': ['Calf Strain', 'Soleus Strain', 'Muscle Pull', 'Compartment Syndrome', 'Posterior Tibial Tendinopathy', 'Other'],
+        'Achilles':      ['Achilles Tendinitis', 'Achilles Tendinopathy (mid-portion)', 'Insertional Achilles Tendinopathy', 'Partial Rupture', 'Full Rupture', 'Other'],
+        'Foot':          ['Plantar Fasciitis', 'Metatarsal Stress Fracture', 'Heel Spur', "Morton's Neuroma", 'Bunion', 'Sesamoiditis', 'Other'],
+        'Plantar Fascia':['Plantar Fasciitis', 'Heel Spur', 'Plantar Fascia Rupture', 'Fat Pad Syndrome', 'Sesamoiditis', 'Other'],
+    };
+
+    function getInjuryOptions(label) {
+        if (ZONE_INJURIES[label]) return ZONE_INJURIES[label];
+        const key = label.replace(/^(Left |Right )/, '');
+        return BILATERAL_INJURIES[key] || ['Strain / Sprain', 'Tendinopathy', 'Stress Fracture', 'Bursitis', 'Other'];
+    }
+
+    // ── Navigation ──
+    function nav(step) {
+        // hide all
+        document.querySelectorAll('.screen, .welcome-screen, .complete-screen').forEach(el => el.classList.add('hidden'));
+
+        if (step === 0) {
+            document.getElementById('welcome').classList.remove('hidden');
+            document.getElementById('progress-track').style.display = 'none';
+            return;
         }
 
-        function selectOption(element) {
-            const siblings = element.parentElement.querySelectorAll('.option-card');
-            siblings.forEach(card => card.classList.remove('selected'));
-            element.classList.add('selected');
+        const screen = document.getElementById('s' + step);
+        if (!screen) return;
+        screen.classList.remove('hidden');
 
-            // Enable next button
-            const screen = element.closest('.screen');
-            const nextBtn = screen.querySelector('.btn-next');
-            if (nextBtn) {
-                nextBtn.disabled = false;
-            }
+        // reset animations by cloning children (force re-trigger)
+        screen.querySelectorAll('[style*="animation"],.question-step,.question,.question-subtitle,.option-card,.nav-buttons').forEach(el => {
+            el.style.animation = 'none';
+            el.offsetHeight; // reflow
+            el.style.animation = '';
+        });
+
+        // progress
+        document.getElementById('progress-track').style.display = 'block';
+        document.getElementById('progress-fill').style.width = ((step / TOTAL) * 100) + '%';
+    }
+
+    function showComplete() {
+        document.querySelectorAll('.screen, .welcome-screen').forEach(el => el.classList.add('hidden'));
+        document.getElementById('progress-track').style.display = 'none';
+        document.getElementById('complete').classList.remove('hidden');
+    }
+
+    // ── Single-select option cards ──
+    // nextStep: if provided, auto-advance after a short delay
+    function selectCard(el, screenId, nextStep) {
+        el.closest('.screen-body').querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+        el.classList.add('selected');
+
+        // fade the hint
+        const hint = document.getElementById(screenId + '-hint');
+        if (hint) hint.classList.add('fading');
+
+        // enable manual continue button if present
+        const btn = document.getElementById(screenId + '-next');
+        if (btn) btn.disabled = false;
+
+        // auto-advance
+        if (nextStep) {
+            setTimeout(() => nav(nextStep), 340);
         }
+    }
 
-        // Mileage slider
-        const mileageSlider = document.getElementById('mileage-slider');
-        if (mileageSlider) {
-            const valueDisplay = mileageSlider.closest('.slider-container').querySelector('.slider-value');
+    // ── Screen 3 validation ──
+    function checkS3() {
+        const d = document.getElementById('race-date').value;
+        document.getElementById('s3-next').disabled = !d;
+    }
 
-            mileageSlider.addEventListener('input', (e) => {
-                const value = e.target.value;
-                const displayValue = value >= 50 ? '50+' : value;
-                valueDisplay.textContent = displayValue + ' miles/week';
+    // ── Steppers ──
+    const stepperData = {
+        years:  { val: 3,  min: 0,  max: 50, el: 'val-years' },
+        consec: { val: 2,  min: 0,  max: 50, el: 'val-consec' },
+        days:   { val: 5,  min: 1,  max: 7,  el: 'val-days' },
+        hours:  { val: 6,  min: 1,  max: 40, el: 'val-hours' },
+    };
+    function stepperChange(key, delta) {
+        const s = stepperData[key];
+        s.val = Math.max(s.min, Math.min(s.max, s.val + delta));
+        document.getElementById(s.el).textContent = s.val;
+    }
+
+    // ── Day-of-week (single select) ──
+    function selectDow(el) {
+        el.closest('.dow-row').querySelectorAll('.dow-chip').forEach(c => c.classList.remove('selected'));
+        el.classList.add('selected');
+    }
+
+    // ── Multi-select chips ──
+    function toggleChip(el) {
+        el.classList.toggle('selected');
+    }
+
+    // ── Goal type toggle ──
+    function setGoalType(type) {
+        ['time','comp','finish'].forEach(t => {
+            document.getElementById('goal-' + t + '-btn').classList.toggle('active', t === type);
+            document.getElementById('goal-' + t + '-fields').classList.toggle('visible', t === type);
+        });
+    }
+
+    // ── Body view toggle ──
+    function setBodyView(view) {
+        document.getElementById('btn-front').classList.toggle('active', view === 'front');
+        document.getElementById('btn-back').classList.toggle('active', view === 'back');
+        document.getElementById('body-front').style.display = view === 'front' ? 'block' : 'none';
+        document.getElementById('body-back').style.display = view === 'back' ? 'block' : 'none';
+    }
+
+    // ── Injury zone tap ──
+    function toggleZone(el, label) {
+        if (injuryData[label]) {
+            // Already logged — open sheet to edit
+            openInjuryPanel(el, label);
+        } else {
+            // New tap — pre-select visually, open sheet
+            el.classList.add('selected');
+            openInjuryPanel(el, label);
+        }
+    }
+
+    function openInjuryPanel(el, label) {
+        currentInjuryZoneEl = el;
+        currentInjuryLabel  = label;
+        currentSeverity     = null;
+
+        document.getElementById('injury-sheet-title').textContent = label;
+
+        // Populate dropdown
+        const sel = document.getElementById('injury-type-sel');
+        const opts = getInjuryOptions(label);
+        sel.innerHTML = '<option value="">Select type...</option>' +
+            opts.map(o => `<option value="${o}">${o}</option>`).join('');
+
+        // Pre-fill if editing
+        const existing = injuryData[label];
+        if (existing) {
+            sel.value = existing.type;
+            document.getElementById('injury-notes-ta').value = existing.notes;
+            currentSeverity = existing.severity;
+            document.querySelectorAll('.severity-chip').forEach(c => {
+                c.classList.toggle('selected', c.dataset.sev === existing.severity);
             });
+        } else {
+            sel.value = '';
+            document.getElementById('injury-notes-ta').value = '';
+            document.querySelectorAll('.severity-chip').forEach(c => c.classList.remove('selected'));
         }
-    </script>
+
+        validateInjuryPanel();
+        document.getElementById('injury-overlay').classList.add('visible');
+        document.getElementById('injury-sheet').classList.add('open');
+    }
+
+    function cancelInjury() {
+        document.getElementById('injury-overlay').classList.remove('visible');
+        document.getElementById('injury-sheet').classList.remove('open');
+        // If zone has no saved data, un-highlight it
+        if (currentInjuryZoneEl && !injuryData[currentInjuryLabel]) {
+            currentInjuryZoneEl.classList.remove('selected');
+        }
+        currentInjuryZoneEl = null;
+        currentInjuryLabel  = null;
+    }
+
+    function selectSeverity(el, sev) {
+        document.querySelectorAll('.severity-chip').forEach(c => c.classList.remove('selected'));
+        el.classList.add('selected');
+        currentSeverity = sev;
+        validateInjuryPanel();
+    }
+
+    function validateInjuryPanel() {
+        const type  = document.getElementById('injury-type-sel').value;
+        const notes = document.getElementById('injury-notes-ta').value.trim();
+        document.getElementById('injury-confirm-btn').disabled = !(type && currentSeverity && notes.length > 0);
+    }
+
+    function confirmInjury() {
+        const type  = document.getElementById('injury-type-sel').value;
+        const notes = document.getElementById('injury-notes-ta').value.trim();
+        injuryData[currentInjuryLabel] = { type, severity: currentSeverity, notes };
+        currentInjuryZoneEl.classList.add('selected');
+        renderInjuryTags();
+        document.getElementById('injury-overlay').classList.remove('visible');
+        document.getElementById('injury-sheet').classList.remove('open');
+        currentInjuryZoneEl = null;
+        currentInjuryLabel  = null;
+    }
+
+    function renderInjuryTags() {
+        const container = document.getElementById('injury-tags');
+        const zones = Object.keys(injuryData);
+        if (zones.length === 0) {
+            container.innerHTML = '<span class="no-injuries-note">Tap areas on the body above</span>';
+            return;
+        }
+        const SEV = { mild: 'Mild', moderate: 'Moderate', significant: 'Significant' };
+        container.innerHTML = zones.map(label => {
+            const d = injuryData[label];
+            const safeLabel = label.replace(/'/g, "\\'");
+            return `
+            <div class="injury-tag">
+                <div class="injury-tag-header">
+                    <div class="injury-tag-zone">${label}</div>
+                    <div class="injury-tag-actions">
+                        <span class="injury-tag-btn" onclick="editInjury('${safeLabel}')">Edit</span>
+                        <span class="injury-tag-btn" onclick="removeInjury('${safeLabel}')">✕</span>
+                    </div>
+                </div>
+                <div class="injury-tag-type">${d.type}</div>
+                <div class="injury-tag-meta">
+                    <span class="injury-severity-badge badge-${d.severity}">${SEV[d.severity]}</span>
+                </div>
+                <div class="injury-tag-notes">${d.notes}</div>
+            </div>`;
+        }).join('');
+    }
+
+    function editInjury(label) {
+        const el = document.querySelector(`.body-zone[data-label="${label}"]`);
+        openInjuryPanel(el, label);
+    }
+
+    function removeInjury(label) {
+        delete injuryData[label];
+        document.querySelectorAll('.body-zone').forEach(el => {
+            if (el.dataset.label === label) el.classList.remove('selected');
+        });
+        renderInjuryTags();
+    }
+</script>
 </body>
 </html>
