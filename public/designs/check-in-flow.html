@@ -37,7 +37,7 @@
 
         h1, h2, h3,
         .question,
-        .slider-value,
+        .slider-number,
         .summary-value {
             font-family: var(--font-display);
             font-variant: small-caps;
@@ -87,7 +87,7 @@
             transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* ── Screen Nav (back button + step label) ── */
+        /* ── Screen Nav ── */
         .screen-nav {
             display: flex;
             align-items: center;
@@ -174,21 +174,36 @@
             animation: scaleIn 0.6s ease-out 0.3s forwards;
         }
 
-        .slider-labels {
-            display: flex;
-            justify-content: space-between;
+        /* Dynamic description — single label that changes with slider */
+        .slider-description {
+            text-align: center;
             margin-bottom: 28px;
+            min-height: 48px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
         }
 
-        .slider-label {
-            font-size: 13px;
-            color: var(--color-text-muted);
+        .slider-number {
+            font-size: 52px;
+            color: var(--color-primary);
+            line-height: 1;
+            transition: color 0.3s ease;
+        }
+
+        .slider-label-text {
+            font-size: 15px;
             font-weight: 500;
+            color: var(--color-text-secondary);
+            transition: opacity 0.2s ease;
+            letter-spacing: 0.01em;
         }
 
         .slider-wrapper {
             position: relative;
-            padding: 20px 0;
+            padding: 20px 0 0;
         }
 
         .slider-track {
@@ -208,7 +223,7 @@
 
         input[type="range"] {
             position: absolute;
-            top: 50%;
+            top: 0;
             left: 0;
             width: 100%;
             height: 48px;
@@ -247,11 +262,30 @@
             box-shadow: 0 4px 16px rgba(0,0,0,0.15), 0 0 0 4px var(--color-primary);
         }
 
-        .slider-value {
+        /* ── Tick marks (0–10 numbers below track) ── */
+        .slider-ticks {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            padding: 0 2px;
+        }
+
+        .slider-tick {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--color-border);
+            transition: color 0.2s ease;
+            width: 20px;
             text-align: center;
-            margin-top: 20px;
-            font-size: 52px;
+            letter-spacing: 0;
+        }
+
+        .slider-tick.active {
             color: var(--color-primary);
+        }
+
+        .slider-tick.passed {
+            color: var(--color-text-muted);
         }
 
         /* ── Exhaustion Follow-up ── */
@@ -277,7 +311,7 @@
             to   { opacity: 1; transform: translateY(0); }
         }
 
-        /* ── Option Buttons (replace Next on low physical) ── */
+        /* ── Option Buttons ── */
         .option-buttons {
             display: flex;
             flex-direction: column;
@@ -381,7 +415,7 @@
 
         .btn:active { transform: scale(0.98); }
 
-        /* ── Check-in Summary Card (Notes screen) ── */
+        /* ── Check-in Summary Card ── */
         .summary-card {
             background: var(--color-card);
             border: 1px solid var(--color-border);
@@ -491,7 +525,6 @@
             opacity: 0.7;
         }
 
-        /* Notes screen: tighter spacing throughout */
         #screen-notes .question {
             font-size: 28px;
             margin-bottom: 16px;
@@ -531,10 +564,9 @@
                 <h1 class="question">How was your effort?</h1>
 
                 <div class="slider-container">
-                    <div class="slider-labels">
-                        <span class="slider-label">Rest</span>
-                        <span class="slider-label">Moderate</span>
-                        <span class="slider-label">Max Effort</span>
+                    <div class="slider-description">
+                        <div class="slider-number" id="effort-value">5</div>
+                        <div class="slider-label-text" id="effort-label">Moderate</div>
                     </div>
                     <div class="slider-wrapper">
                         <div class="slider-track">
@@ -542,7 +574,7 @@
                         </div>
                         <input type="range" min="0" max="10" value="5" id="effort-slider">
                     </div>
-                    <div class="slider-value" id="effort-value">5</div>
+                    <div class="slider-ticks" id="effort-ticks"></div>
                 </div>
 
                 <div class="action-buttons">
@@ -565,10 +597,9 @@
                 <h1 class="question">How did your body feel right when you finished?</h1>
 
                 <div class="slider-container">
-                    <div class="slider-labels">
-                        <span class="slider-label">Wrecked</span>
-                        <span class="slider-label">So-so</span>
-                        <span class="slider-label">Fresh</span>
+                    <div class="slider-description">
+                        <div class="slider-number" id="physical-value">7</div>
+                        <div class="slider-label-text" id="physical-label">Pretty good</div>
                     </div>
                     <div class="slider-wrapper">
                         <div class="slider-track">
@@ -576,7 +607,7 @@
                         </div>
                         <input type="range" min="0" max="10" value="7" id="physical-slider">
                     </div>
-                    <div class="slider-value" id="physical-value">7</div>
+                    <div class="slider-ticks" id="physical-ticks"></div>
                 </div>
 
                 <!-- Conditional follow-up: slides in when score ≤ 3 -->
@@ -585,10 +616,7 @@
                 </div>
 
                 <div class="action-buttons">
-                    <!-- Normal Next (shown when physical > 3) -->
                     <button class="btn btn-next" id="physical-next" onclick="goNext()">Next</button>
-
-                    <!-- Two-tap options (shown when physical ≤ 3, replace Next) -->
                     <div class="option-buttons hidden" id="physical-options">
                         <button class="btn-option" onclick="selectExhaustion('expected')">
                             Yes — expected for this workout
@@ -615,10 +643,9 @@
                 <h1 class="question">How's your enthusiasm for training right now?</h1>
 
                 <div class="slider-container">
-                    <div class="slider-labels">
-                        <span class="slider-label">Running on Empty</span>
-                        <span class="slider-label">Neutral</span>
-                        <span class="slider-label">Fired Up</span>
+                    <div class="slider-description">
+                        <div class="slider-number" id="enthusiasm-value">5</div>
+                        <div class="slider-label-text" id="enthusiasm-label">Neutral</div>
                     </div>
                     <div class="slider-wrapper">
                         <div class="slider-track">
@@ -626,7 +653,7 @@
                         </div>
                         <input type="range" min="0" max="10" value="5" id="enthusiasm-slider">
                     </div>
-                    <div class="slider-value" id="enthusiasm-value">5</div>
+                    <div class="slider-ticks" id="enthusiasm-ticks"></div>
                 </div>
 
                 <div class="action-buttons">
@@ -648,7 +675,6 @@
             <div class="screen-content">
                 <h1 class="question">Anything to note?</h1>
 
-                <!-- Check-in summary -->
                 <div class="summary-card" id="summary-card">
                     <div class="summary-title">Your check-in</div>
                     <div class="summary-rows">
@@ -690,12 +716,55 @@
     </div><!-- /.app-container -->
 
     <script>
+        // ── Spectrum Labels ──────────────────────────────
+        const LABELS = {
+            effort: [
+                'Total rest',        // 0
+                'Barely moving',     // 1
+                'Very easy',         // 2
+                'Easy',              // 3
+                'Comfortable',       // 4
+                'Moderate',          // 5
+                'Steady push',       // 6
+                'Hard',              // 7
+                'Very hard',         // 8
+                'Near max',          // 9
+                'All out'            // 10
+            ],
+            physical: [
+                'Completely wrecked', // 0
+                'Destroyed',          // 1
+                'Really rough',       // 2
+                'Pretty rough',       // 3
+                'A bit worn down',    // 4
+                'So-so',              // 5
+                'Decent',             // 6
+                'Pretty good',        // 7
+                'Good',               // 8
+                'Strong',             // 9
+                'Totally fresh'       // 10
+            ],
+            enthusiasm: [
+                'Running on empty',   // 0
+                'Dreading it',        // 1
+                'Really dragging',    // 2
+                'Not feeling it',     // 3
+                'A bit flat',         // 4
+                'Neutral',            // 5
+                'Decent energy',      // 6
+                'Feeling good',       // 7
+                'Pumped',             // 8
+                'Really fired up',    // 9
+                'Fired up'            // 10
+            ]
+        };
+
         // ── State ──────────────────────────────────────
         const state = {
-            effortVal:       5,
-            physicalVal:     7,
-            enthusiasmVal:   5,
-            exhaustionAnswer: null  // 'expected' | 'more' | null
+            effortVal:        5,
+            physicalVal:      7,
+            enthusiasmVal:    5,
+            exhaustionAnswer: null
         };
 
         const SCREEN_IDS = [
@@ -713,13 +782,10 @@
             });
             currentIdx = idx;
 
-            // Progress: 1/4, 2/4, 3/4, 4/4
             document.getElementById('progress-fill').style.width =
                 ((currentIdx + 1) / SCREEN_IDS.length) * 100 + '%';
 
             if (idx === 3) buildSummary();
-
-            // Re-check physical follow-up when returning to screen 2
             if (idx === 1) applyPhysicalFollowUp(state.physicalVal);
         }
 
@@ -731,28 +797,57 @@
             if (currentIdx > 0) goToScreen(currentIdx - 1);
         }
 
+        // ── Build tick marks ───────────────────────────
+        function buildTicks(containerId, initialValue) {
+            const container = document.getElementById(containerId);
+            for (let i = 0; i <= 10; i++) {
+                const tick = document.createElement('span');
+                tick.className = 'slider-tick';
+                tick.textContent = i;
+                tick.id = containerId + '-tick-' + i;
+                container.appendChild(tick);
+            }
+            updateTicks(containerId, initialValue);
+        }
+
+        function updateTicks(containerId, val) {
+            for (let i = 0; i <= 10; i++) {
+                const tick = document.getElementById(containerId + '-tick-' + i);
+                if (!tick) continue;
+                tick.classList.remove('active', 'passed');
+                if (i === val) {
+                    tick.classList.add('active');
+                } else if (i < val) {
+                    tick.classList.add('passed');
+                }
+            }
+        }
+
         // ── Slider Setup ───────────────────────────────
-        function setupSlider(sliderId, fillId, valueId, stateKey) {
+        function setupSlider(sliderId, fillId, valueId, labelId, ticksId, stateKey, labelSet) {
             const slider  = document.getElementById(sliderId);
             const fill    = document.getElementById(fillId);
             const display = document.getElementById(valueId);
+            const label   = document.getElementById(labelId);
 
             function refresh() {
                 const v = parseInt(slider.value);
                 state[stateKey] = v;
                 display.textContent = v;
+                label.textContent = LABELS[labelSet][v];
                 fill.style.width = (v / 10) * 100 + '%';
+                updateTicks(ticksId, v);
                 if (stateKey === 'physicalVal') applyPhysicalFollowUp(v);
             }
 
             slider.addEventListener('input', refresh);
-            refresh(); // set initial state
+            refresh();
         }
 
         // ── Exhaustion Follow-up ───────────────────────
         function applyPhysicalFollowUp(val) {
-            const followup  = document.getElementById('exhaustion-followup');
-            const nextBtn   = document.getElementById('physical-next');
+            const followup   = document.getElementById('exhaustion-followup');
+            const nextBtn    = document.getElementById('physical-next');
             const optionBtns = document.getElementById('physical-options');
 
             if (val <= 3) {
@@ -774,9 +869,13 @@
 
         // ── Summary ─────────────────────────────────────
         function buildSummary() {
-            document.getElementById('summary-effort').textContent      = state.effortVal + '/10';
-            document.getElementById('summary-physical').textContent    = state.physicalVal + '/10';
-            document.getElementById('summary-enthusiasm').textContent  = state.enthusiasmVal + '/10';
+            const effortLabel     = LABELS.effort[state.effortVal];
+            const physicalLabel   = LABELS.physical[state.physicalVal];
+            const enthusiasmLabel = LABELS.enthusiasm[state.enthusiasmVal];
+
+            document.getElementById('summary-effort').textContent     = state.effortVal + ' — ' + effortLabel;
+            document.getElementById('summary-physical').textContent   = state.physicalVal + ' — ' + physicalLabel;
+            document.getElementById('summary-enthusiasm').textContent = state.enthusiasmVal + ' — ' + enthusiasmLabel;
 
             const exhaustionRow   = document.getElementById('summary-exhaustion-row');
             const exhaustionBadge = document.getElementById('summary-exhaustion-badge');
@@ -796,9 +895,13 @@
         }
 
         // ── Init ────────────────────────────────────────
-        setupSlider('effort-slider',     'effort-fill',     'effort-value',     'effortVal');
-        setupSlider('physical-slider',   'physical-fill',   'physical-value',   'physicalVal');
-        setupSlider('enthusiasm-slider', 'enthusiasm-fill', 'enthusiasm-value', 'enthusiasmVal');
+        buildTicks('effort-ticks', 5);
+        buildTicks('physical-ticks', 7);
+        buildTicks('enthusiasm-ticks', 5);
+
+        setupSlider('effort-slider',     'effort-fill',     'effort-value',     'effort-label',     'effort-ticks',     'effortVal',     'effort');
+        setupSlider('physical-slider',   'physical-fill',   'physical-value',   'physical-label',   'physical-ticks',   'physicalVal',   'physical');
+        setupSlider('enthusiasm-slider', 'enthusiasm-fill', 'enthusiasm-value', 'enthusiasm-label', 'enthusiasm-ticks', 'enthusiasmVal', 'enthusiasm');
     </script>
 </body>
 </html>
