@@ -288,36 +288,71 @@
             color: var(--color-text-muted);
         }
 
-        /* ── Exhaustion Follow-up ── */
-        .followup-container {
-            background: rgba(240, 78, 35, 0.05);
-            border: 1px solid rgba(240, 78, 35, 0.18);
-            border-radius: 14px;
-            padding: 14px 18px;
-            margin-bottom: 16px;
-            animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        /* ── Follow-up Modal ── */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: var(--color-overlay);
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.28s ease;
         }
 
-        .followup-question {
+        .modal-overlay.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-sheet {
+            width: 100%;
+            max-width: 430px;
+            background: var(--color-card);
+            border-radius: 24px 24px 0 0;
+            padding: 8px 28px 40px;
+            transform: translateY(100%);
+            transition: transform 0.36s cubic-bezier(0.32, 0.72, 0, 1);
+        }
+
+        .modal-overlay.open .modal-sheet {
+            transform: translateY(0);
+        }
+
+        .modal-handle {
+            width: 40px;
+            height: 4px;
+            background: var(--color-border);
+            border-radius: 2px;
+            margin: 12px auto 28px;
+        }
+
+        .modal-question {
+            font-family: var(--font-display);
+            font-variant: small-caps;
+            font-style: italic;
+            font-size: 22px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            color: var(--color-text);
+            line-height: 1.25;
+            margin-bottom: 8px;
+        }
+
+        .modal-subtext {
             font-size: 14px;
-            color: var(--color-text-secondary);
-            font-weight: 500;
-            text-align: center;
-            line-height: 1.45;
+            color: var(--color-text-muted);
+            margin-bottom: 28px;
+            line-height: 1.5;
         }
 
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-8px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-
-        /* ── Option Buttons ── */
-        .option-buttons {
+        .modal-options {
             display: flex;
             flex-direction: column;
             gap: 10px;
-            width: 100%;
-            animation: fadeInUp 0.3s ease-out;
+            margin-bottom: 14px;
         }
 
         .btn-option {
@@ -356,6 +391,25 @@
             color: var(--color-warning);
             background: rgba(255, 140, 0, 0.04);
             box-shadow: 0 6px 16px rgba(255, 140, 0, 0.15);
+        }
+
+        .btn-modal-back {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background: none;
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-text-muted);
+            cursor: pointer;
+            transition: color 0.2s ease, background 0.2s ease;
+        }
+
+        .btn-modal-back:hover {
+            color: var(--color-text-secondary);
+            background: var(--color-border-light);
         }
 
         /* ── Standard Action Buttons ── */
@@ -610,21 +664,8 @@
                     <div class="slider-ticks" id="physical-ticks"></div>
                 </div>
 
-                <!-- Conditional follow-up: slides in when score ≤ 3 -->
-                <div class="followup-container hidden" id="exhaustion-followup">
-                    <p class="followup-question">Was that the kind of tired you'd expect after a workout like this?</p>
-                </div>
-
                 <div class="action-buttons">
-                    <button class="btn btn-next" id="physical-next" onclick="goNext()">Next</button>
-                    <div class="option-buttons hidden" id="physical-options">
-                        <button class="btn-option" onclick="selectExhaustion('expected')">
-                            Yes — expected for this workout
-                        </button>
-                        <button class="btn-option btn-option-warn" onclick="selectExhaustion('more')">
-                            More than I'd expect
-                        </button>
-                    </div>
+                    <button class="btn btn-next" onclick="physicalNext()">Next</button>
                 </div>
             </div>
         </div>
@@ -714,6 +755,26 @@
         </div>
 
     </div><!-- /.app-container -->
+
+    <!-- ═══════════════════════════════════
+         Follow-up Modal (Physical ≤ 3)
+    ═══════════════════════════════════ -->
+    <div class="modal-overlay" id="exhaustion-modal" role="dialog" aria-modal="true" aria-labelledby="modal-question-text">
+        <div class="modal-sheet">
+            <div class="modal-handle"></div>
+            <p class="modal-question" id="modal-question-text">Was that expected?</p>
+            <p class="modal-subtext">You scored pretty low on how your body felt. Was that level of fatigue normal for this workout?</p>
+            <div class="modal-options">
+                <button class="btn-option" onclick="selectExhaustion('expected')">
+                    Yes — expected for this workout
+                </button>
+                <button class="btn-option btn-option-warn" onclick="selectExhaustion('more')">
+                    More than I'd expect
+                </button>
+            </div>
+            <button class="btn-modal-back" onclick="closeModal()">← Go back and adjust</button>
+        </div>
+    </div>
 
     <script>
         // ── Spectrum Labels ──────────────────────────────
@@ -837,35 +898,43 @@
                 label.textContent = LABELS[labelSet][v];
                 fill.style.width = (v / 10) * 100 + '%';
                 updateTicks(ticksId, v);
-                if (stateKey === 'physicalVal') applyPhysicalFollowUp(v);
+                if (stateKey === 'physicalVal' && v > 3) state.exhaustionAnswer = null;
             }
 
             slider.addEventListener('input', refresh);
             refresh();
         }
 
-        // ── Exhaustion Follow-up ───────────────────────
-        function applyPhysicalFollowUp(val) {
-            const followup   = document.getElementById('exhaustion-followup');
-            const nextBtn    = document.getElementById('physical-next');
-            const optionBtns = document.getElementById('physical-options');
-
-            if (val <= 3) {
-                followup.classList.remove('hidden');
-                nextBtn.classList.add('hidden');
-                optionBtns.classList.remove('hidden');
+        // ── Physical Next: open modal if score is low ─
+        function physicalNext() {
+            if (state.physicalVal <= 3) {
+                openModal();
             } else {
-                followup.classList.add('hidden');
-                nextBtn.classList.remove('hidden');
-                optionBtns.classList.add('hidden');
-                state.exhaustionAnswer = null;
+                goNext();
             }
+        }
+
+        // ── Follow-up Modal ────────────────────────────
+        function openModal() {
+            document.getElementById('exhaustion-modal').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('exhaustion-modal').classList.remove('open');
+            document.body.style.overflow = '';
         }
 
         function selectExhaustion(answer) {
             state.exhaustionAnswer = answer;
+            closeModal();
             goNext();
         }
+
+        // Close modal on backdrop tap
+        document.getElementById('exhaustion-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
 
         // ── Summary ─────────────────────────────────────
         function buildSummary() {
