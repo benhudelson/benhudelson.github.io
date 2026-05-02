@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 const navLinks = [
   { href: '#philosophy', label: 'Philosophy' },
@@ -11,19 +12,34 @@ const navLinks = [
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
+  const location = useLocation()
+  const navigate = useNavigate()
+  const onHome = location.pathname === '/'
 
-  const scrollTo = (href: string) => {
+  const handleAnchor = (href: string) => {
     setIsOpen(false)
-    const element = document.querySelector(href)
-    element?.scrollIntoView({ behavior: 'smooth' })
+    if (onHome) {
+      document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' })
+    } else {
+      navigate('/' + href)
+    }
+  }
+
+  const handleHome = () => {
+    setIsOpen(false)
+    if (onHome) {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    } else {
+      navigate('/')
+    }
   }
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-charcoal/90 backdrop-blur-sm border-b border-white/10">
       <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
         <a
-          href="#"
-          onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+          href="/"
+          onClick={(e) => { e.preventDefault(); handleHome() }}
           className="text-xl font-heading font-bold text-white hover:text-neon transition-colors"
         >
           BH
@@ -34,13 +50,19 @@ export function Navbar() {
           {navLinks.map(link => (
             <a
               key={link.href}
-              href={link.href}
-              onClick={(e) => { e.preventDefault(); scrollTo(link.href) }}
+              href={onHome ? link.href : '/' + link.href}
+              onClick={(e) => { e.preventDefault(); handleAnchor(link.href) }}
               className="text-sm text-white/70 hover:text-neon transition-colors"
             >
               {link.label}
             </a>
           ))}
+          <Link
+            to="/writing"
+            className="text-sm text-white/70 hover:text-neon transition-colors"
+          >
+            Writing
+          </Link>
           <a
             href="/resume.pdf"
             target="_blank"
@@ -80,13 +102,20 @@ export function Navbar() {
               {navLinks.map(link => (
                 <a
                   key={link.href}
-                  href={link.href}
-                  onClick={(e) => { e.preventDefault(); scrollTo(link.href) }}
+                  href={onHome ? link.href : '/' + link.href}
+                  onClick={(e) => { e.preventDefault(); handleAnchor(link.href) }}
                   className="text-white/70 hover:text-neon transition-colors"
                 >
                   {link.label}
                 </a>
               ))}
+              <Link
+                to="/writing"
+                onClick={() => setIsOpen(false)}
+                className="text-white/70 hover:text-neon transition-colors"
+              >
+                Writing
+              </Link>
               <a
                 href="/resume.pdf"
                 target="_blank"

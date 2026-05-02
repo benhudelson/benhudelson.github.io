@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 import { Navbar, Hero, Footer } from './components/layout'
 import { Philosophy } from './components/Philosophy'
 import { Timeline } from './components/Timeline'
@@ -14,6 +16,17 @@ import booksMediaData from './data/books.media.json'
 import musicData from './data/music.json'
 
 function App() {
+  const location = useLocation()
+
+  useEffect(() => {
+    if (location.hash) {
+      const id = location.hash.slice(1)
+      requestAnimationFrame(() => {
+        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+      })
+    }
+  }, [location.hash])
+
   return (
     <div className="min-h-screen bg-charcoal text-white">
       <Navbar />
