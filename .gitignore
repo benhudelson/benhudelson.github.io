@@ -32,3 +32,10 @@ lerna-debug.log*
 
 # TypeScript cache
 *.tsbuildinfo
+
+# Local-only context (private job-search material, public-facing repo)
+/docs/kickoff-prompts/
+/agent-prompt.md
+/issues.md
+/accounts
+/claude-proxy
