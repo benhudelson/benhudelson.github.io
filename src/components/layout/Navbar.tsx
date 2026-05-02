@@ -30,7 +30,7 @@ export function Navbar() {
         </a>
 
         {/* Desktop nav */}
-        <div className="hidden md:flex gap-8">
+        <div className="hidden md:flex items-center gap-8">
           {navLinks.map(link => (
             <a
               key={link.href}
@@ -41,6 +41,14 @@ export function Navbar() {
               {link.label}
             </a>
           ))}
+          <a
+            href="/resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm text-neon border border-neon/60 px-3 py-1.5 rounded hover:bg-neon hover:text-charcoal transition-colors"
+          >
+            Resume
+          </a>
         </div>
 
         {/* Mobile menu button */}
@@ -79,6 +87,15 @@ export function Navbar() {
                   {link.label}
                 </a>
               ))}
+              <a
+                href="/resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setIsOpen(false)}
+                className="text-neon hover:text-white transition-colors"
+              >
+                Resume (PDF)
+              </a>
             </div>
           </motion.div>
         )}
