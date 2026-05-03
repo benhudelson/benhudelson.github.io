@@ -6,7 +6,6 @@ const navLinks = [
   { href: '#philosophy', label: 'Philosophy' },
   { href: '#experience', label: 'Experience' },
   { href: '#bookshelf', label: 'Bookshelf' },
-  { href: '#hobbies', label: 'Beyond Work' },
   { href: '#racing', label: 'Racing' },
 ]
 
@@ -57,6 +56,12 @@ export function Navbar() {
               {link.label}
             </a>
           ))}
+          <Link
+            to="/beyond-work"
+            className="text-sm text-white/70 hover:text-neon transition-colors"
+          >
+            Beyond Work
+          </Link>
           <Link
             to="/writing"
             className="text-sm text-white/70 hover:text-neon transition-colors"
@@ -109,6 +114,13 @@ export function Navbar() {
                   {link.label}
                 </a>
               ))}
+              <Link
+                to="/beyond-work"
+                onClick={() => setIsOpen(false)}
+                className="text-white/70 hover:text-neon transition-colors"
+              >
+                Beyond Work
+              </Link>
               <Link
                 to="/writing"
                 onClick={() => setIsOpen(false)}
