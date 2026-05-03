@@ -8,7 +8,7 @@ export function Philosophy() {
             </h2>
             <div className="max-w-3xl">
                 <p className="text-lg md:text-xl text-white/90 leading-relaxed font-light mb-6">
-                    AI is the new abstraction layer in software engineering. The job of an engineering leader is no longer to optimize how humans write code, it is to design the system in which humans and agents build software together. That reframe changes what the team owns, what the bar looks like, and where the constraints actually live.
+                    AI is the new abstraction layer in software engineering. The job of an engineering leader is no longer to optimize how humans write code, it is to design the system in which humans and agents build software together. That reframe changes what the team owns, what communication patterns look like, and where the constraints actually live.
                 </p>
                 <p className="text-lg md:text-xl text-white/90 leading-relaxed font-light mb-6">
                     I lead engineering teams through that transition. Concretely, that means moving an organization to AI-native development practices: agentic workflows across the SDLC, eval-gated pull requests that codify the bar, and domain-tuned skills that make quality reproducible instead of heroic. The work is part technical, part organizational. People have to trust the new tools, and the tools have to earn it.
