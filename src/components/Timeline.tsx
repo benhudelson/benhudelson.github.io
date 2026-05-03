@@ -12,8 +12,8 @@ export function Timeline({ items }: TimelineProps) {
         Experience
       </h2>
       <p className="text-white/60 mb-12 max-w-2xl">
-        Agile <span className="text-neon">Sprints</span> for rapid delivery. Career{' '}
-        <span className="text-electric">Marathons</span> for lasting impact.
+        Twenty years across software, R&amp;D, data science, and application engineering.
+        Now leading the AI engineering program for TRIMEDX's Predictive Work System.
       </p>
       <div className="max-w-3xl">
         {items.map((item, index) => (

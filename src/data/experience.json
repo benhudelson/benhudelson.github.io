@@ -1,35 +1,42 @@
 [
   {
-    "date": "2017 - Present",
-    "type": "marathon",
-    "title": "Enterprise Leadership",
+    "date": "May 2023 - Present",
+    "title": "Manager, Application & Software Engineering, PWS",
     "company": "TRIMEDX",
-    "description": "A sustained climb from Software Engineering, R&D, & Data Science to Enterprise & Operations Management and Agile Coaching. Building resilient teams, scalable operations, and developing future leaders over years, not quarters."
+    "description": "Lead the AI engineering program for TRIMEDX's Predictive Work System, a remote-monitoring platform for high-value medical imaging. Drove the team's full transition to AI-native development with eval-gated pull requests and custom Claude Code skills tuned to the domain. Grew the connected fleet 50% on flat headcount, cutting cost-to-serve by more than $9M annually."
+  },
+  {
+    "date": "Oct 2020 - May 2023",
+    "title": "Manager, Application & Software Engineering, Enterprise Applications",
+    "company": "TRIMEDX",
+    "description": "Led six direct reports across the enterprise application portfolio. Rebuilt team engagement from 86.7% to 98.7%; coached and promoted three engineers in two years; owned capital and expense budgets."
+  },
+  {
+    "date": "Sept 2017 - Oct 2020",
+    "title": "Senior Software Engineer / Product Owner / Technical Lead",
+    "company": "TRIMEDX",
+    "description": "Productized PWS from R&D prototype: replaced the MSSQL data tier with Splunk for unstructured ingest and alerting, layered a Python service that turned detected issues into CMMS work orders. Built the executive case that converted PWS from research project to organically supported product line, on the back of 400% device-coverage growth."
   },
   {
     "date": "2014 - 2017",
-    "type": "sprint",
     "title": "Full-Stack Development & Scrum Master",
     "company": "Fusion Alliance / BoxCrush",
-    "description": "High-velocity delivery across multiple clients and tech stacks. Rapid iterations, tight deadlines, and continuous learning at startup pace."
+    "description": "High-velocity delivery across multiple Fortune 500 and mid-market engagements. Architected and engineered full-stack web applications; led adoption of source-control and work-item tracking practices."
   },
   {
     "date": "2012 - 2014",
-    "type": "sprint",
     "title": "MBA",
     "company": "Butler University",
     "description": "An intensive two-year push while working full-time. Compressed learning in marketing and leadership. International immersion project in Sweden and Ghana."
   },
   {
     "date": "2010 - 2014",
-    "type": "marathon",
     "title": "Systems Analysis",
     "company": "Allied Solutions",
     "description": "Four years of deep-dive analysis and methodical problem-solving. Patience and precision that built a lasting technical foundation."
   },
   {
     "date": "2006 - 2012",
-    "type": "marathon",
     "title": "BS Mathematics",
     "company": "Purdue University",
     "description": "The long game: initial quantitative training. Foundational thinking that still pays dividends today."
