@@ -3,9 +3,7 @@ import { motion } from 'framer-motion'
 import { Navbar, Footer } from '../components/layout'
 
 // Cloudflare Worker JSON API (apps/build-page in the coachme repo).
-// TODO: replace REPLACE_ME with the deployed workers.dev subdomain after
-// `wrangler deploy` (internal-build-distribution ADR, step 3).
-const BUILDS_API = 'https://coachme-build-page.REPLACE_ME.workers.dev/latest.json'
+const BUILDS_API = 'https://coachme-build-page.benhudelson.workers.dev/latest.json'
 
 interface IosBuild {
     installPageUrl: string
