@@ -6,6 +6,7 @@ import App from './App.tsx'
 import { WritingIndex } from './pages/WritingIndex'
 import { EvalGatedPullRequests } from './pages/posts/EvalGatedPullRequests'
 import { BeyondWorkPage } from './pages/BeyondWorkPage'
+import { BuildsPage } from './pages/BuildsPage'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -15,6 +16,7 @@ createRoot(document.getElementById('root')!).render(
         <Route path="/writing" element={<WritingIndex />} />
         <Route path="/writing/eval-gated-pull-requests" element={<EvalGatedPullRequests />} />
         <Route path="/beyond-work" element={<BeyondWorkPage />} />
+        <Route path="/builds" element={<BuildsPage />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>,
