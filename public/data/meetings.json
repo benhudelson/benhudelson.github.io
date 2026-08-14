@@ -1,0 +1,181 @@
+{
+  "meetings": [
+    {
+      "date": "2026-07-24",
+      "durationMin": 97,
+      "quickRecap": "Discussed improvements to the running training app, focusing on UI design and algorithmic enhancements. Reviewed sandbox testing feedback, including concerns about 4 consecutive running days and the need for validation warnings. Agreed to show ideal training structures first, then custom options. Covered pain-input handling, overlay recommendations, taper strategies, and race day adjustments. Ben shared ChatGPT access for analysis work.",
+      "nextSteps": [
+        "Ben: Update sandbox with new gap-filling logic and share for testing",
+        "Ben: Share OpenAI credentials for analysis work",
+        "Ben: Send itemized expense report for transparency",
+        "Matt: Revisit and validate quality workout and long run mileage ranges in the spreadsheet",
+        "Matt: Continue sandbox testing and flag configurations that don't look right",
+        "Matt: Write validation messages for onboarding (warnings for 3 consecutive days off, 4 consecutive running days)",
+        "Matt: Provide ideal weekly running patterns (two choices per number of days) and anti-patterns with warning messages",
+        "Matt: Write verbiage for pain follow-up question (awareness vs. performance-affecting pain)",
+        "Matt: Download ChatGPT app and plan a working session for next Friday"
+      ],
+      "sections": [
+        {
+          "title": "Training Progression Parameter Adjustments",
+          "content": "Discussed adjustments to training progression parameters — quality workouts increased to 12 while long runs remained at 10-12 miles, prompting review and potential adjustment of long run range to 14-16 miles. Ben explained gap filling logic in the sandbox: one infill at the beginning for onboarding time, another at the end to align taper timing with race day."
+        },
+        {
+          "title": "Two-Week Taper Training Approach",
+          "content": "Aligned on a two-week taper structure where the last day is race day. Final week includes a moderate quality workout and an easy long run. While timing of certain workouts may shift, the consistent two-week approach remains effective and is standard for most athletes — may extend to three weeks for athletes with health issues."
+        },
+        {
+          "title": "Running Schedule Structure Optimization",
+          "content": "4 consecutive days of running is less ideal than alternating with rest days. Agreed to implement a warning system for non-ideal scheduling patterns and present pre-defined ideal weekly formats (top 3-4 preferred schedules for 3-7 days) rather than fully custom configurations."
+        },
+        {
+          "title": "Pain Feedback Guidelines",
+          "content": "When runners report pain, the app should advise seeking medical help rather than preventing plan generation. Agreed to differentiate between manageable pain and serious issues. Revised wording to ask whether pain is something the runner can run through or if it's affecting their ability to run effectively."
+        },
+        {
+          "title": "Cross-Training and Recovery Guidelines",
+          "content": "When users reach the lowest tier due to consecutive days off, cross-training should be recommended indefinitely. For MVP, keeping cross-training guidance simple without specifying activities. A 10K requires two recovery days before a stressor; a half marathon needs at least four recovery days."
+        }
+      ]
+    },
+    {
+      "date": "2026-07-10",
+      "durationMin": 61,
+      "quickRecap": "Discussed context switching logic and overlay prompts for managing runner feedback. Ben demonstrated the backend testing system and showed how the app generates tiered training plans. Reviewed edge cases for preventing overtraining and handling runners who want to maintain current mileage. Also covered Ben's running progress and domain name options for the app.",
+      "nextSteps": [
+        "Ben: Send sandbox link and access key for testing plan generation logic",
+        "Ben: Send accounting update regarding financial matters",
+        "Ben: Work on the landing page runners see after onboarding",
+        "Ben: Configure the app for testing on Matt's iPhone (developer mode)",
+        "Ben: Implement rules for handling user feedback to adjust training plans",
+        "Matt: Review and scrutinize overlays and rules in the Long Run Sequence Library spreadsheet",
+        "Matt: Test the backend logic using the provided link",
+        "Matt: Consider purchasing a domain name (e.g., coachmeapp.com)"
+      ],
+      "sections": [
+        {
+          "title": "Context Switching and Overlay Prompts",
+          "content": "Ben requested Matt to review overlay prompts that expand on existing prompts and include rules for stacking and prioritizing conditions when multiple issues occur within a week. Shared a spreadsheet containing the overlay prompts for review."
+        },
+        {
+          "title": "Athlete Mileage Management Rules",
+          "content": "Discussed managing athletes reporting fatigue three consecutive times within two weeks — results in a tier reduction and reduced mileage, with the option to keep them at current levels. Emphasized building thoughtful rules for prompting athletes about readiness, noting this approach also helps train AI models."
+        },
+        {
+          "title": "Weight and Running Performance Analysis",
+          "content": "Discussed how modern running shoes allow heavier runners to perform well. Observed that heavier runners often have higher power numbers than faster runners — losing weight while maintaining power could significantly improve performance."
+        },
+        {
+          "title": "Backend Testing Tool Demonstration",
+          "content": "Ben demonstrated a backend testing tool for generating tier plans. Walked through an example showing how the system calculates training progression based on input parameters like running frequency and distance. AI testing identified edge cases needing further consideration."
+        }
+      ]
+    },
+    {
+      "date": "2026-07-03",
+      "durationMin": 81,
+      "quickRecap": "Focused on user onboarding logic and tier assignments. Decided to base assignments on typical running patterns over the last 3 months rather than recent activity. Covered day mapping rules (long runs and quality runs at least 2 days apart), handling bonus/optional days, and need for a feedback mechanism in MVP. Also discussed timeline — targeting January 1st for MVP release.",
+      "nextSteps": [
+        "Ben: Update onboarding questions to ask for 'typical' days and miles per week over last 3 months",
+        "Ben: Create a dashboard/sandbox for testing plan assignment logic",
+        "Ben: Find and implement day mapping combinations for easy runs from Matt's spreadsheet",
+        "Ben: Run tests for deterministic assignment of flex/bonus days",
+        "Matt: Review and fix mismatches in progression sheets (e.g., 5 to 6 run)",
+        "Schedule next meeting via email (Ben traveling next Friday)"
+      ],
+      "sections": [
+        {
+          "title": "Workout App Development Timeline",
+          "content": "Agreed to focus on half marathon feature first before adding marathon. Targeting January 1st for MVP release instead of August, allowing more time for testing and business planning. Complexity lies more in testing and infrastructure than coding."
+        },
+        {
+          "title": "Runner Training Plan Assignment Process",
+          "content": "Explored how to determine appropriate tiers for runners whose current and desired days per week differ. Suggested using clear rules like miles per week to decide the appropriate tier. Agreed to use a 3-month average for determining typical running days and mileage."
+        },
+        {
+          "title": "New Runner Onboarding Strategy",
+          "content": "Agreed to start with conservative estimates and use a feedback mechanism to adjust. Focusing on the median runner rather than edge cases. Building a flexible system that gathers data to improve future iterations. Most runners would likely start at or near their current level."
+        }
+      ]
+    },
+    {
+      "date": "2026-06-26",
+      "durationMin": 60,
+      "quickRecap": "Reviewed a spreadsheet splitting weekly mileage into low and high ranges for different training levels (3-4, 4-5, 5-6, 6-7 days per week). Agreed to create separate plans for each progression. Decided to modify onboarding questionnaire to capture ranges like '3-4 days' rather than single values.",
+      "nextSteps": [
+        "Ben: Modify onboarding questionnaire to allow range selection for running days",
+        "Matt: Update training plan spreadsheet with low/high columns for each day",
+        "Matt: Write out training plans for 3 through 7 days per week (including half-day options)"
+      ],
+      "sections": [
+        {
+          "title": "Training Mileage Tracking System",
+          "content": "Discussed a spreadsheet system with separate low and high columns for each day to show mileage possibilities. Agreed on using separate columns rather than hybrid values for simplicity. Formulas calculate weekly mileage ranges and long run percentages."
+        },
+        {
+          "title": "Runner Training Transition Strategy",
+          "content": "Creating a gradual transition path for runners increasing from 4 to 5 to 6 days per week without losing built-up training. Agreed on an intervention after three consecutive weeks of maximum mileage to ask runners if they want to add a day or increase mileage."
+        },
+        {
+          "title": "Onboarding Plan Frequency Improvements",
+          "content": "Modified options to include ranges like '3-4 days', '4-5 days', '5-6 days', and '6-7 days' to give participants more flexibility. Additional days kept optional throughout the plan, particularly for the 4-5 day range."
+        }
+      ]
+    },
+    {
+      "date": "2026-06-18",
+      "durationMin": 104,
+      "quickRecap": "Developed the onboarding questionnaire for MVP. Agreed on simplified categorical responses ('I feel great', 'I'm tired', 'I'm in pain') instead of numeric pain scales. Discussed injury history-based tier reduction — one level down per injury that cost a week or more. Covered mileage progression algorithms, deciding on min/max patterns per training day rather than complex formulas.",
+      "nextSteps": [
+        "Ben: Draft deterministic rules for system responses to check-in language and send for review",
+        "Ben: Implement onboarding questionnaire changes (minimal data: injuries in last year, current mileage, runs per week)",
+        "Ben: Build tier placement and progression algorithm",
+        "Matt: Provide min/max mileage patterns for 3-7 running days per week by Saturday or Monday",
+        "Matt: Test electrolyte supplement during a workout and provide feedback",
+        "Matt: Identify runners who need better hydration and distribute supplement with instructions"
+      ],
+      "sections": [
+        {
+          "title": "Onboarding Questionnaire Simplification",
+          "content": "Using three main categories — 'Feel Great', 'Feel Tired', 'In Pain' — instead of numeric scales. Provides clearer guidance and triggers appropriate actions. Postponing specific body part information for MVP."
+        },
+        {
+          "title": "High-Risk Injury Status Determination",
+          "content": "Number of separate injuries costing a week or more of training in the last year determines tier reduction. Each qualifying injury results in a one-tier drop. Age-based adjustments excluded from MVP due to complexity."
+        },
+        {
+          "title": "Training Plan Algorithm Development",
+          "content": "Explored structuring mileage progression considering weekly mileage, running days, and long run distances. Working backwards from desired levels more effective than formula-based prediction. Plan allows pacing increases rather than sudden jumps."
+        }
+      ]
+    },
+    {
+      "date": "2026-06-05",
+      "durationMin": 70,
+      "quickRecap": "Focused on determining ratios for long runs, quality runs (Q1, Q2), and easy runs based on weekly mileage. Explored tiered training plan structures and intervention mechanisms for when users don't follow plans or report pain. Ben demonstrated app infrastructure including auth and BrowserStack testing. Discussed electrolyte mix formulation and costs.",
+      "nextSteps": [
+        "Ben: Send meeting transcript/summary for reference",
+        "Ben: Research calcium-magnesium interaction for electrolyte mix development",
+        "Ben: Send app design system screenshots and onboarding progress for review",
+        "Ben: Continue building onboarding screens",
+        "Matt: Determine long run percentage and ratios for Q1, Q2, and easy runs for 3-7 day plans",
+        "Matt: Develop coaching intervention scenarios and questions",
+        "Matt: Review app design system and onboarding updates when received"
+      ],
+      "sections": [
+        {
+          "title": "AI Running Training App Development",
+          "content": "Using long run distance as the primary determinant for quality runs and weekly mileage ranges. Easy runs calculated based on established parameters. One-mile-per-day increase approach up to five days per week. Intervention mechanisms needed for pain reports and plan adjustments."
+        },
+        {
+          "title": "Electrolyte Drink Development",
+          "content": "Current cost at 19 cents per serving with potential to reduce to 13-14 cents. Compared pricing against Gatorade Zero (~25 cents/serving). Discussed combining with existing products for better taste while maintaining electrolyte benefits."
+        },
+        {
+          "title": "Design System Update",
+          "content": "Updated design system with dual tone scheme using Ember orange and Spring Green colors. Building out onboarding screens with ongoing reviews. Next meeting scheduled for two weeks out due to travel."
+        }
+      ]
+    }
+  ]
+}

@@ -7,6 +7,7 @@ import { WritingIndex } from './pages/WritingIndex'
 import { EvalGatedPullRequests } from './pages/posts/EvalGatedPullRequests'
 import { BeyondWorkPage } from './pages/BeyondWorkPage'
 import { BuildsPage } from './pages/BuildsPage'
+import { MeetingsPage } from './pages/MeetingsPage'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -17,6 +18,7 @@ createRoot(document.getElementById('root')!).render(
         <Route path="/writing/eval-gated-pull-requests" element={<EvalGatedPullRequests />} />
         <Route path="/beyond-work" element={<BeyondWorkPage />} />
         <Route path="/builds" element={<BuildsPage />} />
+        <Route path="/meetings" element={<MeetingsPage />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>,
