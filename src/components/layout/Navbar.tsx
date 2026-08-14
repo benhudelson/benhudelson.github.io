@@ -62,12 +62,6 @@ export function Navbar() {
           >
             Beyond Work
           </Link>
-          <Link
-            to="/writing"
-            className="text-sm text-white/70 hover:text-neon transition-colors"
-          >
-            Writing
-          </Link>
           <a
             href="/resume.pdf"
             target="_blank"
@@ -120,13 +114,6 @@ export function Navbar() {
                 className="text-white/70 hover:text-neon transition-colors"
               >
                 Beyond Work
-              </Link>
-              <Link
-                to="/writing"
-                onClick={() => setIsOpen(false)}
-                className="text-white/70 hover:text-neon transition-colors"
-              >
-                Writing
               </Link>
               <a
                 href="/resume.pdf"
