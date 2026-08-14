@@ -3,27 +3,14 @@
     {
       "date": "2026-08-14",
       "durationMin": 74,
-      "quickRecap": "Wide-ranging conversation covering personal updates and project progress. Matt shared the story of his father's sudden illness and passing from a brain bleed. Ben shared his own family challenges and current work stress. They reviewed technical progress on the running training app \u2014 Matt updated the progression runs spreadsheet with color coding and two weekly pattern options. Discussed handling pain/illness overlays that conflict with races, categorizing into temporary tweaks, permanent level changes, and seeking professional help. Explored long-term vision for AI-powered knowledge graphs.",
+      "quickRecap": "Reviewed technical progress on the running training app. Matt updated the progression runs spreadsheet with color coding and two weekly pattern options. Discussed handling pain/illness overlays that conflict with races, categorizing into temporary tweaks, permanent level changes, and seeking professional help. Explored long-term vision for AI-powered knowledge graphs.",
       "nextSteps": [
         "Ben: Update the system with the new progression run data and weekly patterns",
-        "Ben: Use AI to generate a summary of today's conversation and send to Matt",
         "Matt: Send the updated weekly formats (patterns anchored to the long run day) to Ben, preferably in the progression runs spreadsheet",
         "Matt: Review the spreadsheet containing the logic for responding to multiple incidents (pain/tired, tweak/change, seek help) and provide feedback",
         "Both: Discuss and define system rules for handling pain/tiredness overlays intersecting with race overlays in a future meeting"
       ],
       "sections": [
-        {
-          "title": "Father's Brain Bleed Emergency",
-          "content": "Matt shared that his father experienced unusual symptoms including fatigue and excessive sleep. When he visited, his father refused to go to the hospital. The following morning his father fell and was taken to Methodist Hospital where doctors discovered a life-threatening brain bleed requiring emergency surgery. Due to low platelet levels, surgery was deemed too risky."
-        },
-        {
-          "title": "Family Loss and Mental Health",
-          "content": "Matt and Ben shared personal experiences about losing family members. Matt discussed three recent deaths in the family. Ben recounted his sister's death from alcoholism complications in 2014. They discussed how family health issues and mental health challenges have impacted their families."
-        },
-        {
-          "title": "Personal Challenges and Career Support",
-          "content": "Ben shared challenges including family issues and current stress at work and home, mentioning he's returning to therapy and gradually building back his running routine. Matt offered encouragement, suggesting Ben's skills would be valuable in the current market, particularly in AI and business automation roles."
-        },
         {
           "title": "Progression Runs Spreadsheet Updates",
           "content": "Matt reviewed and updated all progression runs with color coding for clarity. Created two different weekly patterns for runs to reduce available choices for users. Ben requested the updated information be copied into their shared sheet."
@@ -45,7 +32,7 @@
     {
       "date": "2026-07-24",
       "durationMin": 97,
-      "quickRecap": "Discussed improvements to the running training app, focusing on UI design and algorithmic enhancements. Reviewed sandbox testing feedback, including concerns about 4 consecutive running days and the need for validation warnings. Agreed to show ideal training structures first, then custom options. Covered pain-input handling, overlay recommendations, taper strategies, and race day adjustments. Ben shared ChatGPT access for analysis work.",
+      "quickRecap": "Discussed improvements to the running training app, focusing on UI design and algorithmic enhancements. Reviewed sandbox testing feedback, including concerns about 4 consecutive running days and the need for validation warnings. Agreed to show ideal training structures first, then custom options. Covered pain-input handling, overlay recommendations, taper strategies, and race day adjustments.",
       "nextSteps": [
         "Ben: Update sandbox with new gap-filling logic and share for testing",
         "Ben: Share OpenAI credentials for analysis work",
@@ -54,17 +41,16 @@
         "Matt: Continue sandbox testing and flag configurations that don't look right",
         "Matt: Write validation messages for onboarding (warnings for 3 consecutive days off, 4 consecutive running days)",
         "Matt: Provide ideal weekly running patterns (two choices per number of days) and anti-patterns with warning messages",
-        "Matt: Write verbiage for pain follow-up question (awareness vs. performance-affecting pain)",
-        "Matt: Download ChatGPT app and plan a working session for next Friday"
+        "Matt: Write verbiage for pain follow-up question (awareness vs. performance-affecting pain)"
       ],
       "sections": [
         {
           "title": "Training Progression Parameter Adjustments",
-          "content": "Discussed adjustments to training progression parameters \u2014 quality workouts increased to 12 while long runs remained at 10-12 miles, prompting review and potential adjustment of long run range to 14-16 miles. Ben explained gap filling logic in the sandbox: one infill at the beginning for onboarding time, another at the end to align taper timing with race day."
+          "content": "Discussed adjustments to training progression parameters — quality workouts increased to 12 while long runs remained at 10-12 miles, prompting review and potential adjustment of long run range to 14-16 miles. Ben explained gap filling logic in the sandbox: one infill at the beginning for onboarding time, another at the end to align taper timing with race day."
         },
         {
           "title": "Two-Week Taper Training Approach",
-          "content": "Aligned on a two-week taper structure where the last day is race day. Final week includes a moderate quality workout and an easy long run. While timing of certain workouts may shift, the consistent two-week approach remains effective and is standard for most athletes \u2014 may extend to three weeks for athletes with health issues."
+          "content": "Aligned on a two-week taper structure where the last day is race day. Final week includes a moderate quality workout and an easy long run. While timing of certain workouts may shift, the consistent two-week approach remains effective and is standard for most athletes — may extend to three weeks for athletes with health issues."
         },
         {
           "title": "Running Schedule Structure Optimization",
@@ -83,7 +69,7 @@
     {
       "date": "2026-07-10",
       "durationMin": 61,
-      "quickRecap": "Discussed context switching logic and overlay prompts for managing runner feedback. Ben demonstrated the backend testing system and showed how the app generates tiered training plans. Reviewed edge cases for preventing overtraining and handling runners who want to maintain current mileage. Also covered Ben's running progress and domain name options for the app.",
+      "quickRecap": "Discussed context switching logic and overlay prompts for managing runner feedback. Ben demonstrated the backend testing system and showed how the app generates tiered training plans. Reviewed edge cases for preventing overtraining and handling runners who want to maintain current mileage. Also covered domain name options for the app.",
       "nextSteps": [
         "Ben: Send sandbox link and access key for testing plan generation logic",
         "Ben: Send accounting update regarding financial matters",
@@ -101,11 +87,7 @@
         },
         {
           "title": "Athlete Mileage Management Rules",
-          "content": "Discussed managing athletes reporting fatigue three consecutive times within two weeks \u2014 results in a tier reduction and reduced mileage, with the option to keep them at current levels. Emphasized building thoughtful rules for prompting athletes about readiness, noting this approach also helps train AI models."
-        },
-        {
-          "title": "Weight and Running Performance Analysis",
-          "content": "Discussed how modern running shoes allow heavier runners to perform well. Observed that heavier runners often have higher power numbers than faster runners \u2014 losing weight while maintaining power could significantly improve performance."
+          "content": "Discussed managing athletes reporting fatigue three consecutive times within two weeks — results in a tier reduction and reduced mileage, with the option to keep them at current levels. Emphasized building thoughtful rules for prompting athletes about readiness, noting this approach also helps train AI models."
         },
         {
           "title": "Backend Testing Tool Demonstration",
@@ -116,14 +98,13 @@
     {
       "date": "2026-07-03",
       "durationMin": 81,
-      "quickRecap": "Focused on user onboarding logic and tier assignments. Decided to base assignments on typical running patterns over the last 3 months rather than recent activity. Covered day mapping rules (long runs and quality runs at least 2 days apart), handling bonus/optional days, and need for a feedback mechanism in MVP. Also discussed timeline \u2014 targeting January 1st for MVP release.",
+      "quickRecap": "Focused on user onboarding logic and tier assignments. Decided to base assignments on typical running patterns over the last 3 months rather than recent activity. Covered day mapping rules (long runs and quality runs at least 2 days apart), handling bonus/optional days, and need for a feedback mechanism in MVP. Targeting January 1st for MVP release.",
       "nextSteps": [
         "Ben: Update onboarding questions to ask for 'typical' days and miles per week over last 3 months",
         "Ben: Create a dashboard/sandbox for testing plan assignment logic",
         "Ben: Find and implement day mapping combinations for easy runs from Matt's spreadsheet",
         "Ben: Run tests for deterministic assignment of flex/bonus days",
-        "Matt: Review and fix mismatches in progression sheets (e.g., 5 to 6 run)",
-        "Schedule next meeting via email (Ben traveling next Friday)"
+        "Matt: Review and fix mismatches in progression sheets (e.g., 5 to 6 run)"
       ],
       "sections": [
         {
@@ -167,7 +148,7 @@
     {
       "date": "2026-06-23",
       "durationMin": 78,
-      "quickRecap": "Discussed half marathon training plan development, focusing on nomenclature, progression patterns, and implementation details. Reviewed training sequences with different tiers (3-7 day weekly plans) and handling runners who register more than 13 weeks before their race. Covered gap periods, validation rules for rest days (no more than two consecutive days off for 3-run weeks), and stacking conditions for responding to runner feedback about fatigue and recovery.",
+      "quickRecap": "Discussed half marathon training plan development, focusing on nomenclature, progression patterns, and implementation details. Reviewed training sequences with different tiers (3-7 day weekly plans) and handling runners who register more than 13 weeks before their race. Covered gap periods, validation rules for rest days, and stacking conditions for responding to runner feedback about fatigue and recovery.",
       "nextSteps": [
         "Ben: Implement logic for adding an extra day to a plan",
         "Ben: Implement logic for graduating from a 4-day to a 5-day plan",
@@ -190,11 +171,7 @@
         },
         {
           "title": "Running Sequence Progression Planning",
-          "content": "Focused on transitioning runners between different mileage plans. Agreed on specific progression steps including adding days and gradually increasing mileage, with attention to long runs and timing of introducing new runs. Identified challenges with certain transitions needing further refinement."
-        },
-        {
-          "title": "Marathon Coaching Profitability Strategy",
-          "content": "Discussed making coaching plans more profitable by offering longer build-up periods for marathon training. Annual subscriptions could provide flexibility for longer plans. Added maintenance options between training cycles. Confirmed the policy of avoiding more than two consecutive days off as a strong preference rather than absolute rule."
+          "content": "Focused on transitioning runners between different mileage plans. Agreed on specific progression steps including adding days and gradually increasing mileage, with attention to long runs and timing of introducing new runs."
         },
         {
           "title": "App Training Guidelines Implementation",
@@ -205,19 +182,17 @@
     {
       "date": "2026-06-18",
       "durationMin": 104,
-      "quickRecap": "Developed the onboarding questionnaire for MVP. Agreed on simplified categorical responses ('I feel great', 'I'm tired', 'I'm in pain') instead of numeric pain scales. Discussed injury history-based tier reduction \u2014 one level down per injury that cost a week or more. Covered mileage progression algorithms, deciding on min/max patterns per training day rather than complex formulas.",
+      "quickRecap": "Developed the onboarding questionnaire for MVP. Agreed on simplified categorical responses ('I feel great', 'I'm tired', 'I'm in pain') instead of numeric pain scales. Discussed injury history-based tier reduction — one level down per injury that cost a week or more. Covered mileage progression algorithms, deciding on min/max patterns per training day rather than complex formulas.",
       "nextSteps": [
         "Ben: Draft deterministic rules for system responses to check-in language and send for review",
         "Ben: Implement onboarding questionnaire changes (minimal data: injuries in last year, current mileage, runs per week)",
         "Ben: Build tier placement and progression algorithm",
-        "Matt: Provide min/max mileage patterns for 3-7 running days per week by Saturday or Monday",
-        "Matt: Test electrolyte supplement during a workout and provide feedback",
-        "Matt: Identify runners who need better hydration and distribute supplement with instructions"
+        "Matt: Provide min/max mileage patterns for 3-7 running days per week by Saturday or Monday"
       ],
       "sections": [
         {
           "title": "Onboarding Questionnaire Simplification",
-          "content": "Using three main categories \u2014 'Feel Great', 'Feel Tired', 'In Pain' \u2014 instead of numeric scales. Provides clearer guidance and triggers appropriate actions. Postponing specific body part information for MVP."
+          "content": "Using three main categories — 'Feel Great', 'Feel Tired', 'In Pain' — instead of numeric scales. Provides clearer guidance and triggers appropriate actions. Postponing specific body part information for MVP."
         },
         {
           "title": "High-Risk Injury Status Determination",
@@ -232,10 +207,8 @@
     {
       "date": "2026-06-05",
       "durationMin": 70,
-      "quickRecap": "Focused on determining ratios for long runs, quality runs (Q1, Q2), and easy runs based on weekly mileage. Explored tiered training plan structures and intervention mechanisms for when users don't follow plans or report pain. Ben demonstrated app infrastructure including auth and BrowserStack testing. Discussed electrolyte mix formulation and costs.",
+      "quickRecap": "Focused on determining ratios for long runs, quality runs (Q1, Q2), and easy runs based on weekly mileage. Explored tiered training plan structures and intervention mechanisms for when users don't follow plans or report pain. Ben demonstrated app infrastructure including auth and BrowserStack testing.",
       "nextSteps": [
-        "Ben: Send meeting transcript/summary for reference",
-        "Ben: Research calcium-magnesium interaction for electrolyte mix development",
         "Ben: Send app design system screenshots and onboarding progress for review",
         "Ben: Continue building onboarding screens",
         "Matt: Determine long run percentage and ratios for Q1, Q2, and easy runs for 3-7 day plans",
@@ -248,37 +221,23 @@
           "content": "Using long run distance as the primary determinant for quality runs and weekly mileage ranges. Easy runs calculated based on established parameters. One-mile-per-day increase approach up to five days per week. Intervention mechanisms needed for pain reports and plan adjustments."
         },
         {
-          "title": "Electrolyte Drink Development",
-          "content": "Current cost at 19 cents per serving with potential to reduce to 13-14 cents. Compared pricing against Gatorade Zero (~25 cents/serving). Discussed combining with existing products for better taste while maintaining electrolyte benefits."
-        },
-        {
           "title": "Design System Update",
-          "content": "Updated design system with dual tone scheme using Ember orange and Spring Green colors. Building out onboarding screens with ongoing reviews. Next meeting scheduled for two weeks out due to travel."
+          "content": "Updated design system with dual tone scheme using Ember orange and Spring Green colors. Building out onboarding screens with ongoing reviews."
         }
       ]
     },
     {
       "date": "2026-05-29",
       "durationMin": 79,
-      "quickRecap": "Discussed circuit training recommendations for Ben's Achilles injury recovery and electrolyte mix preparation for an upcoming workout session. Reviewed and refined training schedule combinations, agreeing on static ranges for easy run distances and default Tuesday-Thursday-Saturday gap patterns with overlay options. Ben provided expense updates ($150/month plus browser testing costs) and they discussed pursuing patent protection for the deterministic training approach.",
+      "quickRecap": "Reviewed and refined training schedule combinations, agreeing on static ranges for easy run distances and default Tuesday-Thursday-Saturday gap patterns with overlay options. Discussed pursuing patent protection for the deterministic training approach and covered current expense status.",
       "nextSteps": [
         "Ben: Compare Matt's updated schedule combinations with existing ones to ensure all valid cases are captured",
-        "Ben: Test automating race results collection using AI tools",
-        "Ben: Ship electrolyte mix packets to Matt, aiming for Monday delivery",
         "Ben: Continue infrastructure development (authentication and onboarding)",
         "Ben: Consult with patent lawyer about cost and process for protection",
         "Ben: Create Gmail account and migrate company accounts to coachmeai91@gmail.com",
-        "Matt: Update training schedule combinations to follow Tuesday/Thursday/Saturday default gap pattern and implement easy day ranges",
-        "Matt: Send list of runners and desired race result data for Boston 2026",
-        "Matt: Send Venmo payments to cover current expenses",
-        "Both: Plan longer working sessions during week of June 21st",
-        "Both: Schedule call for Wednesday or Thursday next week instead of regular Friday"
+        "Matt: Update training schedule combinations to follow Tuesday/Thursday/Saturday default gap pattern and implement easy day ranges"
       ],
       "sections": [
-        {
-          "title": "Fitness Routine and Injury Management",
-          "content": "Ben is reducing exercise time due to Achilles issues, particularly on his left side from a 2012 surgery. Discussed circuit training as an alternative and the importance of checking ankle mobility. Plans to ship sodium chloride electrolyte mix to Matt."
-        },
         {
           "title": "Training Schedule Gap Patterns",
           "content": "Assumed Saturday/Tuesday/Thursday schedules are identical to Sunday/Wednesday/Friday. Anchored long runs on Saturday with Monday as first day of the week. AI was unable to follow certain rules about Q2 quality days due to spacing constraints."
@@ -293,38 +252,23 @@
         },
         {
           "title": "Patent Protection and Business Planning",
-          "content": "Discussed patent protection benefits for their deterministic training approach. Current expenses at $150/month with potential browser testing costs of $100-130/month. Using Venmo for payments until business bank account is established."
+          "content": "Discussed patent protection benefits for their deterministic training approach. Current expenses at $150/month with potential browser testing costs. Using Venmo for payments until business bank account is established."
         }
       ]
     },
     {
       "date": "2026-05-22",
       "durationMin": 47,
-      "quickRecap": "Covered personal running plans, business development, and running injury management. Matt discussed his upcoming drive to Michigan to support runners at the Bayshore Marathon. Ben shared details about his challenging work situation at TriMedx with leadership changes and private equity ownership creating stress. Discussed opening a business bank account (Bank of America, no fee for 12 months, needs EIN). Ben's Achilles issues addressed \u2014 advised to avoid new Mizuno WaveRider shoes and return to previous setup. Also covered electrolyte mix development and nutrition strategies for long runs.",
+      "quickRecap": "Covered business development topics including opening a business bank account (Bank of America, no fee for 12 months, needs EIN). Discussed training plan spreadsheet scenarios and product direction.",
       "nextSteps": [
         "Ben: Share expense tracking spreadsheet with Matt",
-        "Ben: Take and send pictures of running shoe backs for defect analysis",
-        "Ben: Consider developing sample electrolyte mix for Matt to distribute to runners for testing",
         "Matt: Obtain an EIN for the LLC to enable opening the business bank account",
-        "Matt: Send picture of defective Nike shoe example for reference",
         "Matt: Review latest training plan spreadsheet scenarios when time allows"
       ],
       "sections": [
         {
-          "title": "Bayshore Marathon Support Trip",
-          "content": "Matt discussed his trip to Michigan to support Hannah and Kelby racing the Bayshore Marathon with goals of around 2:37 and 2:40 respectively. Kelby maintains her running schedule by running at various times to accommodate her three children. Noted that pregnancy can benefit runners hormonally."
-        },
-        {
-          "title": "Work Reorganization and Leadership Changes",
-          "content": "Ben's company is undergoing significant changes due to new leadership and potential sale, including reorganization, cuts, and increased focus on AI. His CIO was fired in January and his team was shifted under a new product leader. TriMedx will likely be sold within the next year and a half."
-        },
-        {
           "title": "Business Bank Account Setup",
-          "content": "Discussed Bank of America's Basic Business Advantage Fundamentals account \u2014 no fees for 12 months, requires $2,500 balance to avoid fees after. Proceeding with debit card only. Need EIN to open as a business with two owners."
-        },
-        {
-          "title": "Shoe Issues and Injury Discussion",
-          "content": "Matt advised Ben to avoid the new Mizuno WaveRider shoes due to a new variable and potential manufacturing defects. Suggested returning to a previous shoe setup that worked well. Discussed manufacturing defects in heel counters across ASICS and New Balance models."
+          "content": "Discussed Bank of America's Basic Business Advantage Fundamentals account — no fees for 12 months, requires $2,500 balance to avoid fees after. Proceeding with debit card only. Need EIN to open as a business with two owners."
         }
       ]
     }
