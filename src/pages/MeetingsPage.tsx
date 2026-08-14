@@ -4,6 +4,7 @@ import { Navbar, Footer } from '../components/layout'
 
 const PASSWORD_HASH = '0f9c84252caf2f758b39077ab0a6d62c806afcf726d95957a0c265f0d5365bf1'
 const SESSION_KEY = 'meetings-auth'
+const MEETINGS_API = 'https://coachme-meetings-api.benhudelson.workers.dev/meetings.json'
 
 interface MeetingSection {
     title: string
@@ -199,7 +200,7 @@ export function MeetingsPage() {
 
     useEffect(() => {
         if (!authed) return
-        fetch('/data/meetings.json')
+        fetch(MEETINGS_API)
             .then((r) => {
                 if (!r.ok) throw new Error(String(r.status))
                 return r.json()
