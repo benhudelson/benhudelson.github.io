@@ -101,12 +101,35 @@
     font-size: 1.05rem;
     line-height: 1.5;
   }
-  header.hero p.hero-note {
-    font-size: 0.85rem;
-    margin-top: 14px;
-    font-style: italic;
-    opacity: 0.8;
+  .notes-box {
+    max-width: 640px;
+    margin: 24px auto 0;
+    background: rgba(59, 130, 246, 0.08);
+    border: 1px solid rgba(59, 130, 246, 0.35);
+    border-radius: 12px;
+    padding: 18px 22px;
+    text-align: left;
   }
+  .notes-box .notes-title {
+    color: var(--electric);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .notes-box ul {
+    margin: 0;
+    padding-left: 20px;
+    color: var(--text-dim);
+  }
+  .notes-box li {
+    font-size: 0.92rem;
+    line-height: 1.5;
+    margin-bottom: 8px;
+  }
+  .notes-box li:last-child { margin-bottom: 0; }
+  .notes-box strong { color: var(--text); }
 
   main {
     max-width: 1100px;
@@ -190,7 +213,13 @@
   <header class="hero">
     <h1>CoachME — Product Walkthrough</h1>
     <p>A tour of the core CoachME experience: onboarding, the training calendar, and the daily check-in flow, captured from a live build.</p>
-    <p class="hero-note">These are internal test builds, so most screens show a "Test date" control at the bottom for jumping to any calendar date. It's a QA-only tool — real runners never see it.</p>
+    <div class="notes-box">
+      <div class="notes-title">Notes on these screenshots</div>
+      <ul>
+        <li><strong>Test date control:</strong> most screens show a "Test date" field at the bottom for jumping to any calendar date. It's a QA-only tool built for testing — real runners never see it.</li>
+        <li><strong>Gear icon:</strong> the circular gear button that appears in some corners is the simulator's own dev-tools bubble, not part of the app. A runner using the real app will never see it either.</li>
+      </ul>
+    </div>
   </header>
 
   <main>
